@@ -1,0 +1,73 @@
+<settings>
+
+   <profiles>
+      <profile>
+         <id>envConfig-DE</id>
+         <activation>
+            <property>
+               <name>env</name>
+               <value>DE</value>
+            </property>
+         </activation>
+         <properties>
+            <var.env>DE</var.env>
+            <var.version>0.1</var.version>
+            <var.version.update>false</var.version.update>
+            <var.nameArtifact>isoft-logger</var.nameArtifact>
+            <var.emailDeveloper>isoftnnita@gmail.com</var.emailDeveloper>
+            <var.nameCompany>ISoftnnita Colombia</var.nameCompany>
+            <var.pathlog4j>C:\infovisual-desarrollo\workspace4.02.27.00\monitorapp\log</var.pathlog4j>
+            <var.java_ver>1.8</var.java_ver>
+            <base.lib>C:\infovisual-desarrollo\workspace4.02.27.00\monitorapp\lib</base.lib>
+         </properties>
+      </profile>
+
+      <profile>
+         <id>envConfig-CA</id>
+         <activation>
+            <property>
+               <name>env</name>
+               <value>CA</value>
+            </property>
+         </activation>
+         <properties>
+            <var.env>CA</var.env>
+            <var.version>0.1</var.version>
+            <var.version.update>false</var.version.update>
+            <var.nameArtifact>isoft-logger</var.nameArtifact>
+            <var.emailDeveloper>isoftnnita@gmail.com</var.emailDeveloper>
+            <var.nameCompany>ISoftnnita Colombia</var.nameCompany>
+            <var.pathlog4j>C:\infovisual-desarrollo\workspace4.02.27.00\monitorapp\log</var.pathlog4j>
+            <var.java_ver>1.8</var.java_ver>
+            <base.lib>C:\infovisual-desarrollo\workspace4.02.27.00\monitorapp\lib</base.lib>
+         </properties>
+      </profile>
+
+      <profile>
+         <id>envConfig-PROD</id>
+         <activation>
+            <property>
+               <name>env</name>
+               <value>PROD</value>
+            </property>
+         </activation>
+         <properties>
+            <var.env>PROD</var.env>
+            <var.version>0.1</var.version>
+            <var.version.update>false</var.version.update>
+            <var.nameArtifact>isoft-logger</var.nameArtifact>
+            <var.emailDeveloper>isoftnnita@gmail.com</var.emailDeveloper>
+            <var.nameCompany>ISoftnnita Colombia</var.nameCompany>
+            <var.pathlog4j>C:\infovisual-desarrollo\workspace4.02.27.00\monitorapp\log</var.pathlog4j>
+            <var.java_ver>1.8</var.java_ver>
+            <base.lib>C:\infovisual-desarrollo\workspace4.02.27.00\monitorapp\lib</base.lib>
+         </properties>
+      </profile>
+
+   </profiles>
+
+   <activeProfiles>
+      <activeProfile>envConfig</activeProfile>
+   </activeProfiles>
+
+</settings>
