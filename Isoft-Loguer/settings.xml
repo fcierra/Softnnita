@@ -13,7 +13,7 @@
             <var.env>DE</var.env>
             <var.version>0.1</var.version>
             <var.version.update>false</var.version.update>
-            <var.nameArtifact>isoft-logger</var.nameArtifact>
+            <var.nameArtifact>ISoft-Logger</var.nameArtifact>
             <var.emailDeveloper>isoftnnita@gmail.com</var.emailDeveloper>
             <var.nameCompany>ISoftnnita Colombia</var.nameCompany>
             <var.pathlog4j>C:\infovisual-desarrollo\workspace4.02.27.00\monitorapp\log</var.pathlog4j>

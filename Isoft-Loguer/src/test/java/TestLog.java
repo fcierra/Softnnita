@@ -4,15 +4,22 @@ import co.isoft.nnita.logger.commons.EmailAppender;
 import co.isoft.nnita.logger.commons.FileAppender;
 import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.*;
+import java.util.*;
 
 /**
  * Clase para probar la configuracion de LOG sel sistema
@@ -155,6 +162,92 @@ public class TestLog
         }
     }
 
+    @Test
+    @Ignore
+    public void enviarCorreo(){
+
+        Properties props = loadConfigLog("settings.properties");
+
+
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("yahercarrillo@gmail.com", "CLAVE");
+                    }
+                });
+
+
+        try {
+            Message message = new MimeMessage(session);
+
+            message.setFrom(new InternetAddress("yahercarrillo@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("yahercarrillo@gmail.com"));
+            message.setSubject("$SOFT INFORMATICA");
+
+            BodyPart body = new MimeBodyPart();
+
+            String workingDir = System.getProperty("user.dir");
+
+
+            // freemarker stuff.
+            Configuration cfg = new Configuration();
+            String url2 = workingDir+"\\src\\test\\java\\conf\\";
+            try {
+                cfg.setDirectoryForTemplateLoading(new File(url2));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            Template template = null;
+            try {
+                template = cfg.getTemplate("template_app.ftl");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Map<String, String> rootMap = new HashMap<String, String>();
+
+            rootMap.put("correousuario", "correo");
+            rootMap.put("mensajeUsuario", "mensaje");
+
+            Writer out = new StringWriter();
+            try {
+                template.process(rootMap, out);
+            } catch (TemplateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // freemarker stuff ends.
+
+            /* you can add html tags in your text to decorate it. */
+            body.setContent(out.toString(), "text/html");
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(body);
+
+            body = new MimeBodyPart();
+
+            String url3 = workingDir+"\\src\\test\\java\\conf\\text.txt";
+            String filename = "text.txt";
+            DataSource source = new FileDataSource(url3);
+            body.setDataHandler(new DataHandler(source));
+            body.setFileName(filename);
+            multipart.addBodyPart(body);
+
+            message.setContent(multipart);
+
+            Transport.send(message);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Done....");
+    }
+
     /**
      * Metodo que lee los modulos de la aplicacion y genera
      * los appenders para la configuracion de log
@@ -191,7 +284,7 @@ public class TestLog
         ap.setClave(props.getProperty("log.softnnita.email.pass"));
         ap.setCorreoOrigen(props.getProperty("log.softnnita.email.origin"));
         ap.setCorreoDestino(props.getProperty("log.softnnita.email.destination"));
-        ap.setUsuario("");
+        ap.setUsuario("yaher");
         ap.setHostServidorCorreo(props.getProperty("log.softnnita.email.host"));
         ap.setCodigo(props.getProperty("log.softnnita.email.code"));
         ap.setPuertoSMTP(props.getProperty("log.softnnita.email.port.smtp"));
