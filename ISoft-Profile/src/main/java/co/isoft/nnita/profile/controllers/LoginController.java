@@ -18,11 +18,11 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-public class AppController
+public class LoginController
 {
 
 	@Autowired
-    UsuariosService service;
+    UsuariosService servicesUsuarios;
 	
 	@Autowired
 	MessageSource messageSource;
@@ -36,7 +36,7 @@ public class AppController
 		List<Usuarios> employees =new ArrayList<>();
 		try
 		{
-			List<Usuarios> usuarios = service.obtenerTodo(true);
+			List<Usuarios> usuarios = servicesUsuarios.obtenerTodo(true);
 			employees.addAll(usuarios);
 		}
 		catch (ServiceException e)
@@ -44,7 +44,27 @@ public class AppController
 			e.printStackTrace();
 		}
 		model.addAttribute("employees", employees);
-		return "allemployees";
+		return "login";
+	}
+
+	@RequestMapping(value = { "/authenticated" }, method = RequestMethod.POST)
+	public String authUser(ModelMap model) {
+
+		List<Usuarios> employees =new ArrayList<>();
+		try
+		{
+			Usuarios usuario = servicesUsuarios.validarUsuario("saher");
+			if (usuario!=null){
+				//Se registran los accesos de bitacora y se asignan los permisos.
+			}else
+				return "login";
+		}
+		catch (ServiceException e)
+		{
+			e.printStackTrace();
+		}
+		model.addAttribute("employees", employees);
+		return "welcome";
 	}
 
 	/*
