@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      >
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>ISoftnnita-Profiler</title>
+    <h:outputStylesheet library="ui/css" name="adminlte.css"  />
+    <h:outputStylesheet library="ui/plugins/iCheck/square" name="blue.css"  />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"/>
+</h:head>
+<h:body styleClass="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>
+                #{msg.commonsNameCompanySub}
+            </b>
+                #{msg.commonsNameCompanySub1}
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">
+                    #{msg.loginInit}
+                </p>
+
+                <h:form>
+                    <div class="form-group has-feedback">
+                        <h:inputText styleClass="form-control" id="username" value="#{loginBean.username}" a:placeholder="#{msg.loginHolderLogin}"/>
+                        <span class="fa fa-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <h:inputSecret styleClass="form-control" id="password" value="#{loginBean.password}" a:placeholder="#{msg.loginHolderPass}"/>
+                        <span class="fa fa-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <h:commandButton styleClass="btn btn-primary btn-block btn-flat" value="#{msg.commonsButtomAccept}" action="#{loginBean.process}"/>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </h:form>
+
+
+                <!-- /.social-auth-links -->
+
+                <p class="mb-1">
+                    <a href="#">
+                        #{msg.loginLabelForgotPass}
+                    </a>
+                </p>
+                <p class="mb-0">
+                    <a href="register.html" class="text-center">
+                        #{msg.loginLabelRegister}
+                    </a>
+                </p>
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
+
+    <!-- jQuery -->
+    <h:outputScript library="ui/plugins/jquery" name="jquery.min.js"/>
+    <!-- Bootstrap 4 -->
+    <h:outputScript library="ui/plugins/bootstrap/js" name="bootstrap.bundle.min.js"/>
+    <!-- iCheck -->
+    <h:outputScript library="ui/plugins/iCheck" name="icheck.min.js"/>
+    <script type="javascript">
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass   : 'iradio_square-blue',
+                increaseArea : '20%' // optional
+            })
+        })
+    </script>
+
+</h:body>
+</html>

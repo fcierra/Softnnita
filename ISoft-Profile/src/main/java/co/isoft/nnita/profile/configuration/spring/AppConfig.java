@@ -30,6 +30,11 @@ public class AppConfig extends WebMvcConfigurerAdapter
 		registry.addResourceHandler("/css/**").addResourceLocations("/ui/css/");
 		registry.addResourceHandler("/img/**").addResourceLocations("/ui/img/");
 		registry.addResourceHandler("/plugins/**").addResourceLocations("/ui/plugins/");
+
+		registry.addResourceHandler("/js/**").addResourceLocations("/ui/js/");
+		registry.addResourceHandler("/css/**").addResourceLocations("/ui/css/");
+		registry.addResourceHandler("/img/**").addResourceLocations("/ui/img/");
+		registry.addResourceHandler("/plugins/**").addResourceLocations("/ui/plugins/");
 	}
 
 	@Bean
@@ -37,18 +42,17 @@ public class AppConfig extends WebMvcConfigurerAdapter
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		viewResolver.setViewClass(JstlView.class);
 		viewResolver.setPrefix("/WEB-INF/views/");
-		viewResolver.setSuffix(".jsp");
-
+		viewResolver.setSuffix(".jsf");
 		return viewResolver;
 	}
 
 
-	
+
 	@Bean
 	public MessageSource messageSource() {
 	    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 	    messageSource.setBasename("messages");
-		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setDefaultEncoding("ISO-8859-1");
 		// # -1 : never reload, 0 always reload
 		messageSource.setCacheSeconds(0);
 	    return messageSource;

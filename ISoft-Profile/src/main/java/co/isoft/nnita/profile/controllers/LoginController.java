@@ -44,7 +44,7 @@ public class LoginController
 			e.printStackTrace();
 		}
 		model.addAttribute("employees", employees);
-		return "login";
+		return "index";
 	}
 
 	@RequestMapping(value = { "/authenticated" }, method = RequestMethod.POST)
