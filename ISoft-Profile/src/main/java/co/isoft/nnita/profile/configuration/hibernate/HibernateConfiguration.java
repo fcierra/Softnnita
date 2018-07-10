@@ -15,6 +15,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ * Configuracion a traves de anotaciones de las
+ * conexiones de hibernate
+ * @author Yaher Carrillo
+ * @Date 10/07/2018
+ */
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({ "co.isoft.nnita.profile.configuration.hibernate" })

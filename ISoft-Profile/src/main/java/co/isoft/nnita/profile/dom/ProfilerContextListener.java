@@ -36,7 +36,7 @@ public class ProfilerContextListener implements ServletContextListener
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        inicializarConfiguracionesProfiler();
+        initConfProfiler();
     }
 
     @Override
@@ -48,15 +48,15 @@ public class ProfilerContextListener implements ServletContextListener
      * Metodo que da inicio a las configuracion de subida
      * de IsoftProfiles
      */
-    public void inicializarConfiguracionesProfiler(){
+    public void initConfProfiler(){
         this.log4jProperties = loadConfigLog("conf/log4j.properties");
-        inicializarLog();
+        initLog();
     }
 
     /**
-     *
+     * Inicializa las configuraciones de log
      */
-    private void inicializarLog() {
+    private void initLog() {
         try {
             //Lista de configuracion
             List<Appender> listaAppenders = new ArrayList<>();

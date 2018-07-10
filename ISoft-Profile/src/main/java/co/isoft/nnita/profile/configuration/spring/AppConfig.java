@@ -17,6 +17,13 @@ import org.springframework.web.servlet.view.JstlView;
 
 import java.util.Locale;
 
+/**
+ * Clase de configuracion de Bean comunes del sistema
+ * a traves de Spring, se habilita el uso de MVC y se escanea los paquetes que contendran los beans
+ * segun su anotacion
+ * @author Yaher Carrillo
+ * @Date 10/07/2018
+ */
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = "co.isoft.nnita.profile")
@@ -73,6 +80,8 @@ public class AppConfig extends WebMvcConfigurerAdapter
 		interceptor.setParamName("lang");
 		return interceptor;
 	}
+
+
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

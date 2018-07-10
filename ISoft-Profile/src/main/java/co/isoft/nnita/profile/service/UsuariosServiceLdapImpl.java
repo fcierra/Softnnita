@@ -10,21 +10,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 /**
- * Implementacion Original de consulta de usuarios Isoftnnita
+ * Implementacion de servicios de consulta de usuarios a traves de LDAP
  * @author Yaher Carrillo
  * @Date 10/07/2018
  */
-
-@Service("usuariosServiceImpl")
+@Service("usuariosServiceLdapImpl")
 @Transactional
-public class UsuariosServiceImpl implements UsuariosService
+public class UsuariosServiceLdapImpl implements UsuariosService
 {
 
     /**
      * Objeto utilizado para el log
      */
-    private static final Log logger = LogFactory.getLog(UsuariosServiceImpl.class);
+    private static final Log logger = LogFactory.getLog(UsuariosServiceLdapImpl.class);
     /**
      * Dao de servicios crud de usuarios
      */

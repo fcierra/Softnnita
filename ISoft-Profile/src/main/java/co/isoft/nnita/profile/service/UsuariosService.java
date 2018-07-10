@@ -6,7 +6,9 @@ import java.util.List;
 
 /**
  * Interfaz que expone los servicios del modelo de negocio
- * referentes al tratado de usuarios
+ * referentes al tratado de usuarios.
+ * @author Yaher Carrillo
+ * @Date 10/07/2018
  */
 public interface UsuariosService
 {
