@@ -1,6 +1,6 @@
 package co.isoft.nnita.profile.impl.service;
 
-import co.isoft.nnita.profile.api.dao.DaoException;
+import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.services.UsuariosService;

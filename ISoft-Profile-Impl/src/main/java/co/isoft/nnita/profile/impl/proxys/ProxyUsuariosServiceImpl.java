@@ -3,7 +3,7 @@ package co.isoft.nnita.profile.impl.proxys;
 
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ContextProvider;
-import co.isoft.nnita.profile.api.dao.DaoException;
+import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.dao.ParametrosDao;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.api.models.Parametros;

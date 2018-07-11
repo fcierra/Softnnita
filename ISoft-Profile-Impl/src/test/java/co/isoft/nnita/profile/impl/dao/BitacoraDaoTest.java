@@ -2,7 +2,7 @@ package co.isoft.nnita.profile.impl.dao;
 
 import co.isoft.nnita.profile.api.dao.BitacoraDao;
 import co.isoft.nnita.profile.api.dao.CanalesDao;
-import co.isoft.nnita.profile.api.dao.DaoException;
+import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.dao.DetalleBitacoraDao;
 import co.isoft.nnita.profile.api.dao.EventosDao;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;

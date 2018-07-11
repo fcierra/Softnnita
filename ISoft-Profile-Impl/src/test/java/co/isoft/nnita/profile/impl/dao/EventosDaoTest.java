@@ -1,6 +1,6 @@
 package co.isoft.nnita.profile.impl.dao;
 
-import co.isoft.nnita.profile.api.dao.DaoException;
+import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.dao.EventosDao;
 import co.isoft.nnita.profile.api.models.Eventos;
 import jdk.nashorn.internal.ir.annotations.Ignore;

@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.dao;
+package co.isoft.nnita.profile.api.exceptions;
 
 /**
  * Excepcion lanzada en caso de fallar una operacion de un Dao.

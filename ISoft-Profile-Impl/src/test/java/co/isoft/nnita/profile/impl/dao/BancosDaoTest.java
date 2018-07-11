@@ -1,7 +1,7 @@
 package co.isoft.nnita.profile.impl.dao;
 
 import co.isoft.nnita.profile.api.dao.BancosDao;
-import co.isoft.nnita.profile.api.dao.DaoException;
+import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.models.Bancos;
 import co.isoft.nnita.profile.api.models.Paises;
 import jdk.nashorn.internal.ir.annotations.Ignore;

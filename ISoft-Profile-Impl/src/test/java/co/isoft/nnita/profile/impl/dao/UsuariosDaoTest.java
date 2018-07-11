@@ -2,7 +2,7 @@ package co.isoft.nnita.profile.impl.dao;
 
 
 
-import co.isoft.nnita.profile.api.dao.DaoException;
+import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import jdk.nashorn.internal.ir.annotations.Ignore;

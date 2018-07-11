@@ -1,5 +1,6 @@
 package co.isoft.nnita.profile.api.dao;
 
+import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.models.Usuarios;
 
 import java.util.Date;

@@ -1,5 +1,7 @@
 package co.isoft.nnita.profile.api.dao;
 
+import co.isoft.nnita.profile.api.exceptions.DaoException;
+
 import java.io.Serializable;
 import java.util.List;
 
