@@ -2,9 +2,9 @@ package co.isoft.nnita.profile.beans;
 
 import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
-import co.isoft.nnita.profile.models.Usuarios;
-import co.isoft.nnita.profile.service.ServiceException;
-import co.isoft.nnita.profile.service.UsuariosService;
+import co.isoft.nnita.profile.api.services.UsuariosService;
+import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
