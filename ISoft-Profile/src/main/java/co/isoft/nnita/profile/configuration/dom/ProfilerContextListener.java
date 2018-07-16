@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.dom;
+package co.isoft.nnita.profile.configuration.dom;
 
 import co.isoft.nnita.logger.commons.Appender;
 import co.isoft.nnita.logger.commons.ConsoleAppender;

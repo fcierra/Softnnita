@@ -12,13 +12,13 @@ import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
 
-public class Text extends ResourceBundle {
+public class TextBundle extends ResourceBundle {
 
     protected static final String BUNDLE_NAME = "messages";
     protected static final String BUNDLE_EXTENSION = "properties";
     protected static final Control UTF8_CONTROL = new UTF8Control();
 
-    public Text() {
+    public TextBundle() {
         setParent(ResourceBundle.getBundle(BUNDLE_NAME,
                 FacesContext.getCurrentInstance().getExternalContext().getRequestLocale(), UTF8_CONTROL));
     }

@@ -2,6 +2,7 @@ package co.isoft.nnita.profile.api.services;
 
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 
 import java.util.List;
 
@@ -16,10 +17,11 @@ public interface UsuariosService
     /**
      * Se valida un usuario segun su login de acceso
      * @param login login a validar
+     * @param clave clave a validar
      * @return Objeto con el los datos de usuario
      * @throws ServiceException sucede si falla la operacion
      */
-    public Usuarios validarUsuario(String login) throws ServiceException;
+    public DatosSesionUsuario validarUsuario(String login,String clave) throws ServiceException;
 
     /**
      * Obtiene todos los usuarios del sistema

@@ -3,6 +3,7 @@ package co.isoft.nnita.profile.impl.service;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
+import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import org.apache.commons.logging.Log;
@@ -34,11 +35,12 @@ public class UsuariosServiceLdapImpl implements UsuariosService
     private UsuariosDao usuariosDao;
 
     @Override
-    public Usuarios validarUsuario(String loginUsuario) throws ServiceException
+    public DatosSesionUsuario validarUsuario(String loginUsuario,String clave) throws ServiceException
     {
         try
         {
-            return usuariosDao.getUsuarioPorLogin(loginUsuario);
+            usuariosDao.getUsuarioPorLogin(loginUsuario);
+            return null;
         }
         catch (DaoException e)
         {

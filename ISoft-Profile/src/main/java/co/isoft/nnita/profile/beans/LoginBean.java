@@ -2,10 +2,12 @@ package co.isoft.nnita.profile.beans;
 
 import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
-import co.isoft.nnita.profile.api.services.UsuariosService;
-import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
+import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
+import co.isoft.nnita.profile.api.services.UsuariosService;
+import co.isoft.nnita.profile.configuration.navigation.EnumNavigationConfig;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
+import org.omg.CORBA.CODESET_INCOMPATIBLE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 
 /**
@@ -35,14 +38,12 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
      * Clave de acceso de un usuario determinado
      */
     private String password;
-
     /**
      * Servicio de Consulta de usuarios.
      */
     @Autowired
     @Qualifier("proxyUsuariosService")
     private UsuariosService userServices;
-
     /**
      * Servicio de recursos en mensajes.
      */
@@ -56,22 +57,34 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
      *
      * @return recurso de navegacion a donde redireccionara la pagina.
      */
-    public String process()
+    public synchronized String process()
     {
-        Usuarios usuarios;
+        DatosSesionUsuario datosSesionUsuario;
         try
         {
-            usuarios = userServices.validarUsuario(username);
+            HttpSession session = ISoftProfilerBaseBean.getHttpSession();
+            String passwordEncoder = ISoftProfilerBaseBean.encryptPass(password);
+            datosSesionUsuario = userServices.validarUsuario(username, passwordEncoder);
+            if (datosSesionUsuario != null)
+            {
+                datosSesionUsuario.setIdSesionWeb(session.getId());
+                session.setAttribute(CONSTANT_USER_SESION, datosSesionUsuario);
+                return EnumNavigationConfig.WELCOME_PAGE.getName();
+            }
+
         }
         catch (ServiceException e)
         {
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), username, "Error consultando usuario", e);
+            String code_error = e.getCode();
+            String message = ISoftProfilerBaseBean.findMessageError(code_error);
+            addErrorMessage(message);
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), username, "Error consultando usuario", e);
         }
         catch (Exception e)
         {
             Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), ISoftProfilerBaseBean.USER_GUEST_LOG, "Error GENERICO consultando usuario", e);
         }
-        return "welcome";
+        return EnumNavigationConfig.DONT_ACCESS.getName();
     }
 
     /**

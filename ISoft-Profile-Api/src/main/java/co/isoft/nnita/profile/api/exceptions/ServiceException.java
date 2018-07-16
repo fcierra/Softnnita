@@ -11,11 +11,11 @@ public class ServiceException extends Exception
     /** Version de la clase */
     private static final long serialVersionUID = 1L;
 
-    private String descripcion;
+    private String description;
     /**
      * Codigo de Error
      */
-    private String codigo;
+    private String code;
 
     /**
      * Crea la excepcion.
@@ -25,15 +25,9 @@ public class ServiceException extends Exception
         super(mensaje);
     }
 
-    public ServiceException(String mensaje, String descripcion) {
+    public ServiceException(String mensaje, String code) {
         super(mensaje);
-        this.descripcion = descripcion;
-    }
-
-    public ServiceException(String mensaje, String descripcion,String codigo) {
-        super(mensaje);
-        this.descripcion = descripcion;
-        this.codigo = codigo;
+        this.description = code;
     }
 
     /**
@@ -46,19 +40,25 @@ public class ServiceException extends Exception
         super(mensaje,causa);
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public ServiceException(String mensaje, Throwable causa,String code)
+    {
+        super(mensaje,causa);
+        this.code = code;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

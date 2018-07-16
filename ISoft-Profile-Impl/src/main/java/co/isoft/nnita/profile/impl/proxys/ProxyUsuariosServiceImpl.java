@@ -1,6 +1,7 @@
 package co.isoft.nnita.profile.impl.proxys;
 
 
+import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ContextProvider;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
@@ -100,9 +101,9 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public Usuarios validarUsuario(String login) throws ServiceException
+    public DatosSesionUsuario validarUsuario(String login,String clave) throws ServiceException
     {
-        return getUsuariosService().validarUsuario(login);
+        return getUsuariosService().validarUsuario(login,clave);
     }
 
     @Override
