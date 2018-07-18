@@ -15,7 +15,7 @@
             <default-locale>es</default-locale>
         </locale-config>
         <resource-bundle>
-            <base-name>co.isoft.nnita.profile.util.Text</base-name>
+            <base-name>co.isoft.nnita.profile.util.TextBundle</base-name>
             <var>msg</var>
         </resource-bundle>
     </application>

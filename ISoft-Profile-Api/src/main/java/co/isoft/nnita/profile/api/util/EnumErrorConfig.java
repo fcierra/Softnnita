@@ -11,9 +11,10 @@ package co.isoft.nnita.profile.api.util;
  */
 public enum EnumErrorConfig
 {
-    PROFILER_USER_DOES_NOT_EXIST("001", "El usaurio no existe", "login.error.001"),
+    PROFILER_USER_DOES_NOT_EXIST("001", "El usuario no existe", "login.error.001"),
     PROFILER_USER_WRONG_KEY("002", "Clave Errada de usuario.", "login.error.002"),
     PROFILER_USER_WITHOUT_PROFILES("003", "Usuario sin perfiles.","login.error.003"),
+    PROFILER_GENERIC_ERROR_FIELD_REQUIRED("091", "Error generico, campo requerido", "login.error.091"),
     PROFILER_GENERIC_ERROR("099", "Error generico, modulo Profiler", "login.error.099");
     /**
      * Codigo de la navegacion

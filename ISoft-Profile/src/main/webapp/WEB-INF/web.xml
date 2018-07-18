@@ -15,7 +15,7 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     </listener>
 
     <listener>
-        <listener-class>co.isoft.nnita.profile.dom.ProfilerContextListener</listener-class>
+        <listener-class>co.isoft.nnita.profile.configuration.dom.ProfilerContextListener</listener-class>
     </listener>
 
     <context-param>
@@ -49,5 +49,15 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+
+
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>co.isoft.nnita.profile.configuration.dom.SecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
 
 </web-app>

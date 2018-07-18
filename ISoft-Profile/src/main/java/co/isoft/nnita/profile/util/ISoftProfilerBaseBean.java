@@ -6,6 +6,7 @@ import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -109,6 +110,16 @@ public abstract class ISoftProfilerBaseBean
      * @param key llave a buscar
      * @return contenido de llave
      */
+    public static String findMessage(String key){
+        TextBundle text = new TextBundle();
+        return text.handleGetObject(key).toString();
+    }
+
+    /**
+     * Metodo que busca un recurso del archivo de texto
+     * @param key llave a buscar
+     * @return contenido de llave
+     */
     public static String findMessageError(String key){
         TextBundle text = new TextBundle();
         String keyfind = "login.error."+key;
@@ -124,5 +135,18 @@ public abstract class ISoftProfilerBaseBean
     public static void addErrorMessage(final String message) {
         FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message);
         getFacesContext().addMessage(null, fm);
+    }
+
+    /**
+     * Agrega un mensaje de error al contexto
+     * de faces para los validators implementados en vistas
+     * @param message
+     */
+    public static void addErrorMessageValidator(final String message) {
+        FacesMessage msg =
+                new FacesMessage(message,
+                        message);
+        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+        throw new ValidatorException(msg);
     }
 }
