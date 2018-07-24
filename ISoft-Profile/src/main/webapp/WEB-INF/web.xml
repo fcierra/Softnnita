@@ -9,6 +9,11 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/spring-config.xml</param-value>
     </context-param>
+    <context-param>
+        <description>Parametro para que los comentarios se eliminen del codigo</description>
+        <param-name>facelets.SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -25,7 +30,7 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
     <!-- Welcome Page -->
     <welcome-file-list>
-        <welcome-file>views/index.xhtml</welcome-file>
+        <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
 
 

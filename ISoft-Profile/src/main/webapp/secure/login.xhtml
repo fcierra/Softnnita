@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+>
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>ISoftnnita-Profiler</title>
+    <link href="http://localhost:8080/ContenidoEstatico/resources/ui/css/adminlte.css" rel="stylesheet"/>
+    <link href="http://localhost:8080/ContenidoEstatico/resources/ui/plugins/iCheck/square/blue.css" rel="stylesheet"/>
+    <h:outputStylesheet library="isoft" name="isoftprofile.css"/>
+    <!--<h:outputStylesheet library="ui/css" name="adminlte.css"  />
+    <h:outputStylesheet library="ui/plugins/iCheck/square" name="blue.css"  />-->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"/>
+    <!-- jQuery -->
+    <h:outputScript library="ui/plugins/jquery" name="jquery.min.js"/>
+    <!-- Bootstrap 4 -->
+    <h:outputScript library="ui/plugins/bootstrap/js" name="bootstrap.bundle.min.js"/>
+    <!-- iCheck -->
+    <h:outputScript library="ui/plugins/iCheck" name="icheck.min.js"/>
+</h:head>
+<f:metadata>
+    <f:event listener="#{loginBean.preRenderViewLogin}" type="preRenderView"/>
+</f:metadata>
+<h:body styleClass="hold-transition login-page">
+    <h:form prependId="false">
+        <div class="login-box">
+            <div class="login-logo">
+                <b>
+                    #{msg['commons.name.company.sub']}
+                </b>
+                #{msg['commons.name.company.sub1']}
+            </div>
+            <!-- /.login-logo -->
+            <div class="card">
+                <div class="card-body login-card-body">
+                    <p class="login-box-msg">
+                        #{msg['login.init']}
+                    </p>
+
+
+                    <div class="form-group has-feedback">
+                        <h:inputText styleClass="form-control" id="username" value="#{loginBean.username}" a:placeholder="#{msg['login.holder.login']}">
+                        </h:inputText>
+                        <span class="fa fa-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <h:inputSecret styleClass="form-control" id="password" value="#{loginBean.password}" a:placeholder="#{msg['login.holder.pass']}">
+                        </h:inputSecret>
+                        <span class="fa fa-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+
+
+                        <div class="col-4">
+                            <h:commandButton styleClass="btn btn-primary btn-block btn-flat" id="siguiente" value="#{msg['commons.buttom.accept']}" action="#{loginBean.process}"/>
+                        </div>
+
+
+                    </div>
+
+                    <!--<form action="${request.contextPath}/appLogin" method="POST">
+                        <h:outputLabel value="Enter UserName:" />
+                        <input type="text" name="app_username"/><br/><br/>
+                        <h:outputLabel value="Enter Password:" />
+                        <input type="password" name="app_password"/> <br/><br/>
+                        <input type="submit" value="Login"/>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>-->
+                    <!--Mensajes de error-->
+                    <div>
+                        <h:messages infoClass="alert alert-success"
+                                    warnClass="alert alert-info"
+                                    errorClass="alert alert-warning"
+                                    fatalClass="alert alert-danger"/>
+                    </div>
+
+                    <!-- /.social-auth-links -->
+
+                    <p class="mb-1">
+                        <a href="#">
+                            #{msg['login.label.forgot.pass']}
+                        </a>
+                    </p>
+                    <p class="mb-0">
+                        <a href="register.html" class="text-center">
+                            #{msg['login.label.register']}
+                        </a>
+                    </p>
+                </div>
+                <!-- /.login-card-body -->
+            </div>
+        </div>
+        <!-- /.login-box -->
+    </h:form>
+    <script type="text/javascript">
+        console.log("antes....");
+        $( "#siguiente" ).trigger( "click" );
+    </script>
+
+</h:body>
+</html>
