@@ -3,20 +3,28 @@ package co.isoft.nnita.profile.beans;
 import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
+import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.services.UsuariosService;
+import co.isoft.nnita.profile.api.util.EnumErrorConfig;
+import co.isoft.nnita.profile.configuration.dom.ISesionActive;
 import co.isoft.nnita.profile.configuration.navigation.EnumNavigationConfig;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
-import org.omg.CORBA.CODESET_INCOMPATIBLE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Bean FRONT-END para el manejo de la informacion
@@ -35,7 +43,7 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
      */
     private String username;
     /**
-     * Clave de acceso de un usuario determinado
+     * Clave de acceso de usuario
      */
     private String password;
     /**
@@ -49,6 +57,48 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
      */
     @Autowired
     private MessageSource messageSource;
+    /**
+     * Servicio de datos de sesion de usuario
+     */
+    @Autowired
+    private ISesionActive iSesionActive;
+
+    /**
+     * Evento iniacl invocado por la vista profileUser.xhtml para iniciar el bean
+     *
+     * @param event Evento
+     */
+    public void preRenderViewLogin(ComponentSystemEvent event)
+    {
+        loadSession();
+    }
+
+    /**
+     * Evento iniacl invocado por la vista profileUser.xhtml para iniciar el bean
+     *
+     * @param event Evento
+     */
+    public void preRenderViewIndex(ComponentSystemEvent event)
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> paramMap = context.getExternalContext().getRequestParameterMap();
+        String errorAuth = paramMap.get("error");
+        if (errorAuth != null)
+        {
+            String message = ISoftProfilerBaseBean.findMessage(EnumErrorConfig.PROFILER_USER_OR_PASS_DOES_NOT_EXIST.getRefbundle());
+            addErrorMessage(message);
+        }
+    }
+
+    /**
+     * Carga la sesion del ususario
+     * en el bean de sesion para ser usado
+     * a demanda.
+     */
+    public void loadSession()
+    {
+        username = this.loginUserContext();
+    }
 
     /**
      * Metodo de procesamiento de la informacion del bean
@@ -59,16 +109,18 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
      */
     public synchronized String process()
     {
-        DatosSesionUsuario datosSesionUsuario;
+        Usuarios usuario;
         try
         {
             HttpSession session = ISoftProfilerBaseBean.getHttpSession();
-            String passwordEncoder = ISoftProfilerBaseBean.encryptPass(password);
-            datosSesionUsuario = userServices.validarUsuario(username, passwordEncoder);
-            if (datosSesionUsuario != null)
+            usuario = userServices.validateUser(username);
+            if (usuario != null)
             {
+                DatosSesionUsuario datosSesionUsuario = new DatosSesionUsuario();
+                datosSesionUsuario.setUsuario(usuario);
                 datosSesionUsuario.setIdSesionWeb(session.getId());
-                session.setAttribute(CONSTANT_USER_SESION, datosSesionUsuario);
+                iSesionActive.setDatosSesion(datosSesionUsuario);
+                session.setAttribute(CONSTANT_USER_SESION, iSesionActive);
                 return EnumNavigationConfig.WELCOME_PAGE.getName();
             }
 
@@ -88,24 +140,15 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
     }
 
     /**
-     * Obtiene el recurso de clave de acceso del bean
+     * Metodo que extrae la informacion de usuario autenticado del contexto
      *
-     * @return Cadena con la clave de acceso
+     * @return login name
      */
-    public String getPassword()
+    public String loginUserContext()
     {
-        return password;
-    }
-
-    /**
-     * Asigna un valor a la clave de acceso de usuarios
-     * en el bean de manejo
-     *
-     * @param password clave a asignar
-     */
-    public void setPassword(String password)
-    {
-        this.password = password;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        org.springframework.security.core.userdetails.User ctxUser = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
+        return ctxUser.getUsername();
     }
 
     /**
@@ -127,5 +170,25 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
     public void setUsername(String username)
     {
         this.username = username;
+    }
+
+    /**
+     * Obtiene la clave de acceso del usuario
+     *
+     * @return clave de acceso
+     */
+    public String getPassword()
+    {
+        return password;
+    }
+
+    /**
+     * Asigna un valor a la clave de acceso
+     *
+     * @param password valor a asignar
+     */
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 }

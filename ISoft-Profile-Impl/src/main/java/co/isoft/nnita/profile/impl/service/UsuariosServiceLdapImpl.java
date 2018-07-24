@@ -35,7 +35,7 @@ public class UsuariosServiceLdapImpl implements UsuariosService
     private UsuariosDao usuariosDao;
 
     @Override
-    public DatosSesionUsuario validarUsuario(String loginUsuario,String clave) throws ServiceException
+    public DatosSesionUsuario validateUser(String loginUsuario,String clave) throws ServiceException
     {
         try
         {
@@ -51,7 +51,23 @@ public class UsuariosServiceLdapImpl implements UsuariosService
     }
 
     @Override
-    public List<Usuarios> obtenerTodo(boolean estado) throws ServiceException
+    public Usuarios validateUser(String loginUsuario) throws ServiceException
+    {
+        try
+        {
+            return  usuariosDao.getUsuarioPorLogin(loginUsuario);
+
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error al validar los usuarios el usuarios [" + loginUsuario + "]";
+            logger.error(mensaje, e);
+            throw new ServiceException(mensaje, e);
+        }
+    }
+
+    @Override
+    public List<Usuarios> getAll(boolean estado) throws ServiceException
     {
         try
         {
@@ -63,5 +79,17 @@ public class UsuariosServiceLdapImpl implements UsuariosService
             logger.error(mensaje, e);
             throw new ServiceException(mensaje, e);
         }
+    }
+
+    @Override
+    public boolean validateCurrentPassUser(Usuarios usuario, String claveActual) throws ServiceException
+    {
+        return false;
+    }
+
+    @Override
+    public void changePassUser(Usuarios usuario, String nuevaClave) throws ServiceException
+    {
+
     }
 }

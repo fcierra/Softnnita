@@ -13,7 +13,9 @@ package co.isoft.nnita.profile.configuration.navigation;
  */
 public enum EnumNavigationConfig
 {
-    LOGIN_PAGE("0", "login", "views/index.xhtml"), WELCOME_PAGE("1", "welcome", "views/welcome.xhtml"), DONT_ACCESS("2", null, "");
+    LOGIN_PAGE("0", "index?faces-redirect=true", "/views/index.xhtml"),
+    WELCOME_PAGE("1", "welcome", "/views/sec/welcome.xhtml"),
+    DONT_ACCESS("2", null, "");
     /**
      * Codigo de la navegacion
      **/

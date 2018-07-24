@@ -98,7 +98,7 @@ public class UsuariosDaoTest extends EntityDaoImplTest{
 	public void ActualizarUsuario() throws DaoException
 	{
 		Usuarios usuario = usuariosDao.buscarPorId(new Long("1"));
-		usuario.setHabilitado(0);
+		usuario.setHabilitado(new Long("0"));
 		usuariosDao.actualizar(usuario);
 	}
 

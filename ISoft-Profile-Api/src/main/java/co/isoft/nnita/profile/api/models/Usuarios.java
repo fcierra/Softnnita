@@ -66,7 +66,7 @@ public class Usuarios implements Serializable,BusinessClass
     private Date fecha_ultima_visita;
 
     @Column(name = "HABILITADO", nullable = false)
-    private int habilitado;
+    private Long habilitado;
 
     public Long getId()
     {
@@ -158,12 +158,12 @@ public class Usuarios implements Serializable,BusinessClass
         this.fecha_ultima_visita = fecha_ultima_visita;
     }
 
-    public int getHabilitado()
+    public Long getHabilitado()
     {
         return habilitado;
     }
 
-    public void setHabilitado(int habilitado)
+    public void setHabilitado(Long habilitado)
     {
         this.habilitado = habilitado;
     }

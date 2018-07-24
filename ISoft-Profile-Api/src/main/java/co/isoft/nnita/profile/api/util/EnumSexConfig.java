@@ -1,30 +1,21 @@
 package co.isoft.nnita.profile.api.util;
 
 /**
- * Enum que describe los errores manejados por la aplicacion
- * cada item puede ser usado por el core de negocio
- * o por las entidades que expongas puertas de acceso a la informacion
- * pueden basarse en este para su manejo y exposicion de fallas.
- *
+ * Enum que describe el manejo
+ * de los sexos en el sistema.
  * @author Yaher Carrillo
- * @Date 14/07/2018
+ * @Date 20/07/2018
  */
-public enum EnumErrorConfig
+public enum EnumSexConfig
 {
-    PROFILER_USER_DOES_NOT_EXIST("001", "El usuario no existe", "login.error.001"),
-    PROFILER_USER_WRONG_KEY("002", "Clave Errada de usuario.", "login.error.002"),
-    PROFILER_USER_WITHOUT_PROFILES("003", "Usuario sin perfiles.","login.error.003"),
-    PROFILER_USER_CURRENT_PASS("004", "Clave Actual Errada.","login.error.004"),
-    PROFILER_USER_CONFIRM_PASS("005", "La Nueva clave no coincide con la confirmacion.","login.error.005"),
-    PROFILER_USER_OR_PASS_DOES_NOT_EXIST("001", "El usuario no existe", "login.error.006"),
-    PROFILER_GENERIC_ERROR_FIELD_REQUIRED("091", "Error generico, campo requerido", "login.error.091"),
-    PROFILER_GENERIC_ERROR("099", "Error generico, modulo Profiler", "login.error.099");
+    SEX_CONFIG_MAN("M", "Hombre", "config.sex.man"),
+    SEX_CONFIG_WOMAN("F", "Mujer", "config.sex.woman");
     /**
-     * Codigo de la navegacion
+     * Codigo del sexo
      **/
     private String code;
     /**
-     * Descripcion del error
+     * Descripcion del sexo
      */
     private String description;
     /**
@@ -36,10 +27,10 @@ public enum EnumErrorConfig
      * Constructor del Enum que inicializa valores
      *
      * @param code        identificador del elemento
-     * @param description ruta del recurso
+     * @param description descripcion del recurso
      * @param refbundle   referencia del archivo de recursos
      */
-    EnumErrorConfig(String code, String description, String refbundle)
+    EnumSexConfig(String code, String description, String refbundle)
     {
         this.code = code;
         this.description = description;
@@ -57,7 +48,7 @@ public enum EnumErrorConfig
     }
 
     /**
-     * Asigna el codigo a un elemento de error.
+     * Asigna el codigo a un elemento.
      *
      * @param code valor a asignar
      */

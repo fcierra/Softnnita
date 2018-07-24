@@ -21,7 +21,15 @@ public interface UsuariosService
      * @return Objeto con el los datos de usuario
      * @throws ServiceException sucede si falla la operacion
      */
-    public DatosSesionUsuario validarUsuario(String login,String clave) throws ServiceException;
+    public DatosSesionUsuario validateUser(String login,String clave) throws ServiceException;
+
+    /**
+     * Regersa la informacion de usuario
+     * @param login nombre de login de usuario
+     * @return Objeto usuarios
+     * @throws ServiceException Sucede si falla la operacion.
+     */
+    public Usuarios validateUser(String login) throws ServiceException;
 
     /**
      * Obtiene todos los usuarios del sistema
@@ -29,6 +37,23 @@ public interface UsuariosService
      * @return Listado de usuarios
      * @throws ServiceException Excepcion que ocurre si falla la operacion
      */
-    public List<Usuarios> obtenerTodo(boolean estado) throws ServiceException;
+    public List<Usuarios> getAll(boolean estado) throws ServiceException;
+
+    /**
+     * Valida la clave actual del usuario
+     * @param usuario usuario a validar
+     * @param claveActual clave actual a validar
+     * @return logico que indica si la clave es valida
+     * @throws ServiceException Excepcion que ocurre si falla la operacion.
+     */
+    public boolean validateCurrentPassUser(Usuarios usuario,String claveActual) throws ServiceException;
+
+    /**
+     * Cambia la clave actual del usuario
+     * @param usuario usuario a cambiar la clave
+     * @param nuevaClave clave nueva
+     * @throws ServiceException Excepcion que ocurre si falla la operacion.
+     */
+    public void changePassUser(Usuarios usuario,String nuevaClave) throws ServiceException;
 
 }

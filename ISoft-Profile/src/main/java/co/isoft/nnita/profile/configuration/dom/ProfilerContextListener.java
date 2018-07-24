@@ -6,6 +6,7 @@ import co.isoft.nnita.logger.commons.EmailAppender;
 import co.isoft.nnita.logger.commons.FileAppender;
 import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
+import co.isoft.nnita.profile.util.ServletJsfSpringUtil;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -37,6 +38,8 @@ public class ProfilerContextListener implements ServletContextListener
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         initConfProfiler();
+        // Define de forma global el contexto
+        ServletJsfSpringUtil.setServletContext(sce.getServletContext());
     }
 
     @Override

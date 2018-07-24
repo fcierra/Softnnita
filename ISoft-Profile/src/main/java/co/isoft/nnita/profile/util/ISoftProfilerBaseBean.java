@@ -1,6 +1,7 @@
 package co.isoft.nnita.profile.util;
 
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
+import co.isoft.nnita.profile.api.util.EnumSexConfig;
 
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -106,6 +107,30 @@ public abstract class ISoftProfilerBaseBean
     }
 
     /**
+     * Metodo que busca las referencia de sexo
+     * en cuanto el manejo del bundle seleccionado
+     * que corresponda
+     * @param codeSex codigo a buscar
+     * @return Texto a buscar
+     */
+    public static String findMessageTextSex(String codeSex){
+        String sex = "";
+        switch (codeSex)
+        {
+            case "M":
+                sex = EnumSexConfig.SEX_CONFIG_MAN.getRefbundle();
+                break;
+            case "F":
+                sex = EnumSexConfig.SEX_CONFIG_WOMAN.getRefbundle();
+                break;
+            default:
+                sex = "BREAK";
+                break;
+        }
+        return findMessage(sex);
+    }
+
+    /**
      * Metodo que busca un recurso del archivo de texto
      * @param key llave a buscar
      * @return contenido de llave
@@ -124,6 +149,17 @@ public abstract class ISoftProfilerBaseBean
         TextBundle text = new TextBundle();
         String keyfind = "login.error."+key;
         return text.handleGetObject(keyfind).toString();
+    }
+
+    /**
+     * Agrega un mensaje de evento oportuno al contexto
+     * de faces para que aparezca en los formularios.
+     * si el tag no esta no se mostraran.
+     * @param message
+     */
+    public static void addSuccessMessage(final String message) {
+        FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, message, message);
+        getFacesContext().addMessage(null, fm);
     }
 
     /**

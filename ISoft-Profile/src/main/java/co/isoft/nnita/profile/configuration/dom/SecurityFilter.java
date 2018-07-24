@@ -7,6 +7,8 @@
 package co.isoft.nnita.profile.configuration.dom;
 
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
+import co.isoft.nnita.profile.configuration.navigation.EnumNavigationConfig;
+import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -61,24 +63,23 @@ public class SecurityFilter implements Filter
         logger.debug("url=" + url );
         try
         {
-            // FIXME Posiblemente obsoleto
-            // Redireccionar a la pagina
+
             if (session == null)
             {
                 logger.debug("La sesi\u00F3n ha caducado");
-                request.getRequestDispatcher(this.loginPage).forward(req, res);
+                request.getRequestDispatcher(EnumNavigationConfig.LOGIN_PAGE.getPath()).forward(req, res);
                 return;
             }   
             
             // Si el usuario ya ha iniciado sesion no mostrar la pagina de inicio de
             // sesion si no enviar a la pagina de bienvenida.
-            DatosSesionUsuario datosSesionUsuario = (DatosSesionUsuario)request.getSession().getAttribute(this.nombreLoginActivo);
+            ISesionActive datosSesionUsuario = (ISesionActive)request.getSession().getAttribute(ISoftProfilerBaseBean.CONSTANT_USER_SESION);
             if( (datosSesionUsuario != null)  )
             {
-                if (url.equals(this.loginPage) || url.equals(this.ventanillaPage) || url.equals(this.inicioPage))
+                if (url.equals(EnumNavigationConfig.LOGIN_PAGE.getPath()) )
                 {
                     // Redireccionar a la pagina de bienvenida del usuario
-                    request.getRequestDispatcher(this.welcomePage).forward(req, res);
+                    request.getRequestDispatcher(EnumNavigationConfig.WELCOME_PAGE.getPath()).forward(req, res);
                     return;
                 }
             }

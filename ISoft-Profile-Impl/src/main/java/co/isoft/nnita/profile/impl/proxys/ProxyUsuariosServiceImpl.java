@@ -101,15 +101,33 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public DatosSesionUsuario validarUsuario(String login,String clave) throws ServiceException
+    public DatosSesionUsuario validateUser(String login,String clave) throws ServiceException
     {
-        return getUsuariosService().validarUsuario(login,clave);
+        return getUsuariosService().validateUser(login,clave);
     }
 
     @Override
-    public List<Usuarios> obtenerTodo(boolean estado) throws ServiceException
+    public Usuarios validateUser(String login) throws ServiceException
+    {
+        return getUsuariosService().validateUser(login);
+    }
+
+    @Override
+    public List<Usuarios> getAll(boolean estado) throws ServiceException
     {
         String cadena = "";
         return null;
+    }
+
+    @Override
+    public boolean validateCurrentPassUser(Usuarios usuario, String claveActual) throws ServiceException
+    {
+        return getUsuariosService().validateCurrentPassUser(usuario,claveActual);
+    }
+
+    @Override
+    public void changePassUser(Usuarios usuario, String nuevaClave) throws ServiceException
+    {
+        getUsuariosService().changePassUser(usuario,nuevaClave);
     }
 }
