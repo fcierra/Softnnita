@@ -9,6 +9,7 @@ import co.isoft.nnita.profile.configuration.navigation.EnumNavigationConfig;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.faces.bean.ManagedBean;
@@ -50,6 +51,11 @@ public class ChangePasswordBean extends ISoftProfilerBaseBean implements Seriali
     @Autowired
     @Qualifier("proxyUsuariosService")
     private UsuariosService userServices;
+    /**
+     * Servicio de manejo de claves
+     */
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Metodo de procesamiento
@@ -59,8 +65,7 @@ public class ChangePasswordBean extends ISoftProfilerBaseBean implements Seriali
     public String changePassSesionUserProcess(){
         String username = iSesionActive.getDatosSesion().getUsuario().getLogin();
         try{
-
-            passNew = ISoftProfilerBaseBean.encryptPass(passNew);
+            passNew = passwordEncoder.encode(passNew);
             userServices.changePassUser(iSesionActive.getDatosSesion().getUsuario(),passNew);
             String message = ISoftProfilerBaseBean.findMessage("login.success.001");
             addSuccessMessage(message);

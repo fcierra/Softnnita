@@ -10,6 +10,8 @@ public enum EnumServicesIsoftConfig
 {
     SERVICES_USERS("servicio.usuarios", "usuariosServiceImpl"),
     SERVICES_USERS_PROXY("servicio.usuarios.proxy", "proxyUsuariosService"),
+    SERVICES_ENCRYPT_PASS("servicio.password.encrypt", "passwordEncoder"),
+    SERVICES_AUTH_SPRING("servicio.password.encrypt", "org.springframework.security.authenticationManager"),
     SERVICES_DEFAILT("servicio.default", "usuariosServiceDefault");
     /**
      * Codigo del sexo

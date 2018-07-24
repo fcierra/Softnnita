@@ -2,16 +2,15 @@ package co.isoft.nnita.profile.util.validators;
 
 import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
-import co.isoft.nnita.profile.api.exceptions.ServiceException;
-import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.EnumErrorConfig;
 import co.isoft.nnita.profile.api.util.EnumServicesIsoftConfig;
-import co.isoft.nnita.profile.impl.configuration.hibernate.ContextProvider;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
 import co.isoft.nnita.profile.util.SpringUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -33,19 +32,26 @@ public class CurrentPassValidator extends ISoftProfilerBaseBean implements Valid
      * Servicio de Consulta de usuarios.
      */
     private UsuariosService userServices;
+    /**
+     * Servicio de autenticacion
+     */
+    private AuthenticationManager authenticationManager;
 
     /**
      * Contructor por defecto
      */
-    public CurrentPassValidator(){
+    public CurrentPassValidator()
+    {
         init();
     }
 
     /**
      * Se inicializan los valores y servicios a usar en el validator.
      */
-    public void init(){
+    public void init()
+    {
         userServices = SpringUtil.getSpringBean(EnumServicesIsoftConfig.SERVICES_USERS_PROXY.getNameService());
+        authenticationManager = SpringUtil.getSpringBean(EnumServicesIsoftConfig.SERVICES_AUTH_SPRING.getNameService());
     }
 
     @Override
@@ -54,24 +60,15 @@ public class CurrentPassValidator extends ISoftProfilerBaseBean implements Valid
         String loginUsuario = o.toString();
         UIInput uiInputConfirmPassword = (UIInput) uiComponent.getAttributes().get("loginconnect");
         String claveActual = uiInputConfirmPassword.getSubmittedValue().toString();
-
-        Usuarios usuario = new Usuarios();
-        usuario.setLogin(loginUsuario);
         try
         {
-            claveActual = ISoftProfilerBaseBean.encryptPass(claveActual);
-            boolean logic = userServices.validateCurrentPassUser(usuario,claveActual);
-            if (!logic){
-                String message = ISoftProfilerBaseBean.findMessageError(EnumErrorConfig.PROFILER_USER_CURRENT_PASS.getCode());
-                addErrorMessageValidator(message);
-            }
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario, claveActual));
         }
-        catch (ServiceException e)
+        catch (AuthenticationException e)
         {
-            String code_error = e.getCode();
-            String message = ISoftProfilerBaseBean.findMessageError(code_error);
-            addErrorMessage(message);
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), claveActual, "Error VALIDATOR validando la clave actual de usuario", e);
+            String message = ISoftProfilerBaseBean.findMessageError(EnumErrorConfig.PROFILER_USER_CURRENT_PASS.getCode());
+            addErrorMessageValidator(message);
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), "", "Error VALIDATOR validando la clave actual de usuario", e);
         }
     }
 }

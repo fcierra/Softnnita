@@ -1,0 +1,13 @@
+.isoft_error_input{
+    border:1px solid red;
+}
+
+.isoft_input_hiden{
+    display:none !important;
+}
+
+.form-logout .isoft_buttom_logout{
+    background: none;
+    /* padding: 1px 5px; */
+    margin: 0 4px 0 0;
+}
