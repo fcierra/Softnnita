@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+
+<h:body>
+
+    <ui:composition template="../templates/TemplateISoftProfiler.xhtml">
+
+        <ui:define name="script_header">
+            <script type="text/javascript">
+                //<![CDATA[
+                ISOFT.PROFILE_USER.init();
+                //]]>
+            </script>
+        </ui:define>
+
+        <ui:define name="content">
+            <h:form prependId="false">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+
+                        <!-- Profile Image -->
+                        <div class="card card-primary card-outline">
+                            <div class="card-body box-profile">
+                                <div class="text-center">
+                                    <h:graphicImage library="dist/img"
+                                                    name="user4-128x128.jpg"
+                                                    alt="User Profile Picture"
+                                                    styleClass="profile-user-img img-fluid img-circle"/>
+                                </div>
+
+                                <h3 class="profile-username text-center">#{profileUserBean.namesUser}</h3>
+
+                                <p class="text-muted text-center">#{profileUserBean.lastNamesUser}</p>
+
+                                <ul class="list-group list-group-unbordered mb-3">
+                                    <li class="list-group-item">
+                                        <b>Followers</b> <a class="float-right">1,322</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Following</b> <a class="float-right">543</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Friends</b> <a class="float-right">13,287</a>
+                                    </li>
+                                </ul>
+
+                                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+
+                        <!-- About Me Box -->
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">About Me</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <strong><i class="fa fa-book mr-1"></i> Education</strong>
+
+                                <p class="text-muted">
+                                    B.S. in Computer Science from the University of Tennessee at Knoxville
+                                </p>
+
+                                <hr/>
+
+                                <strong><i class="fa fa-map-marker mr-1"></i> Location</strong>
+
+                                <p class="text-muted">Malibu, California</p>
+
+                                <hr/>
+
+                                <strong><i class="fa fa-pencil mr-1"></i> Skills</strong>
+
+                                <p class="text-muted">
+                                    <span class="tag tag-danger">UI Design</span>
+                                    <span class="tag tag-success">Coding</span>
+                                    <span class="tag tag-info">Javascript</span>
+                                    <span class="tag tag-warning">PHP</span>
+                                    <span class="tag tag-primary">Node.js</span>
+                                </p>
+
+                                <hr/>
+
+                                <strong><i class="fa fa-file-text-o mr-1"></i> Notes</strong>
+
+                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-header p-2">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#settings" data-toggle="tab">
+                                            #{msg['profile.label.tab.information']}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="#activity-pass" data-toggle="tab">
+                                            #{msg['profile.label.tab.password']}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div><!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="active tab-pane" id="settings">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">
+                                                #{msg['profile.label.user.name']}
+                                            </label>
+
+                                            <div class="col-sm-10">
+                                                <h:outputText styleClass="form-control" value="#{profileUserBean.namesUser}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">
+                                                #{msg['profile.label.user.lastname']}
+                                            </label>
+
+                                            <div class="col-sm-10">
+                                                <h:outputText styleClass="form-control" value="#{profileUserBean.lastNamesUser}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label  class="col-sm-2 control-label">
+                                                #{msg['profile.label.user.email']}
+                                            </label>
+
+                                            <div class="col-sm-10">
+                                                <h:outputText styleClass="form-control" value="#{profileUserBean.emailUser}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">
+                                                #{msg['profile.label.user.sex']}
+                                            </label>
+
+                                            <div class="col-sm-10">
+                                                <h:outputText styleClass="form-control" value="#{profileUserBean.sexUser}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label  class="col-sm-2 control-label">
+                                                #{msg['profile.label.user.last.connection']}
+                                            </label>
+
+                                            <div class="col-sm-10">
+                                                <h:outputText styleClass="form-control" value="#{profileUserBean.lastConnection}"/>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane" id="activity-pass">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">
+                                                #{msg['profile.label.tab.changepass.passact']}
+                                            </label>
+
+                                            <div class="col-sm-10">
+
+
+                                                    <h:inputText styleClass="form-control" style="display: none" id="passcurrent"
+                                                                 value="#{loginBean.username}"
+                                                                 a:placeholder="#{msg['profile.label.tab.changepass.holder.currentpass']}">
+                                                        <f:validator validatorId="co.isoft.nnita.profile.util.validators.CurrentPassValidator"/>
+                                                        <f:attribute name="loginconnect" value="#{loginconnect}" />
+                                                    </h:inputText>
+
+
+                                                    <h:inputSecret styleClass="form-control"
+                                                                   id="loginconnect"
+                                                                   value="#{profileUserBean.loginUser}"
+                                                                   a:placeholder="#{msg['login.holder.pass']}"
+                                                                   binding="#{loginconnect}">
+                                                    </h:inputSecret>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">
+                                                #{msg['profile.label.tab.changepass.newpass']}
+                                            </label>
+
+                                            <div class="col-sm-10">
+                                                <h:inputSecret id="passnew"
+                                                               value="#{changePasswordBean.passNew}"
+                                                               styleClass="form-control"
+                                                               a:placeholder="#{msg['profile.label.tab.changepass.holder.newpass']}">
+                                                    <f:validator validatorId="co.isoft.nnita.profile.util.validators.ConfirmPassValidator"/>
+                                                    <f:attribute name="passconfirm" value="#{passconfirm}" />
+                                                </h:inputSecret>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">
+                                                #{msg['profile.label.tab.changepass.confirmpass']}
+                                            </label>
+
+                                            <div class="col-sm-10">
+                                                <h:inputSecret id="passconfirm"
+                                                               value="#{changePasswordBean.confirmPass}"
+                                                               styleClass="form-control"
+                                                               a:placeholder="#{msg['profile.label.tab.changepass.holder.confirmpass']}"
+                                                               binding="#{passconfirm}"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <h:commandButton value="#{msg['commons.buttom.accept']}"
+                                                                 styleClass="btn btn-danger"
+                                                                 action="#{changePasswordBean.changePassSesionUserProcess}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <h:messages infoClass="alert alert-success"
+                                                            warnClass="alert alert-info"
+                                                            errorClass="alert alert-warning"
+                                                            fatalClass="alert alert-danger" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                </div>
+                                <!-- /.tab-content -->
+                            </div><!-- /.card-body -->
+                        </div>
+                        <!-- /.nav-tabs-custom -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+
+</h:body>
+</html>
