@@ -3,6 +3,9 @@ package co.isoft.nnita.profile.impl.service;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
+import co.isoft.nnita.profile.api.models.Menus;
+import co.isoft.nnita.profile.api.models.Perfiles;
+import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.models.Usuarios;
@@ -91,5 +94,17 @@ public class UsuariosServiceLdapImpl implements UsuariosService
     public void changePassUser(Usuarios usuario, String nuevaClave) throws ServiceException
     {
 
+    }
+
+    @Override
+    public List<Permisos> findGrantPermisions(Perfiles perfil) throws ServiceException
+    {
+        return null;
+    }
+
+    @Override
+    public List<Menus> findItemsNavigation(Perfiles perfil) throws ServiceException
+    {
+        return null;
     }
 }

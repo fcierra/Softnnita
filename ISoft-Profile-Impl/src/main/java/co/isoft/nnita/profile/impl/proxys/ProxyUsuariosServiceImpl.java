@@ -1,14 +1,13 @@
 package co.isoft.nnita.profile.impl.proxys;
 
 
+import co.isoft.nnita.profile.api.models.*;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ContextProvider;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.dao.ParametrosDao;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
-import co.isoft.nnita.profile.api.models.Parametros;
-import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ServicesReferencesMapping;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import org.apache.commons.logging.Log;
@@ -130,4 +129,17 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     {
         getUsuariosService().changePassUser(usuario,nuevaClave);
     }
+
+    @Override
+    public List<Permisos> findGrantPermisions(Perfiles perfil) throws ServiceException
+    {
+        return getUsuariosService().findGrantPermisions(perfil);
+    }
+
+    @Override
+    public List<Menus> findItemsNavigation(Perfiles perfil) throws ServiceException
+    {
+        return getUsuariosService().findItemsNavigation(perfil);
+    }
+
 }

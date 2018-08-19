@@ -2,7 +2,6 @@ package co.isoft.nnita.profile.api.models;
 
 import co.isoft.nnita.profile.api.dao.BusinessClass;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -16,20 +15,18 @@ import java.util.Date;
  * @author Yaher Carrillo
  * @Date 01/06/2018
  */
-@NamedQueries({
-        @NamedQuery(name = "buscarUsuarioPorLogin", query = "from Usuarios usuario where usuario.login =:PARAM_LOGIN"),
+@NamedQueries({ @NamedQuery(name = "buscarUsuarioPorLogin", query = "from Usuarios usuario where usuario.login =:PARAM_LOGIN"),
         @NamedQuery(name = "buscarUsuarioUltimoMesActivo", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
         @NamedQuery(name = "buscarUsuarioActivosPorFecha", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
-        @NamedQuery(name = "buscarUsuarioPorEstado", query = "from Usuarios usuario where usuario.habilitado =:PARAM_ESTADO")
-                })
+        @NamedQuery(name = "buscarUsuarioPorEstado", query = "from Usuarios usuario where usuario.habilitado =:PARAM_ESTADO") })
 @Entity
-@SequenceGenerator(name = "usuarios-gen",sequenceName = "isoft_usuarios_id_usuario_seq",initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "usuarios-gen", sequenceName = "isoft_usuarios_id_usuario_seq", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_USUARIOS")
-public class Usuarios implements Serializable,BusinessClass
+public class Usuarios implements Serializable, BusinessClass
 {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO,generator = "usuarios-gen")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "usuarios-gen")
     @Column(name = "ID_USUARIO", nullable = false)
     private Long id;
 
@@ -57,13 +54,15 @@ public class Usuarios implements Serializable,BusinessClass
     @Column(name = "SEXO")
     private String sexo;
 
-
     @Column(name = "FECHA_REGISTRO")
     private Date fecha_registro;
 
-
     @Column(name = "FECHA_ULTIMA_VIS")
     private Date fecha_ultima_visita;
+
+    @ManyToOne
+    @JoinColumn(name = "PERFIL_DEFAULT", nullable = true)
+    private Perfiles perfilDefault;
 
     @Column(name = "HABILITADO", nullable = false)
     private Long habilitado;
@@ -156,6 +155,16 @@ public class Usuarios implements Serializable,BusinessClass
     public void setFecha_ultima_visita(Date fecha_ultima_visita)
     {
         this.fecha_ultima_visita = fecha_ultima_visita;
+    }
+
+    public Perfiles getPerfilDefault()
+    {
+        return perfilDefault;
+    }
+
+    public void setPerfilDefault(Perfiles perfilDefault)
+    {
+        this.perfilDefault = perfilDefault;
     }
 
     public Long getHabilitado()

@@ -181,6 +181,16 @@
 								</p>
 							</a>
 							<ul class="nav nav-treeview">
+							<ui:repeat value="#{profileUserBean.menus}" var="menu">
+								<li class="nav-item">
+									<a href="./index.html" class="nav-link">
+										<i class="fa fa-circle-o nav-icon"></i>
+										<p>#{menu.menu_label}</p>
+									</a>
+								</li>
+							</ui:repeat>
+							</ul>
+							<!--<ul class="nav nav-treeview">
 								<li class="nav-item">
 									<a href="./index.html" class="nav-link">
 										<i class="fa fa-circle-o nav-icon"></i>
@@ -199,7 +209,7 @@
 										<p>Dashboard v3</p>
 									</a>
 								</li>
-							</ul>
+							</ul>-->
 						</li>
 
 

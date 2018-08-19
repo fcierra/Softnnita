@@ -17,6 +17,7 @@ public enum EnumErrorConfig
     PROFILER_USER_CURRENT_PASS("004", "Clave Actual Errada.","login.error.004"),
     PROFILER_USER_CONFIRM_PASS("005", "La Nueva clave no coincide con la confirmacion.","login.error.005"),
     PROFILER_USER_OR_PASS_DOES_NOT_EXIST("001", "El usuario no existe", "login.error.006"),
+    PROFILER_USER_PROFILE_DONT_PERMISION("007", "Perfil sin permisos", "login.error.007"),
     PROFILER_GENERIC_ERROR_FIELD_REQUIRED("091", "Error generico, campo requerido", "login.error.091"),
     PROFILER_GENERIC_ERROR("099", "Error generico, modulo Profiler", "login.error.099");
     /**

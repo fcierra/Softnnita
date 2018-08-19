@@ -3,6 +3,7 @@ package co.isoft.nnita.profile.beans;
 import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
+import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.services.UsuariosService;
@@ -23,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Bean FRONT-END para el manejo de la informacion
@@ -62,6 +64,10 @@ public class ProfileUserBean extends ISoftProfilerBaseBean implements Serializab
      */
     private String loginUser;
     /**
+     * Navegacion de usuario
+     */
+    private List<Menus> menus;
+    /**
      * Servicio de informacion de sesion del usuario
      */
     @Autowired
@@ -90,12 +96,29 @@ public class ProfileUserBean extends ISoftProfilerBaseBean implements Serializab
      */
     public void init()
     {
+        loadNavigation();
         this.setNamesUser(iSesionActive.getDatosSesion().getUsuario().getNombres());
         this.setLastNamesUser(iSesionActive.getDatosSesion().getUsuario().getApellidos());
         this.setEmailUser(iSesionActive.getDatosSesion().getUsuario().getEmail());
         this.setSexUser(ISoftProfilerBaseBean.findMessageTextSex(iSesionActive.getDatosSesion().getUsuario().getSexo()));
         this.setLastConnection(iSesionActive.getDatosSesion().getUsuario().getFecha_ultima_visita().toString());
         this.setLoginUser(iSesionActive.getDatosSesion().getUsuario().getLogin());
+    }
+
+    /**
+     * Carga la navegacion del cliente autenticado, segun los permisos
+     * de sus perfil.
+     */
+    public void loadNavigation(){
+        try
+        {
+            menus = userServices.findItemsNavigation(iSesionActive.getDatosSesion().getUsuario().getPerfilDefault());
+        }catch (ServiceException e){
+            String code_error = e.getCode();
+            String message = ISoftProfilerBaseBean.findMessageError(code_error);
+            addErrorMessage(message);
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), loginUser, "Error consultando los menus de usuario", e);
+        }
     }
 
     /**
@@ -226,5 +249,24 @@ public class ProfileUserBean extends ISoftProfilerBaseBean implements Serializab
     public void setLoginUser(String loginUser)
     {
         this.loginUser = loginUser;
+    }
+
+    /**
+     * Obtiene los menus de navegacion del perfil
+     * actual.
+     * @return Listado de menus
+     */
+    public List<Menus> getMenus()
+    {
+        return menus;
+    }
+
+    /**
+     * Asigna un valor al listado de menus
+     * @param menus valor a asignar
+     */
+    public void setMenus(List<Menus> menus)
+    {
+        this.menus = menus;
     }
 }

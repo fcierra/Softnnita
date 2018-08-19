@@ -1,6 +1,9 @@
 package co.isoft.nnita.profile.api.services;
 
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
+import co.isoft.nnita.profile.api.models.Menus;
+import co.isoft.nnita.profile.api.models.Perfiles;
+import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 
@@ -55,5 +58,22 @@ public interface UsuariosService
      * @throws ServiceException Excepcion que ocurre si falla la operacion.
      */
     public void changePassUser(Usuarios usuario,String nuevaClave) throws ServiceException;
+
+
+    /**
+     * Busca los permisos del usuario con respecto al sistema
+     * @param perfil perfil a buscar
+     * @return Listado de permisos del perfil
+     * @throws ServiceException ocurre si falla la operacion
+     */
+    public List<Permisos> findGrantPermisions(Perfiles perfil) throws ServiceException;
+
+    /**
+     * Busca las navegacions disponibles por un determinado perfil
+     * @param perfil perfil de navegacion
+     * @return listado de navegaciones disponibles
+     * @throws ServiceException ocurre si falla la operacion
+     */
+    public List<Menus> findItemsNavigation(Perfiles perfil) throws ServiceException;
 
 }

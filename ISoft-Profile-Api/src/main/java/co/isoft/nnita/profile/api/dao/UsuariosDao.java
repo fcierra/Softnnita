@@ -1,6 +1,9 @@
 package co.isoft.nnita.profile.api.dao;
 
 import co.isoft.nnita.profile.api.exceptions.DaoException;
+import co.isoft.nnita.profile.api.models.Menus;
+import co.isoft.nnita.profile.api.models.Perfiles;
+import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.models.Usuarios;
 
 import java.util.Date;
@@ -47,4 +50,20 @@ public interface UsuariosDao extends HibernateDao<Usuarios, Long>
      * @throws DaoException Excepcion que ocurre si falla la consulta
      */
     public List<Usuarios> getUsuarioPorEstados(boolean activo) throws DaoException;
+
+    /**
+     * Busca los permisos de un determinado usuario
+     * @param perfil con el que se intenta autenticar
+     * @return Listado de accesos de navegacion
+     * @throws DaoException Ocurre si falla la operacion
+     */
+    public List<Permisos> getPermisosUsuarios(Perfiles perfil) throws DaoException;
+
+    /**
+     * Obtiene las navgeaciones disponibles para el cliente
+     * @param perfil perfil a buscar
+     * @return listado de menus disponibles
+     * @throws DaoException Ocurre si falla la operacion
+     */
+    public List<Menus> getNavegacionPerfil(Perfiles perfil) throws DaoException;
 }

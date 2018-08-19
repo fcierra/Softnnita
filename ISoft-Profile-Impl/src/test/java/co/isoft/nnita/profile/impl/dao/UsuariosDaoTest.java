@@ -36,8 +36,7 @@ public class UsuariosDaoTest extends EntityDaoImplTest{
 		usuario.setClave("saher");
 		usuario.setFecha_registro(new Date());
 		usuario.setFecha_ultima_visita(new Date());
-		//Long id = usuariosDao.agregar(usuario);
-		Assert.assertNotNull(usuariosDao.getUsuarioPorLogin("saher"));
+		Long id = usuariosDao.agregar(usuario);
 	}
 
 	/**
@@ -59,7 +58,7 @@ public class UsuariosDaoTest extends EntityDaoImplTest{
 	@Ignore
 	public void buscarPorLogin() throws DaoException
 	{
-		Assert.assertNotNull(usuariosDao.getUsuarioPorLogin("isolina"));
+		Assert.assertNotNull(usuariosDao.getUsuarioPorLogin("admin"));
 		//Assert.assertNull(usuariosDao.getUsuarioPorLogin("yaher1"));
 	}
 
@@ -85,13 +84,6 @@ public class UsuariosDaoTest extends EntityDaoImplTest{
 		Assert.assertNotNull(usuariosDao.getUsuarioActivosEntreFechas(fecha_inicio,fecha_fin));
 	}
 
-	@Test
-	@Ignore
-	public void buscarTodosLosUsuarios() throws DaoException
-	{
-		List<Usuarios> listado = usuariosDao.getUsuarioPorEstados(true);
-		listado.size();
-	}
 
 	@Test
 	//@Ignore
