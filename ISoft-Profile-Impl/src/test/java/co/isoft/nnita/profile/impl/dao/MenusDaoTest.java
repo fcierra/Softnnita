@@ -46,6 +46,13 @@ public class MenusDaoTest extends EntityDaoImplTest
         menusDao.agregar(menu);
     }
 
+    @Test
+    @Ignore
+    public void buscarMenusItemDeSistema() throws DaoException
+    {
+        Assert.assertNotNull(menusItemDao.getItemsDeSistema());
+    }
+
     /**
      * Consulta un Menu por su id en el sistema
      *

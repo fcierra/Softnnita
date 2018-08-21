@@ -95,16 +95,4 @@ public class UsuariosServiceLdapImpl implements UsuariosService
     {
 
     }
-
-    @Override
-    public List<Permisos> findGrantPermisions(Perfiles perfil) throws ServiceException
-    {
-        return null;
-    }
-
-    @Override
-    public List<Menus> findItemsNavigation(Perfiles perfil) throws ServiceException
-    {
-        return null;
-    }
 }

@@ -76,24 +76,4 @@ public class UsuariosDaoImpl extends HibernateDaoImpl<Integer, Usuarios> impleme
         return usuarios;// OK
     }
 
-    @Override
-    public List<Permisos> getPermisosUsuarios(Perfiles perfil) throws DaoException
-    {
-        Session session = this.getSession();
-        Query query = session.getNamedQuery("buscarPermisosUsuario");
-        query.setParameter("PARAM_PERFIL", perfil.getId());
-        List<Permisos> permisos = (List<Permisos>) query.list();
-        return permisos;// OK
-    }
-
-    @Override
-    public List<Menus> getNavegacionPerfil(Perfiles perfil) throws DaoException
-    {
-        Session session = this.getSession();
-        Query query = session.getNamedQuery("buscarNavegacionesPerfiles");
-        query.setParameter("PARAM_PERFIL", perfil.getId());
-        List<Menus> permisos = (List<Menus>) query.list();
-        return permisos;// OK
-    }
-
 }

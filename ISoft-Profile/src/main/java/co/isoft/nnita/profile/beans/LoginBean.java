@@ -64,7 +64,7 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
     private ISesionActive iSesionActive;
 
     /**
-     * Evento iniacl invocado por la vista profileUser.xhtml para iniciar el bean
+     * Evento iniacl invocado por la vista profile_misdatos.xhtml para iniciar el bean
      *
      * @param event Evento
      */
@@ -74,7 +74,7 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
     }
 
     /**
-     * Evento iniacl invocado por la vista profileUser.xhtml para iniciar el bean
+     * Evento iniacl invocado por la vista profile_misdatos.xhtml para iniciar el bean
      *
      * @param event Evento
      */
@@ -121,7 +121,7 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
                 datosSesionUsuario.setIdSesionWeb(session.getId());
                 iSesionActive.setDatosSesion(datosSesionUsuario);
                 session.setAttribute(CONSTANT_USER_SESION, iSesionActive);
-                return EnumNavigationConfig.WELCOME_PAGE.getName();
+                return EnumNavigationConfig.WELCOME_PAGE.getName()+"?faces-redirect=true";
             }
 
         }

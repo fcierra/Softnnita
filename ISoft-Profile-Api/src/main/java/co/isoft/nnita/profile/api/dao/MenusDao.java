@@ -1,8 +1,7 @@
 package co.isoft.nnita.profile.api.dao;
 
 import co.isoft.nnita.profile.api.exceptions.DaoException;
-import co.isoft.nnita.profile.api.models.Menus;
-import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.models.*;
 
 import java.util.Date;
 import java.util.List;
@@ -15,5 +14,29 @@ import java.util.List;
  */
 public interface MenusDao extends HibernateDao<Menus, Long>
 {
+    /**
+     * Obtiene los sub menus asociados a un menu padre
+     * @param idPadre id del padre
+     * @return Listado de items del menu
+     * @throws DaoException Ocurre si falla la operacion
+     */
+    public List<Menus_Item> getMenusItemPorMenuPadre(Long idPadre) throws DaoException;
+
+    /**
+     * Obtiene las navgeaciones disponibles para el cliente
+     * @param perfil perfil a buscar
+     * @return listado de menus disponibles
+     * @throws DaoException Ocurre si falla la operacion
+     */
+    public List<Menus> getNavegacionPerfil(Perfiles perfil) throws DaoException;
+
+    /**
+     * Busca los permisos a los que puede accceder el perfil indicado.
+     * @param perfil perfil a buscar
+     * @return listado de permisos
+     * @throws DaoException Ocurre si falla la operacion
+     */
+    public List<Permisos> getPermisosUsuarios(Perfiles perfil) throws DaoException;
+
 
 }

@@ -4,6 +4,7 @@ import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.services.PermisosService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.service.UsuariosServiceImpl;
 import org.apache.commons.logging.Log;
@@ -40,6 +41,9 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
     @Autowired
     @Qualifier("proxyUsuariosService")
     private UsuariosService userService;
+
+    @Autowired
+    private PermisosService permisosService;
 
     /**
      * Servicio de seguridad que identifica a los usuarios que intentan acceder
@@ -81,19 +85,13 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
 
         if (listaPermisos!=null && !listaPermisos.isEmpty()){
             for(Permisos permiso : listaPermisos){
-                logger.info("Asignando permiso"+ permiso.getMenu().getRef_security());
-                authorities.add(new SimpleGrantedAuthority("PERMISION_"+permiso.getMenu().getRef_security().toUpperCase()));
+                logger.info("Asignando permiso"+ permiso.getMenuItem().getRef_security());
+                authorities.add(new SimpleGrantedAuthority(permiso.getMenuItem().getRef_security().toUpperCase()));
             }
+            //authorities.add(new SimpleGrantedAuthority("ADMIN"));
         }else{
             authorities.add(new SimpleGrantedAuthority("PERMISION_GUEST"));
         }
-
-        //authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-		/*for(UserProfile userProfile : user.getUserProfiles()){
-			logger.info("UserProfile : {}", userProfile);
-			authorities.add(new SimpleGrantedAuthority("ROLE_"+userProfile.getType()));
-		}*/
-
         return authorities;
     }
 
@@ -104,7 +102,7 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
     public List<Permisos> findPermisionUserAuthenticated(Perfiles perfil){
         try
         {
-            return userService.findGrantPermisions(perfil);
+            return permisosService.findGrantPermisions(perfil);
         }
         catch (ServiceException e)
         {

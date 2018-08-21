@@ -3,8 +3,7 @@ package co.isoft.nnita.profile.impl.dao.impl;
 import co.isoft.nnita.profile.api.dao.MenusDao;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
-import co.isoft.nnita.profile.api.models.Menus;
-import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.models.*;
 import co.isoft.nnita.profile.impl.dao.HibernateDaoImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -23,5 +22,35 @@ import java.util.List;
 @Repository("menusDao")
 public class MenuDaoImpl extends HibernateDaoImpl<Integer,Menus> implements MenusDao
 {
+
+    @Override
+    public List<Menus_Item> getMenusItemPorMenuPadre(Long idPadre) throws DaoException
+    {
+        Session session = this.getSession();
+        Query query = session.getNamedQuery("buscarMenuItemsPorMenu");
+        query.setParameter("PARAM_PADRE", idPadre);
+        List<Menus_Item> items = (List<Menus_Item>) query.list();
+        return items;// OK
+    }
+
+    @Override
+    public List<Menus> getNavegacionPerfil(Perfiles perfil) throws DaoException
+    {
+        Session session = this.getSession();
+        Query query = session.getNamedQuery("buscarNavegacionesPerfiles");
+        query.setParameter("PARAM_PERFIL", perfil.getId());
+        List<Menus> menus = (List<Menus>) query.list();
+        return menus;// OK
+    }
+
+    @Override
+    public List<Permisos> getPermisosUsuarios(Perfiles perfil) throws DaoException
+    {
+        Session session = this.getSession();
+        Query query = session.getNamedQuery("buscarPermisosUsuario");
+        query.setParameter("PARAM_PERFIL", perfil.getId());
+        List<Permisos> permisos = (List<Permisos>) query.list();
+        return permisos;// OK
+    }
 
 }

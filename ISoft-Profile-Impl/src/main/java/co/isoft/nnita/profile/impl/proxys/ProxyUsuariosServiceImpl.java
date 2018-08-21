@@ -129,17 +129,4 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     {
         getUsuariosService().changePassUser(usuario,nuevaClave);
     }
-
-    @Override
-    public List<Permisos> findGrantPermisions(Perfiles perfil) throws ServiceException
-    {
-        return getUsuariosService().findGrantPermisions(perfil);
-    }
-
-    @Override
-    public List<Menus> findItemsNavigation(Perfiles perfil) throws ServiceException
-    {
-        return getUsuariosService().findItemsNavigation(perfil);
-    }
-
 }

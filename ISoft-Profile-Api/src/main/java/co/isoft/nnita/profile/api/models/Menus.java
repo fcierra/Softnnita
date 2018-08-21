@@ -1,10 +1,12 @@
 package co.isoft.nnita.profile.api.models;
 
 import co.isoft.nnita.profile.api.dao.BusinessClass;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Clase Modelo de la tabla ISOFT_MENU
@@ -35,6 +37,9 @@ public class Menus implements Serializable, BusinessClass
     @Size(max = 220)
     @Column(name = "REF_SECURITY", nullable = true)
     private String ref_security;
+
+    @Transient
+    private List<Menus_Item> items;
 
     @Column(name = "HABILITADO", nullable = false)
     private Long habilitado;
@@ -77,6 +82,16 @@ public class Menus implements Serializable, BusinessClass
     public void setRef_security(String ref_security)
     {
         this.ref_security = ref_security;
+    }
+
+    public List<Menus_Item> getItems()
+    {
+        return items;
+    }
+
+    public void setItems(List<Menus_Item> items)
+    {
+        this.items = items;
     }
 
     public Long getHabilitado()

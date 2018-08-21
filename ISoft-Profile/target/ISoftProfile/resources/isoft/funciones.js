@@ -32,6 +32,7 @@ ISOFT = {
     WELCOME: {
         init: function () {
             console.log("Init Welcome ISoftnnnita");
+            $( "#menu-isoft .nav-link:first" ).addClass( "active" );
         }
 
     },

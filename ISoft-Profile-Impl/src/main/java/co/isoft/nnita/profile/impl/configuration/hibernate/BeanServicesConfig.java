@@ -1,9 +1,11 @@
 package co.isoft.nnita.profile.impl.configuration.hibernate;
 
 
+import co.isoft.nnita.profile.api.services.PermisosService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ServicesReferencesMapping;
 import co.isoft.nnita.profile.impl.proxys.ProxyUsuariosServiceImpl;
+import co.isoft.nnita.profile.impl.service.PermisosServiceImpl;
 import co.isoft.nnita.profile.impl.service.UsuariosServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +45,17 @@ public class BeanServicesConfig
     {
         return new UsuariosServiceImpl();
     }
+
+    /**
+     * Bean de configuracion de servicios del sistema
+     * @return
+     */
+    @Bean
+    public PermisosService permisosServiceImpl()
+    {
+        return new PermisosServiceImpl();
+    }
+
 
     /**
      * Bean con el listado de mapeo de los servicio de referencias de usuarios

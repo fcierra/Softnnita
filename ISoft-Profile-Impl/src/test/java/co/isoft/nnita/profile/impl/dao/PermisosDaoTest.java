@@ -47,7 +47,7 @@ public class PermisosDaoTest extends EntityDaoImplTest
         Menus menu = menusDao.buscarPorId(new Long("1"));
         Perfiles perfil = perfilesDao.buscarPorId(new Long("1"));
 
-        permiso.setMenu(menu);
+
         permiso.setPerfil(perfil);
         permisosDao.agregar(permiso);
     }

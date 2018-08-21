@@ -25,7 +25,6 @@ import java.util.List;
  * @author Yaher Carrillo
  * @Date 10/07/2018
  */
-
 @Service("usuariosServiceImpl")
 @Transactional
 public class UsuariosServiceImpl implements UsuariosService
@@ -148,42 +147,6 @@ public class UsuariosServiceImpl implements UsuariosService
         catch (DaoException e)
         {
             String mensaje = "Error al obtener el usuario [" + usuario.getLogin() + "]";
-            logger.error(mensaje, e);
-            throw new ServiceException(mensaje, e);
-        }
-    }
-
-    @Override
-    public List<Permisos> findGrantPermisions(Perfiles perfil) throws ServiceException
-    {
-        try
-        {
-            List<Permisos> lista = usuariosDao.getPermisosUsuarios(perfil);
-            if (lista != null && !lista.isEmpty())
-            {
-                return lista;
-            }
-            else
-                throw new DaoException(EnumErrorConfig.PROFILER_USER_PROFILE_DONT_PERMISION.getCode());
-        }
-        catch (DaoException e)
-        {
-            String mensaje = "Error al obtener permisos sobre el perfil: [" + perfil.getNombre_perfil() + "]";
-            logger.error(mensaje, e);
-            throw new ServiceException(mensaje, e);
-        }
-    }
-
-    @Override
-    public List<Menus> findItemsNavigation(Perfiles perfil) throws ServiceException
-    {
-        try
-        {
-            return usuariosDao.getNavegacionPerfil(perfil);
-        }
-        catch (DaoException e)
-        {
-            String mensaje = "Error al obtener los menus del perfil: [" + perfil.getNombre_perfil() + "]";
             logger.error(mensaje, e);
             throw new ServiceException(mensaje, e);
         }

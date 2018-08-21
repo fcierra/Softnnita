@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Clase Modelo de la tabla ISOFT_PERMISOS
+ * Clase Modelo de la tabla ISOFT_MENUS_PERFIL
  * Encargada de almacenar la configuracion dinamica de la aplicacion
  * con la tabla a traves de hibernate.
  *
@@ -14,22 +14,22 @@ import java.io.Serializable;
  * @Date 12/08/2018
  */
 @NamedQueries({
-        @NamedQuery(name = "buscarPermisosUsuario", query = "from Permisos permiso where permiso.perfil.id =:PARAM_PERFIL and permiso.perfil.habilitado = 1"),
+        @NamedQuery(name = "buscarNavegacionesPerfiles", query = "Select menuperfil.menu from MenuPerfiles menuperfil where menuperfil.perfil.id =:PARAM_PERFIL")
 })
 @Entity
-@SequenceGenerator(name = "permisos-gen", sequenceName = "isoft_permisos_id_permisos_seq", initialValue = 1, allocationSize = 1)
-@Table(name = "ISOFT_PERMISOS")
-public class Permisos implements Serializable, BusinessClass
+@SequenceGenerator(name = "menu-perfil-gen", sequenceName = "isoft_menu_perfil_id_menu_perfil_seq", initialValue = 1, allocationSize = 1)
+@Table(name = "ISOFT_MENUS_PERFIL")
+public class MenuPerfiles implements Serializable, BusinessClass
 {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "permisos-gen")
-    @Column(name = "ID_PERMISO", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "menu-perfil-gen")
+    @Column(name = "ID_MENU_PERFIL", nullable = false)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_MENU_ITEM", nullable = false)
-    private Menus_Item menuItem;
+    @JoinColumn(name = "ID_MENU", nullable = false)
+    private Menus menu;
 
     @ManyToOne
     @JoinColumn(name = "ID_PERFIL", nullable = false)
@@ -43,16 +43,6 @@ public class Permisos implements Serializable, BusinessClass
     public void setId(Long id)
     {
         this.id = id;
-    }
-
-    public Menus_Item getMenuItem()
-    {
-        return menuItem;
-    }
-
-    public void setMenuItem(Menus_Item menuItem)
-    {
-        this.menuItem = menuItem;
     }
 
     public Perfiles getPerfil()
@@ -72,9 +62,9 @@ public class Permisos implements Serializable, BusinessClass
             return true;
         if (obj == null)
             return false;
-        if (!(obj instanceof Permisos))
+        if (!(obj instanceof MenuPerfiles))
             return false;
-        Permisos other = (Permisos) obj;
+        MenuPerfiles other = (MenuPerfiles) obj;
         if (id != other.id)
             return false;
         return true;
@@ -83,6 +73,6 @@ public class Permisos implements Serializable, BusinessClass
     @Override
     public String toString()
     {
-        return "Permiso [id=" + id + ", " + "Menu Item=" + menuItem.getMenu_label() + ", " + "Perfil: [" + perfil.getNombre_perfil() + "]";
+        return "Permiso [id=" + id + ", " + "Menu Item=" + menu.getMenu_label() + ", " + "Perfil: [" + perfil.getNombre_perfil() + "]";
     }
 }

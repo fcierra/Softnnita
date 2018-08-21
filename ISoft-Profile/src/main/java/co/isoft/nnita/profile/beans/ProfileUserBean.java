@@ -4,8 +4,10 @@ import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Menus;
+import co.isoft.nnita.profile.api.models.Menus_Item;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
+import co.isoft.nnita.profile.api.services.PermisosService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.configuration.dom.ISesionActive;
 import co.isoft.nnita.profile.configuration.navigation.EnumNavigationConfig;
@@ -73,15 +75,12 @@ public class ProfileUserBean extends ISoftProfilerBaseBean implements Serializab
     @Autowired
     private ISesionActive iSesionActive;
 
-    /**
-     * Servicio de Consulta de usuarios.
-     */
+
     @Autowired
-    @Qualifier("proxyUsuariosService")
-    private UsuariosService userServices;
+    private PermisosService permisosService;
 
     /**
-     * Evento iniacl invocado por la vista profileUser.xhtml para iniciar el bean
+     * Evento iniacl invocado por la vista profile_misdatos.xhtml para iniciar el bean
      *
      * @param event Evento
      */
@@ -112,7 +111,7 @@ public class ProfileUserBean extends ISoftProfilerBaseBean implements Serializab
     public void loadNavigation(){
         try
         {
-            menus = userServices.findItemsNavigation(iSesionActive.getDatosSesion().getUsuario().getPerfilDefault());
+            menus = permisosService.findMenusItemNavigation(iSesionActive.getDatosSesion().getUsuario().getPerfilDefault());
         }catch (ServiceException e){
             String code_error = e.getCode();
             String message = ISoftProfilerBaseBean.findMessageError(code_error);
@@ -121,15 +120,10 @@ public class ProfileUserBean extends ISoftProfilerBaseBean implements Serializab
         }
     }
 
-    /**
-     * Metodo que cierra la sesion de usuario
-     * @return navegacion de usario al login.
-     */
-    public String closeSession(){
-            HttpSession session = ISoftProfilerBaseBean.getHttpSession();
-        session.invalidate();
-        return EnumNavigationConfig.LOGIN_PAGE.getName();
+    public String navigationSelected(Menus_Item item){
+        return item.getMenu_link()+"?faces-redirect=true";
     }
+
 
     /**
      * Obtiene el nombre de usuario del sistema a mostrar

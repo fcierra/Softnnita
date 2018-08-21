@@ -14,7 +14,8 @@ import java.io.Serializable;
  * @author Yaher Carrillo
  * @Date 07/08/2018
  */
-
+@NamedQueries({ @NamedQuery(name = "buscarMenuItemsPorMenu", query = "from Menus_Item item where item.menu_padre.id =:PARAM_PADRE and item.habilitado = 1"),
+                @NamedQuery(name = "buscarItemsDeSistema", query = "from Menus_Item item where menu_padre.habilitado = 1 and item.habilitado = 1") })
 @Entity
 @SequenceGenerator(name = "menu-item-gen", sequenceName = "isoft_menu_id_item_menu_item_seq", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_MENU_ITEM")
@@ -34,9 +35,9 @@ public class Menus_Item implements Serializable, BusinessClass
     @Column(name = "MENU_LABEL", nullable = false)
     private String menu_label;
 
-
-    @Column(name = "ID_MENU_PADRE", nullable = true)
-    private long menu_padre;
+    @ManyToOne
+    @JoinColumn(name = "ID_MENU_PADRE", nullable = true)
+    private Menus menu_padre;
 
     @Column(name = "ID_MENU_HIJO", nullable = true)
     private long menu_hijo;
@@ -59,6 +60,66 @@ public class Menus_Item implements Serializable, BusinessClass
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    public String getMenu_link()
+    {
+        return menu_link;
+    }
+
+    public void setMenu_link(String menu_link)
+    {
+        this.menu_link = menu_link;
+    }
+
+    public String getMenu_label()
+    {
+        return menu_label;
+    }
+
+    public void setMenu_label(String menu_label)
+    {
+        this.menu_label = menu_label;
+    }
+
+    public Menus getMenu_padre()
+    {
+        return menu_padre;
+    }
+
+    public void setMenu_padre(Menus menu_padre)
+    {
+        this.menu_padre = menu_padre;
+    }
+
+    public long getMenu_hijo()
+    {
+        return menu_hijo;
+    }
+
+    public void setMenu_hijo(long menu_hijo)
+    {
+        this.menu_hijo = menu_hijo;
+    }
+
+    public int getOrden()
+    {
+        return orden;
+    }
+
+    public void setOrden(int orden)
+    {
+        this.orden = orden;
+    }
+
+    public String getRef_security()
+    {
+        return ref_security;
+    }
+
+    public void setRef_security(String ref_security)
+    {
+        this.ref_security = ref_security;
     }
 
     public Long getHabilitado()
