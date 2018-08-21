@@ -59,21 +59,4 @@ public interface UsuariosService
      */
     public void changePassUser(Usuarios usuario,String nuevaClave) throws ServiceException;
 
-
-    /**
-     * Busca los permisos del usuario con respecto al sistema
-     * @param perfil perfil a buscar
-     * @return Listado de permisos del perfil
-     * @throws ServiceException ocurre si falla la operacion
-     */
-    public List<Permisos> findGrantPermisions(Perfiles perfil) throws ServiceException;
-
-    /**
-     * Busca las navegacions disponibles por un determinado perfil
-     * @param perfil perfil de navegacion
-     * @return listado de navegaciones disponibles
-     * @throws ServiceException ocurre si falla la operacion
-     */
-    public List<Menus> findItemsNavigation(Perfiles perfil) throws ServiceException;
-
 }
