@@ -1,5 +1,6 @@
 package co.isoft.nnita.profile.configuration.spring.security;
 
+import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
@@ -22,6 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase provider, para la consulta de usuarios del sistema
+ * usada por spring para la seguridad del sistema
+ * @author Yaher Carrillo
+ * @Date 25/08/2018
+ */
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
 {
@@ -62,6 +69,7 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
         }
         catch (ServiceException e)
         {
+            co.isoft.nnita.logger.util.Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), ssoId, "Error Provider del Usuarios de sistema", e);
             logger.error("Falla al tratar de autenticar al usuario [Usuario:"+ssoId+"]", e);
         }
 
@@ -106,6 +114,7 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
         }
         catch (ServiceException e)
         {
+            co.isoft.nnita.logger.util.Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), perfil.getNombre_perfil(), "Falla al tratar de buscar los permisos del perfil por defecto del usuario", e);
             logger.error("Falla al tratar de buscar los permisos del perfil por defecto del usuario", e);
         }
         return null;

@@ -1,5 +1,8 @@
 package co.isoft.nnita.profile.configuration.spring.security;
 
+import co.isoft.nnita.logger.util.Log;
+import co.isoft.nnita.logger.util.ModulesIsoft;
+import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Menus_Item;
 import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.services.PermisosService;
@@ -43,13 +46,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		List<Menus_Item> listaPermisos = permisosServices.findNavigationSystem();
-		if (listaPermisos!=null && !listaPermisos.isEmpty()){
-			for (Menus_Item permiso : listaPermisos){
-				http.authorizeRequests().
-						antMatchers(permiso.getMenu_link()+"*")
-						.access("hasAnyAuthority('"+permiso.getRef_security().toUpperCase()+"')");
+		List<Menus_Item> listaPermisos;
+
+		try
+		{
+			listaPermisos = permisosServices.findNavigationSystem();
+			if (listaPermisos!=null && !listaPermisos.isEmpty()){
+				for (Menus_Item permiso : listaPermisos){
+					http.authorizeRequests().
+							antMatchers(permiso.getMenu_link()+"*")
+							.access("hasAnyAuthority('"+permiso.getRef_security().toUpperCase()+"')");
+				}
 			}
+		}catch (ServiceException ex){
+			Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), "SecurityConfiguration", "Error configurando permisos", ex);
 		}
 
 		/*http.authorizeRequests().

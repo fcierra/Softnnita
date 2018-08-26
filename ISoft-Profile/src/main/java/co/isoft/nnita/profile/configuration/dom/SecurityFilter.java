@@ -90,7 +90,7 @@ public class SecurityFilter implements Filter
             // Enviar a la pagina de error.
             logger.error("Error al procesar una peticion", e);
             session.invalidate();
-            request.getRequestDispatcher(errorPage).forward(req, res);
+            request.getRequestDispatcher(EnumNavigationConfig.ERROR_PAGE.getPath()).forward(req, res);
         }
     }
 

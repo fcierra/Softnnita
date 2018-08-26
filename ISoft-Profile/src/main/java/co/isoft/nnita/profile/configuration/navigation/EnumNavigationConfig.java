@@ -13,8 +13,10 @@ package co.isoft.nnita.profile.configuration.navigation;
  */
 public enum EnumNavigationConfig
 {
-    LOGIN_PAGE("0", "index?faces-redirect=true", "/views/index.xhtml"),
-    WELCOME_PAGE("1", "welcome", "/views/sec/welcome.xhtml"),
+    LOGIN_PAGE("0", "index?faces-redirect=true", "index.jsf"),
+    WELCOME_PAGE("1", "welcome", "/secure/init/welcome.jsf"),
+    ERROR_PAGE("1", null, "/errorIsoftProfile.jsp"),
+    REDIRECT("1", null, "/redirectSession.jsp"),
     DONT_ACCESS("2", null, "");
     /**
      * Codigo de la navegacion

@@ -57,11 +57,13 @@ public class PermisosServiceImpl implements PermisosService
         try
         {
             List<Menus> listaMenus  = menusDao.getNavegacionPerfil(perfil);
-            if (listaMenus!=null && !listaMenus.isEmpty()){
-                for (Menus menu : listaMenus){
+            if (listaMenus!=null && !listaMenus.isEmpty())
+            {
+                for (Menus menu : listaMenus)
+                {
                     try
                     {
-                        menu.setItems(menusDao.getMenusItemPorMenuPadre(menu.getId()));
+                        menu.setItems(menusDao.getMenusItemPorMenuPadre(menu.getId(),perfil.getId()));
                     }catch (DaoException e){
                         String mensaje = "Error al obtener los items de: [" + menu.getMenu_label() + "]";
                         logger.error(mensaje, e);

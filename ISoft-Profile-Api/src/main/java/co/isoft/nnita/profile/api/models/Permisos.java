@@ -15,6 +15,7 @@ import java.io.Serializable;
  */
 @NamedQueries({
         @NamedQuery(name = "buscarPermisosUsuario", query = "from Permisos permiso where permiso.perfil.id =:PARAM_PERFIL and permiso.perfil.habilitado = 1"),
+        @NamedQuery(name = "buscarItemsNavegacionDisponiblesPerfil", query = "Select permiso.menuItem from Permisos permiso INNER JOIN permiso.menuItem item where permiso.perfil.id =:PARAM_PERFIL and item.habilitado = 1 and item.menu_padre.id=:PARAM_MENU_PADRE"),
 })
 @Entity
 @SequenceGenerator(name = "permisos-gen", sequenceName = "isoft_permisos_id_permisos_seq", initialValue = 1, allocationSize = 1)

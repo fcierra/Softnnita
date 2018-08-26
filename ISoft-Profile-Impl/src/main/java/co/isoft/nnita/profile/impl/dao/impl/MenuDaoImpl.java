@@ -24,11 +24,12 @@ public class MenuDaoImpl extends HibernateDaoImpl<Integer,Menus> implements Menu
 {
 
     @Override
-    public List<Menus_Item> getMenusItemPorMenuPadre(Long idPadre) throws DaoException
+    public List<Menus_Item> getMenusItemPorMenuPadre(Long idPadre,Long idPerfil) throws DaoException
     {
         Session session = this.getSession();
-        Query query = session.getNamedQuery("buscarMenuItemsPorMenu");
-        query.setParameter("PARAM_PADRE", idPadre);
+        Query query = session.getNamedQuery("buscarItemsNavegacionDisponiblesPerfil");
+        query.setParameter("PARAM_PERFIL", idPerfil);
+        query.setParameter("PARAM_MENU_PADRE", idPadre);
         List<Menus_Item> items = (List<Menus_Item>) query.list();
         return items;// OK
     }

@@ -17,10 +17,11 @@ public interface MenusDao extends HibernateDao<Menus, Long>
     /**
      * Obtiene los sub menus asociados a un menu padre
      * @param idPadre id del padre
+     * @param idPerfil id del perfil
      * @return Listado de items del menu
      * @throws DaoException Ocurre si falla la operacion
      */
-    public List<Menus_Item> getMenusItemPorMenuPadre(Long idPadre) throws DaoException;
+    public List<Menus_Item> getMenusItemPorMenuPadre(Long idPadre,Long idPerfil) throws DaoException;
 
     /**
      * Obtiene las navgeaciones disponibles para el cliente
