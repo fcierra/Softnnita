@@ -1,0 +1,3 @@
+
+/*Para buscar un errro especifico*/
+SHOW ENGINE INNODB STATUS;
