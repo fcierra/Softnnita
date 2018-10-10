@@ -4,10 +4,13 @@ co\isoft\nnita\profile\impl\dao\BitacoraDaoTest.class
 co\isoft\nnita\profile\impl\dao\UsuariosDaoTest.class
 co\isoft\nnita\profile\impl\dao\EntityDaoImplTest.class
 co\isoft\nnita\profile\configuration\HibernateTestConfigurationPostgres.class
+co\isoft\nnita\profile\services\LicenseISoftTest.class
 co\isoft\nnita\profile\impl\dao\MonedasDaoTest.class
 co\isoft\nnita\profile\configuration\HibernateTestConfiguration.class
+co\isoft\nnita\profile\impl\dao\PermisosDaoTest.class
 co\isoft\nnita\profile\impl\dao\EstilosDaoTest.class
 co\isoft\nnita\profile\impl\dao\PaisesDaoTest.class
 co\isoft\nnita\profile\impl\dao\ParametrosDaoTest.class
 co\isoft\nnita\profile\impl\dao\BancosDaoTest.class
 co\isoft\nnita\profile\impl\dao\EventosDaoTest.class
+co\isoft\nnita\profile\impl\dao\MenusDaoTest.class

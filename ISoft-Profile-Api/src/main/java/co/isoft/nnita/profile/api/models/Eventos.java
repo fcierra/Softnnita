@@ -34,7 +34,7 @@ public class Eventos implements Serializable, BusinessClass
     private String nombre_evento;
 
     @Column(name = "HABILITADO", nullable = false)
-    private int habilitado;
+    private Long habilitado;
 
     public Long getId()
     {
@@ -66,12 +66,12 @@ public class Eventos implements Serializable, BusinessClass
         this.nombre_evento = nombre_evento;
     }
 
-    public int getHabilitado()
+    public Long getHabilitado()
     {
         return habilitado;
     }
 
-    public void setHabilitado(int habilitado)
+    public void setHabilitado(Long habilitado)
     {
         this.habilitado = habilitado;
     }

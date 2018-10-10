@@ -49,6 +49,9 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
     @Qualifier("proxyUsuariosService")
     private UsuariosService userService;
 
+    /**
+     * Servicio de permisologias del sistema
+     */
     @Autowired
     private PermisosService permisosService;
 
@@ -89,16 +92,21 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
     private List<GrantedAuthority> getGrantedAuthorities(Usuarios user)
     {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        List<Permisos> listaPermisos =findPermisionUserAuthenticated(user.getPerfilDefault());
-
-        if (listaPermisos!=null && !listaPermisos.isEmpty()){
-            for(Permisos permiso : listaPermisos){
-                logger.info("Asignando permiso"+ permiso.getMenuItem().getRef_security());
-                authorities.add(new SimpleGrantedAuthority(permiso.getMenuItem().getRef_security().toUpperCase()));
-            }
-            //authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        boolean isAdmin = user.getPerfilDefault().getAdministrador()==1?true:false;
+        if (isAdmin){
+            authorities.add(new SimpleGrantedAuthority("ADMIN"));
         }else{
-            authorities.add(new SimpleGrantedAuthority("PERMISION_GUEST"));
+            List<Permisos> listaPermisos =findPermisionUserAuthenticated(user.getPerfilDefault());
+
+            if (listaPermisos!=null && !listaPermisos.isEmpty()){
+                for(Permisos permiso : listaPermisos){
+                    logger.info("Asignando permiso"+ permiso.getMenuItem().getRef_security());
+                    authorities.add(new SimpleGrantedAuthority(permiso.getMenuItem().getRef_security().toUpperCase()));
+                }
+                //authorities.add(new SimpleGrantedAuthority("ADMIN"));
+            }else{
+                authorities.add(new SimpleGrantedAuthority("GUEST"));
+            }
         }
         return authorities;
     }

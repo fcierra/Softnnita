@@ -71,7 +71,7 @@ public class BitacoraDaoTest extends EntityDaoImplTest
         bitacora.setFecha_registro(new Date());
         bitacora.setFecha_registro_segundos(new Date().getTime());
         bitacora.setIp("127.0.0.1");
-        bitacora.setHabilitado(1);
+        bitacora.setHabilitado(Long.valueOf(1));
         bitacora.setUsuario(usuario);
         bitacoraDao.agregar(bitacora);
 
@@ -100,7 +100,7 @@ public class BitacoraDaoTest extends EntityDaoImplTest
         bitacora.setFecha_registro(new Date());
         bitacora.setFecha_registro_segundos(new Date().getTime());
         bitacora.setIp("127.0.0.1");
-        bitacora.setHabilitado(1);
+        bitacora.setHabilitado(Long.valueOf(1));
         bitacora.setUsuario(usuario);
         bitacoraDao.agregar(bitacora);
 

@@ -53,7 +53,7 @@ public class ProfilerContextListener implements ServletContextListener
      */
     public void initConfProfiler(){
         this.log4jProperties = loadConfigLog("conf/log4j.properties");
-        initLog();
+        //initLog();
     }
 
     /**

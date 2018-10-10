@@ -36,7 +36,7 @@ public class PerfilesDaoTest extends EntityDaoImplTest
         Perfiles perfil = new Perfiles();
         perfil.setNombre_perfil("GENERAL");
         perfil.setAdministrador(1);
-        perfil.setHabilitado(1);
+        perfil.setHabilitado(new Long("1"));
         perfilesDao.agregar(perfil);
     }
 

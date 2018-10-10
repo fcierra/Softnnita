@@ -6,14 +6,13 @@ import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.services.UsuariosService;
-import co.isoft.nnita.profile.api.util.EnumErrorConfig;
+import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import co.isoft.nnita.profile.configuration.dom.ISesionActive;
 import co.isoft.nnita.profile.configuration.navigation.EnumNavigationConfig;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -85,7 +84,7 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
         String errorAuth = paramMap.get("error");
         if (errorAuth != null)
         {
-            String message = ISoftProfilerBaseBean.findMessage(EnumErrorConfig.PROFILER_USER_OR_PASS_DOES_NOT_EXIST.getRefbundle());
+            String message = ISoftProfilerBaseBean.findMessage(EstatusGenericos.PROFILER_USER_OR_PASS_DOES_NOT_EXIST.getRefbundle());
             addErrorMessage(message);
         }
     }

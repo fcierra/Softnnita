@@ -41,5 +41,4 @@ public interface PermisosService
      */
     public List<Menus_Item> findNavigationSystem() throws ServiceException;
 
-
 }

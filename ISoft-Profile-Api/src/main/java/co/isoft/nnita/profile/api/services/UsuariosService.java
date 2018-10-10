@@ -8,6 +8,7 @@ import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interfaz que expone los servicios del modelo de negocio
@@ -58,5 +59,28 @@ public interface UsuariosService
      * @throws ServiceException Excepcion que ocurre si falla la operacion.
      */
     public void changePassUser(Usuarios usuario,String nuevaClave) throws ServiceException;
+
+    /**
+     * Crea un usuario y le asocia perfiles
+     * @param usuario usuario a crear
+     * @param perfiles perfiles a asociar
+     * @throws ServiceException Ocurre si falla la operacion
+     */
+    public void createUserIsoftProfile(Usuarios usuario,Map<String ,Perfiles> perfiles) throws ServiceException;
+
+    /**
+     * Crea un usuario sin perfil
+     * @param usuario
+     * @throws ServiceException
+     */
+    public void createUserIsoftProfile(Usuarios usuario) throws ServiceException;
+
+    /**
+     * Agrega un listado de perfiles a un usuario indicado
+     * @param loginname nombre de usuario
+     * @param perfiles listado de perfiles
+     * @throws ServiceException Ocurre si falla la operacion.
+     */
+    public void addProfilesUser(String loginname, List<String> perfiles) throws ServiceException;
 
 }

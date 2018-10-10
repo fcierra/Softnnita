@@ -35,11 +35,30 @@ public class MenuDaoImpl extends HibernateDaoImpl<Integer,Menus> implements Menu
     }
 
     @Override
+    public List<Menus_Item> getMenusItemPorMenuPadreAdmin(Long idPadre) throws DaoException
+    {
+        Session session = this.getSession();
+        Query query = session.getNamedQuery("buscarItemsAdmin");
+        query.setParameter("PARAM_MENU_PADRE", idPadre);
+        List<Menus_Item> menus = (List<Menus_Item>) query.list();
+        return menus;// OK
+    }
+
+    @Override
     public List<Menus> getNavegacionPerfil(Perfiles perfil) throws DaoException
     {
         Session session = this.getSession();
         Query query = session.getNamedQuery("buscarNavegacionesPerfiles");
         query.setParameter("PARAM_PERFIL", perfil.getId());
+        List<Menus> menus = (List<Menus>) query.list();
+        return menus;// OK
+    }
+
+    @Override
+    public List<Menus> getNavegacionPerfilAdmin() throws DaoException
+    {
+        Session session = this.getSession();
+        Query query = session.getNamedQuery("buscarNavegacionesPerfilesAdmin");
         List<Menus> menus = (List<Menus>) query.list();
         return menus;// OK
     }

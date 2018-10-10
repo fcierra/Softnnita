@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementacion de servicios de consulta de usuarios a traves de LDAP
@@ -92,6 +93,24 @@ public class UsuariosServiceLdapImpl implements UsuariosService
 
     @Override
     public void changePassUser(Usuarios usuario, String nuevaClave) throws ServiceException
+    {
+
+    }
+
+    @Override
+    public void createUserIsoftProfile(Usuarios usuario, Map<String, Perfiles> perfiles) throws ServiceException
+    {
+
+    }
+
+    @Override
+    public void createUserIsoftProfile(Usuarios usuario) throws ServiceException
+    {
+
+    }
+
+    @Override
+    public void addProfilesUser(String loginname, List<String> perfiles) throws ServiceException
     {
 
     }

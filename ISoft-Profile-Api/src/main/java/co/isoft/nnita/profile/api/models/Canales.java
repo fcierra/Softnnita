@@ -34,7 +34,7 @@ public class Canales implements Serializable, BusinessClass
     private String nombre_canal;
 
     @Column(name = "HABILITADO", nullable = false)
-    private int habilitado;
+    private Long habilitado;
 
     public Long getId()
     {
@@ -66,12 +66,12 @@ public class Canales implements Serializable, BusinessClass
         this.nombre_canal = nombre_canal;
     }
 
-    public int getHabilitado()
+    public Long getHabilitado()
     {
         return habilitado;
     }
 
-    public void setHabilitado(int habilitado)
+    public void setHabilitado(Long habilitado)
     {
         this.habilitado = habilitado;
     }

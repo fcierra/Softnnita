@@ -35,7 +35,7 @@ public class CanalesDaoTest extends EntityDaoImplTest
         Canales canal = new Canales();
         canal.setCodigo_canal("APP");
         canal.setNombre_canal("APP MOVILES");
-        canal.setHabilitado(1);
+        canal.setHabilitado(new Long("1"));
         canalesDao.agregar(canal);
 
     }

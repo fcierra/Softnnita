@@ -33,7 +33,7 @@ public class Perfiles implements Serializable, BusinessClass
     private int administrador;
 
     @Column(name = "HABILITADO", nullable = false)
-    private int habilitado;
+    private Long habilitado;
 
     public Long getId()
     {
@@ -65,12 +65,12 @@ public class Perfiles implements Serializable, BusinessClass
         this.administrador = administrador;
     }
 
-    public int getHabilitado()
+    public Long getHabilitado()
     {
         return habilitado;
     }
 
-    public void setHabilitado(int habilitado)
+    public void setHabilitado(Long habilitado)
     {
         this.habilitado = habilitado;
     }

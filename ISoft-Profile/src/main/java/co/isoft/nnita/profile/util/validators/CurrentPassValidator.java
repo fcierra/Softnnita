@@ -3,7 +3,7 @@ package co.isoft.nnita.profile.util.validators;
 import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.services.UsuariosService;
-import co.isoft.nnita.profile.api.util.EnumErrorConfig;
+import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import co.isoft.nnita.profile.api.util.EnumServicesIsoftConfig;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
 import co.isoft.nnita.profile.util.SpringUtil;
@@ -66,7 +66,7 @@ public class CurrentPassValidator extends ISoftProfilerBaseBean implements Valid
         }
         catch (AuthenticationException e)
         {
-            String message = ISoftProfilerBaseBean.findMessageError(EnumErrorConfig.PROFILER_USER_CURRENT_PASS.getCode());
+            String message = ISoftProfilerBaseBean.findMessageError(EstatusGenericos.PROFILER_USER_CURRENT_PASS.getCode());
             addErrorMessageValidator(message);
             Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), "", "Error VALIDATOR validando la clave actual de usuario", e);
         }

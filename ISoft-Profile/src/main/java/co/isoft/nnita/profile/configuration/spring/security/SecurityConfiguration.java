@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,11 +63,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), "SecurityConfiguration", "Error configurando permisos", ex);
 		}
 
-		/*http.authorizeRequests().
-				antMatchers("/secure/profiler/profile_actividad.xhtml*")
-				.access("hasAnyAuthority('PROFILEBITACORA')");
-
-		*/
+		http.authorizeRequests().
+				antMatchers("/secure/profiler/profile_actividad.xhtml*",
+						"/secure/profiler/profile_misdatos.xhtml*",
+						"/secure/configuration/config_permisions.xhtml*",
+						"/secure/configuration/config_menus.xhtml*",
+						"/secure/gestion/usuarios/config_usuarios.xhtml*"
+						)
+				.access("hasAnyAuthority('ADMIN')");
 
 		http.authorizeRequests().
 				and().formLogin().  //login configuration
@@ -76,10 +80,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				passwordParameter("app_password").
 				defaultSuccessUrl("/secure/init/login.xhtml").
 				and().exceptionHandling().accessDeniedPage("/secure/init/denied.xhtml").
-				and().logout().    //logout configuration
+				and().logout().deleteCookies("JSESSIONID").    //logout configuration
 				logoutUrl("/appLogout").
 				invalidateHttpSession(true).
-				logoutSuccessUrl("/index.xhtml");
+				logoutSuccessUrl("/index.xhtml").
+				and()
+				.sessionManagement()
+				.sessionFixation().migrateSession()
+				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+				.invalidSessionUrl("/index.xhtml")
+				.maximumSessions(1)
+				.expiredUrl("/index.xhtml");
+		;
 
 		http
 				.csrf().disable();

@@ -15,7 +15,8 @@ import java.io.Serializable;
  */
 
 @NamedQueries({
-        @NamedQuery(name = "buscarNavegacionesPerfiles", query = "Select menuperfil.menu from MenuPerfiles menuperfil INNER JOIN menuperfil.menu where menuperfil.perfil.id =:PARAM_PERFIL AND menuperfil.menu.habilitado = 1")
+        @NamedQuery(name = "buscarNavegacionesPerfiles", query = "Select menuperfil.menu from MenuPerfiles menuperfil INNER JOIN menuperfil.menu where menuperfil.perfil.id =:PARAM_PERFIL AND menuperfil.menu.habilitado = 1"),
+        @NamedQuery(name = "buscarNavegacionesPerfilesAdmin", query = "Select menuperfil.menu from MenuPerfiles menuperfil group by menuperfil.menu.id")
 })
 @Entity
 @SequenceGenerator(name = "menu-perfil-gen", sequenceName = "isoft_menu_perfil_id_menu_perfil_seq", initialValue = 1, allocationSize = 1)

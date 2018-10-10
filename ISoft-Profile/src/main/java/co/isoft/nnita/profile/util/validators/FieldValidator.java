@@ -1,6 +1,6 @@
 package co.isoft.nnita.profile.util.validators;
 
-import co.isoft.nnita.profile.api.util.EnumErrorConfig;
+import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
 
 import javax.faces.component.UIComponent;
@@ -27,7 +27,7 @@ public class FieldValidator extends ISoftProfilerBaseBean implements Validator
         String password = uiInputConfirmPassword.getSubmittedValue().toString();
         if ((field == null || field.equals("")) || (password == null || password.equals("")))
         {
-            String message = ISoftProfilerBaseBean.findMessage(EnumErrorConfig.PROFILER_GENERIC_ERROR_FIELD_REQUIRED.getRefbundle());
+            String message = ISoftProfilerBaseBean.findMessage(EstatusGenericos.PROFILER_GENERIC_ERROR_FIELD_REQUIRED.getRefbundle());
             addErrorMessageValidator(message);
         }
     }

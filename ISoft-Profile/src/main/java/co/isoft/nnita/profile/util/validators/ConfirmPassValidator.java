@@ -1,6 +1,6 @@
 package co.isoft.nnita.profile.util.validators;
 
-import co.isoft.nnita.profile.api.util.EnumErrorConfig;
+import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
 
 import javax.faces.component.UIComponent;
@@ -30,7 +30,7 @@ public class ConfirmPassValidator extends ISoftProfilerBaseBean implements Valid
         if ((newpass != null && !newpass.trim().equals("")) && (confirmpass != null && !confirmpass.trim().equals("")))
         {
             if (!newpass.equals(confirmpass)){
-                String message = ISoftProfilerBaseBean.findMessageError(EnumErrorConfig.PROFILER_USER_CONFIRM_PASS.getCode());
+                String message = ISoftProfilerBaseBean.findMessageError(EstatusGenericos.PROFILER_USER_CONFIRM_PASS.getCode());
                 addErrorMessageValidator(message);
             }
         }

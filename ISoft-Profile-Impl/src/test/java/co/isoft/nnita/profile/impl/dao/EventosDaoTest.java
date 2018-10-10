@@ -35,7 +35,7 @@ public class EventosDaoTest extends EntityDaoImplTest
         Eventos evento = new Eventos();
         evento.setCodigo_evento("INICIO-SESION");
         evento.setNombre_evento("Inicio de Sesion");
-        evento.setHabilitado(1);
+        evento.setHabilitado(new Long("1"));
         eventosDao.agregar(evento);
     }
 

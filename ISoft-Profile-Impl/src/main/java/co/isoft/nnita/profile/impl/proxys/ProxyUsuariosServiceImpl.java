@@ -1,15 +1,16 @@
 package co.isoft.nnita.profile.impl.proxys;
 
-
-import co.isoft.nnita.profile.api.models.*;
+import co.isoft.nnita.profile.api.dao.ParametrosDao;
+import co.isoft.nnita.profile.api.dao.UsuariosDao;
+import co.isoft.nnita.profile.api.exceptions.DaoException;
+import co.isoft.nnita.profile.api.exceptions.ServiceException;
+import co.isoft.nnita.profile.api.models.Parametros;
+import co.isoft.nnita.profile.api.models.Perfiles;
+import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ContextProvider;
-import co.isoft.nnita.profile.api.exceptions.DaoException;
-import co.isoft.nnita.profile.api.dao.ParametrosDao;
-import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ServicesReferencesMapping;
-import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Proxy de consulta de los servicios de usuarios.
@@ -100,9 +102,9 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public DatosSesionUsuario validateUser(String login,String clave) throws ServiceException
+    public DatosSesionUsuario validateUser(String login, String clave) throws ServiceException
     {
-        return getUsuariosService().validateUser(login,clave);
+        return getUsuariosService().validateUser(login, clave);
     }
 
     @Override
@@ -121,12 +123,30 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     @Override
     public boolean validateCurrentPassUser(Usuarios usuario, String claveActual) throws ServiceException
     {
-        return getUsuariosService().validateCurrentPassUser(usuario,claveActual);
+        return getUsuariosService().validateCurrentPassUser(usuario, claveActual);
     }
 
     @Override
     public void changePassUser(Usuarios usuario, String nuevaClave) throws ServiceException
     {
-        getUsuariosService().changePassUser(usuario,nuevaClave);
+        getUsuariosService().changePassUser(usuario, nuevaClave);
+    }
+
+    @Override
+    public void createUserIsoftProfile(Usuarios usuario, Map<String, Perfiles> perfiles) throws ServiceException
+    {
+        getUsuariosService().createUserIsoftProfile(usuario, perfiles);
+    }
+
+    @Override
+    public void createUserIsoftProfile(Usuarios usuario) throws ServiceException
+    {
+        getUsuariosService().createUserIsoftProfile(usuario);
+    }
+
+    @Override
+    public void addProfilesUser(String loginname, List<String> perfiles) throws ServiceException
+    {
+        getUsuariosService().addProfilesUser(loginname, perfiles);
     }
 }

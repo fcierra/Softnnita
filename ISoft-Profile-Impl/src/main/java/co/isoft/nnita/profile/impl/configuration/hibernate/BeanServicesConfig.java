@@ -1,15 +1,19 @@
 package co.isoft.nnita.profile.impl.configuration.hibernate;
 
 
+import co.isoft.nnita.profile.api.services.BitacoraService;
 import co.isoft.nnita.profile.api.services.PermisosService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ServicesReferencesMapping;
 import co.isoft.nnita.profile.impl.proxys.ProxyUsuariosServiceImpl;
+import co.isoft.nnita.profile.impl.service.BitacoraServiceImpl;
 import co.isoft.nnita.profile.impl.service.PermisosServiceImpl;
 import co.isoft.nnita.profile.impl.service.UsuariosServiceImpl;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 /**
  * En esta clase se definen los bean de servicios
@@ -36,6 +40,16 @@ public class BeanServicesConfig
     }
 
     /**
+     * Bean de configuracion de servicios del sistema de auditorias
+     * @return
+     */
+    @Bean
+    public BitacoraService bitacoraServiceImpl()
+    {
+        return new BitacoraServiceImpl();
+    }
+
+    /**
      * Bean que las operaciones principales de usuarios.
      *
      * @return Bean original de implementacion
@@ -43,7 +57,7 @@ public class BeanServicesConfig
     @Bean
     public UsuariosService usuariosServiceImpl()
     {
-        return new UsuariosServiceImpl();
+        return new UsuariosServiceImpl(bitacoraServiceImpl());
     }
 
     /**
@@ -56,6 +70,12 @@ public class BeanServicesConfig
         return new PermisosServiceImpl();
     }
 
+    @Bean
+    public MessageSource messageSource () {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("messages");
+        return messageSource;
+    }
 
     /**
      * Bean con el listado de mapeo de los servicio de referencias de usuarios

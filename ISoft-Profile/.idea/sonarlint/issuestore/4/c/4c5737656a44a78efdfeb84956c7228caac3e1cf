@@ -1,6 +1,0 @@
-
-^squid:S1854"BRemove this useless assignment to local variable "authentication".(΅””8”«ΣυΜ,
-wsquid:S1450"[Remove the "userServices" field and declare it as a local variable in the relevant methods.(³ξέ 8”«ΣυΜ,
-Lsquid:S1068"0Remove this unused "userServices" private field.(³ξέ 8”«ΣυΜ,
-Osquid:S1481"3Remove this unused "authentication" local variable.(΅””8”«ΣυΜ,
-©%squid:RedundantThrowsDeclarationCheck"sRemove the declaration of thrown exception 'javax.faces.validator.ValidatorException' which is a runtime exception.(¤¥ΐ¥8”«ΣυΜ,

@@ -2,7 +2,6 @@ package co.isoft.nnita.profile.api.models;
 
 import co.isoft.nnita.profile.api.dao.BusinessClass;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -39,7 +38,6 @@ public class Bitacora implements Serializable, BusinessClass
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private Usuarios usuario;
 
-
     @Column(name = "FECHA_REGISTRO")
     private Date fecha_registro;
 
@@ -51,7 +49,7 @@ public class Bitacora implements Serializable, BusinessClass
     private String ip;
 
     @Column(name = "HABILITADO", nullable = false)
-    private int habilitado;
+    private Long habilitado;
 
     public Long getId()
     {
@@ -123,12 +121,12 @@ public class Bitacora implements Serializable, BusinessClass
         this.ip = ip;
     }
 
-    public int getHabilitado()
+    public Long getHabilitado()
     {
         return habilitado;
     }
 
-    public void setHabilitado(int habilitado)
+    public void setHabilitado(Long habilitado)
     {
         this.habilitado = habilitado;
     }

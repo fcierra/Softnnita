@@ -15,5 +15,10 @@ import java.util.List;
 public interface MenusItemDao extends HibernateDao<Menus_Item, Long>
 {
 
+    /**
+     * Busca los items disponibles en el sistema para los usuarios
+     * @return items de navegacion del sistema
+     * @throws DaoException Ocurre si falla la operacion
+     */
     public List<Menus_Item> getItemsDeSistema() throws DaoException;
 }

@@ -24,12 +24,27 @@ public interface MenusDao extends HibernateDao<Menus, Long>
     public List<Menus_Item> getMenusItemPorMenuPadre(Long idPadre,Long idPerfil) throws DaoException;
 
     /**
+     * Listado de menues para el administrador
+     * @param idPadre id del padre
+     * @return listado de items del sistema
+     * @throws DaoException sucede si falla la operacion
+     */
+    public List<Menus_Item> getMenusItemPorMenuPadreAdmin(Long idPadre) throws DaoException;
+
+    /**
      * Obtiene las navgeaciones disponibles para el cliente
      * @param perfil perfil a buscar
      * @return listado de menus disponibles
      * @throws DaoException Ocurre si falla la operacion
      */
     public List<Menus> getNavegacionPerfil(Perfiles perfil) throws DaoException;
+
+    /**
+     * Busca los elementos del usuarios administrador
+     * @return Listado de todos los menus
+     * @throws DaoException
+     */
+    public List<Menus> getNavegacionPerfilAdmin() throws DaoException;
 
     /**
      * Busca los permisos a los que puede accceder el perfil indicado.

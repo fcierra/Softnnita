@@ -14,7 +14,9 @@ import java.io.Serializable;
  * @author Yaher Carrillo
  * @Date 07/08/2018
  */
-@NamedQueries({ @NamedQuery(name = "buscarMenuItemsPorMenu", query = "from Menus_Item item where item.menu_padre.id =:PARAM_PADRE and item.habilitado = 1"),
+@NamedQueries({
+                @NamedQuery(name = "buscarMenuItemsPorMenu", query = "from Menus_Item item where item.menu_padre.id =:PARAM_PADRE and item.habilitado = 1"),
+                @NamedQuery(name = "buscarItemsAdmin", query = "from Menus_Item item where item.menu_padre.id=:PARAM_MENU_PADRE"),
                 @NamedQuery(name = "buscarItemsDeSistema", query = "from Menus_Item item where menu_padre.habilitado = 1 and item.habilitado = 1") })
 @Entity
 @SequenceGenerator(name = "menu-item-gen", sequenceName = "isoft_menu_id_item_menu_item_seq", initialValue = 1, allocationSize = 1)

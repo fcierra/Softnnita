@@ -23,7 +23,23 @@
         </ui:define>
 
         <ui:define name="content">
-            DENEGADO
+            <section class="content">
+                <div class="error-page">
+                    <h2 class="headline text-danger">#{msg['messages.info.denied.title']}</h2>
+
+                    <div class="error-content">
+                        <h3><i class="fa fa-warning text-danger"></i> #{msg['messages.info.denied.label01']}</h3>
+
+                        <p>
+                            #{msg['messages.info.denied.label02']} <a href="../../index.html">#{msg['messages.info.denied.label03']}</a> #{msg['messages.info.denied.label04']}
+                        </p>
+
+
+                    </div>
+                </div>
+                <!-- /.error-page -->
+
+            </section>
         </ui:define>
 
     </ui:composition>

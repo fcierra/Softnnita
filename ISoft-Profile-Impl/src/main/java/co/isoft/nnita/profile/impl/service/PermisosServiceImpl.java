@@ -10,7 +10,7 @@ import co.isoft.nnita.profile.api.models.Menus_Item;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.services.PermisosService;
-import co.isoft.nnita.profile.api.util.EnumErrorConfig;
+import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,21 +56,42 @@ public class PermisosServiceImpl implements PermisosService
     {
         try
         {
-            List<Menus> listaMenus  = menusDao.getNavegacionPerfil(perfil);
-            if (listaMenus!=null && !listaMenus.isEmpty())
-            {
-                for (Menus menu : listaMenus)
+            boolean isAdmin = perfil.getAdministrador()==1?true:false;
+            List<Menus> listaMenus;
+            if (isAdmin){
+                listaMenus  = menusDao.getNavegacionPerfilAdmin();
+                if (listaMenus!=null && !listaMenus.isEmpty())
                 {
-                    try
+                    for (Menus menu : listaMenus)
                     {
-                        menu.setItems(menusDao.getMenusItemPorMenuPadre(menu.getId(),perfil.getId()));
-                    }catch (DaoException e){
-                        String mensaje = "Error al obtener los items de: [" + menu.getMenu_label() + "]";
-                        logger.error(mensaje, e);
+                        try
+                        {
+                            menu.setItems(menusDao.getMenusItemPorMenuPadreAdmin(menu.getId()));
+                        }catch (DaoException e){
+                            String mensaje = "Error al obtener los items Administrador de: [" + menu.getMenu_label() + "]";
+                            logger.error(mensaje, e);
+                        }
                     }
+                    return listaMenus;
                 }
-                return listaMenus;
+            }else{
+                listaMenus  = menusDao.getNavegacionPerfil(perfil);
+                if (listaMenus!=null && !listaMenus.isEmpty())
+                {
+                    for (Menus menu : listaMenus)
+                    {
+                        try
+                        {
+                            menu.setItems(menusDao.getMenusItemPorMenuPadre(menu.getId(),perfil.getId()));
+                        }catch (DaoException e){
+                            String mensaje = "Error al obtener los items de: [" + menu.getMenu_label() + "]";
+                            logger.error(mensaje, e);
+                        }
+                    }
+                    return listaMenus;
+                }
             }
+
         }
         catch (DaoException e)
         {
@@ -92,7 +113,7 @@ public class PermisosServiceImpl implements PermisosService
                 return lista;
             }
             else
-                throw new DaoException(EnumErrorConfig.PROFILER_USER_PROFILE_DONT_PERMISION.getCode());
+                throw new DaoException(EstatusGenericos.PROFILER_USER_PROFILE_DONT_PERMISION.getCode());
         }
         catch (DaoException e)
         {
@@ -116,5 +137,7 @@ public class PermisosServiceImpl implements PermisosService
             throw new ServiceException(mensaje, e);
         }
     }
+
+
 
 }
