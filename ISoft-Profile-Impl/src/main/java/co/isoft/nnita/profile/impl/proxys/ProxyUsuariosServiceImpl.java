@@ -8,6 +8,7 @@ import co.isoft.nnita.profile.api.models.Parametros;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
+import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ContextProvider;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ServicesReferencesMapping;
@@ -142,6 +143,12 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     public void createUserIsoftProfile(Usuarios usuario) throws ServiceException
     {
         getUsuariosService().createUserIsoftProfile(usuario);
+    }
+
+    @Override
+    public void createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    {
+        getUsuariosService().createUsersMassiveIsoftProfile(passord, listUsers);
     }
 
     @Override

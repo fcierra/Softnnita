@@ -7,6 +7,7 @@ import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
+import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import org.apache.commons.logging.Log;
@@ -105,6 +106,12 @@ public class UsuariosServiceLdapImpl implements UsuariosService
 
     @Override
     public void createUserIsoftProfile(Usuarios usuario) throws ServiceException
+    {
+
+    }
+
+    @Override
+    public void createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
 
     }

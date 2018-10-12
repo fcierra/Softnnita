@@ -1,11 +1,10 @@
 package co.isoft.nnita.profile.api.services;
 
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
-import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Perfiles;
-import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
+import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 
 import java.util.List;
 import java.util.Map;
@@ -74,6 +73,14 @@ public interface UsuariosService
      * @throws ServiceException
      */
     public void createUserIsoftProfile(Usuarios usuario) throws ServiceException;
+
+    /**
+     * Crea usuarios de forma masiva
+     * @param passord clave de todos los usuarios
+     * @param listUsers usuarios y perfiles a crear
+     * @throws ServiceException
+     */
+    public void createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException;
 
     /**
      * Agrega un listado de perfiles a un usuario indicado

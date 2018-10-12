@@ -7,6 +7,7 @@ import co.isoft.nnita.profile.api.gateways.ParamsException;
 import co.isoft.nnita.profile.api.gateways.models.CommonsResponse;
 import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestAddProfileUser;
 import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUserISoftProfile;
+import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUsersMassiveISoftProfile;
 import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.services.UsuariosService;
@@ -87,6 +88,39 @@ public class GatewayServicesUsers
             Usuarios user = GatewayBaseBean.clonUsersRequest(request);
             //Crea un usuario sin perfil, no puedra ingresar
             userServices.createUserIsoftProfile(user);
+        }
+        catch (ParamsException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            return response;
+        }
+        catch (ServiceException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(),message, EstatusGenericos.WARN.getCode());
+            return response;
+        }
+        catch (Exception ex)
+        {
+            GatewayBaseBean.matchToResponses(response);
+            return response;
+        }
+        return response.toOk();
+    }
+
+
+    @RequestMapping(value = "/crearusuariosisoftmasivo", method = RequestMethod.POST)
+    public CommonsResponse crearusuarioisoftmasivo(@RequestParam String sharedkey, @RequestBody RequestNewUsersMassiveISoftProfile request)
+    {
+        CommonsResponse response = new CommonsResponse();
+        try
+        {
+            GatewayBaseBean.validarParametrosGenericos(request.getPassword());
+            //Crea un usuario sin perfil, no puedra ingresar
+            userServices.createUsersMassiveIsoftProfile(request.getPassword(),request.getUsuariosYPerfil());
         }
         catch (ParamsException ex)
         {

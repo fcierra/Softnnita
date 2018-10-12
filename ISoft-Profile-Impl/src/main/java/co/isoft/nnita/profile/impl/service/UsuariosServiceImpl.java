@@ -9,8 +9,10 @@ import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.UsuarioPerfil;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
+import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import co.isoft.nnita.profile.api.services.BitacoraService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
+import co.isoft.nnita.profile.api.util.ConstantesBaseBean;
 import co.isoft.nnita.profile.api.util.EnumCanalesISoft;
 import co.isoft.nnita.profile.api.util.EnumFuncionalityISoft;
 import co.isoft.nnita.profile.api.util.EstatusGenericos;
@@ -235,6 +237,71 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         catch (DaoException e)
         {
             String mensaje = "Error al crear usuario [" + usuario.getLogin() + "]";
+            logger.error(mensaje, e);
+            throw new ServiceException(e.getMessage(), e, e.getCode());
+        }
+    }
+
+    @Override
+    public void createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    {
+        try
+        {
+            for (UsuarioPerfilMassive item : listUsers){
+                Usuarios userExiste = usuariosDao.getUsuarioPorLogin(item.getLoginname());
+                if (userExiste == null){
+                    userExiste = new Usuarios();
+                    userExiste.setLogin(item.getLoginname());
+                    userExiste.setNombres(item.getNames()!=null && !item.getNames().trim().equals("")?item.getNames():ConstantesBaseBean.EMPTY);
+                    userExiste.setApellidos(item.getLastname()!=null && !item.getLastname().trim().equals("")?item.getLastname():ConstantesBaseBean.EMPTY);
+                    userExiste.setClave(passord);
+                    userExiste.setFecha_registro(new Date());
+                    userExiste.setHabilitado(new Long("1"));
+                    convertAtrrUppercase(userExiste);
+                    usuariosDao.agregar(userExiste);
+                    logger.error("Se agrega al usuario ["+userExiste.getLogin()+"]");
+                    //Se realiza la auditoria de la operacion
+                    bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.WEB, new Usuarios());
+
+                    Perfiles perfil = new Perfiles();
+                    /**
+                     * Todo: si el perfil no vienem
+                     * crear y asociar un perfil guest por defecto,
+                     * para que al menos el usaurio pueda ingrear a la aplicacion
+                     * con los permisos basicos.
+                     */
+                    perfil.setNombre_perfil(item.getCodeperfil());
+                    perfil = perfilesDao.buscarObjetoUnico(perfil);
+
+                    //Transformar todos los string en mayusculas
+                    if (perfil != null)
+                    {
+                        convertAtrrUppercase(perfil);
+
+                        //Se crea la relacion
+                        UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
+                        usuarioPerfil.setUsuario(userExiste);
+                        usuarioPerfil.setPerfil(perfil);
+                        usuarioPerfil.setHabilitado(new Long("1"));
+
+                        //Se agrega la relacion
+                        UsuarioPerfil usuarioPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
+                        logger.debug("Se agrega el perfil: [" + item.getCodeperfil() + "] al usuario [" + item.getLoginname() + "]");
+                        if (usuarioPerfilExist==null)
+                            usuarioPerfilDao.agregar(usuarioPerfil);
+                        else
+                            logger.debug("Se repite relacion: [" + item.getCodeperfil() + "] al usuario [" + item.getLoginname() + "], no se agrega nuevamente");
+                    }
+                    else
+                    {
+                        logger.debug("El perfil: [" + item.getCodeperfil() + "] no se agrega por que no existe");
+                    }
+                }
+            }
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error al crear usuarios masivos";
             logger.error(mensaje, e);
             throw new ServiceException(e.getMessage(), e, e.getCode());
         }
