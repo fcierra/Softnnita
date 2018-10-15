@@ -80,7 +80,7 @@ public interface UsuariosService
      * @param listUsers usuarios y perfiles a crear
      * @throws ServiceException
      */
-    public void createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException;
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException;
 
     /**
      * Agrega un listado de perfiles a un usuario indicado

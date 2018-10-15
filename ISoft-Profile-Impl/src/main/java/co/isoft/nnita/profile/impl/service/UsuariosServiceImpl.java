@@ -23,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -230,7 +230,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             convertAtrrUppercase(usuario);
             //Agrega al usuario en bdd
             usuariosDao.agregar(usuario);
-            logger.error("Se agrega al usuario ["+usuario.getLogin()+"]");
+            logger.error("Se agrega al usuario [" + usuario.getLogin() + "]");
             //Se realiza la auditoria de la operacion
             bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.WEB, new Usuarios());
         }
@@ -243,60 +243,102 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public void createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
+        /**
+         * Todo: ajustar los elementos de bitacora para cada tipo de insercion.
+         */
+        List<UsuarioPerfilMassive> listResponse = new ArrayList<>();
         try
         {
-            for (UsuarioPerfilMassive item : listUsers){
+            for (UsuarioPerfilMassive item : listUsers)
+            {
                 Usuarios userExiste = usuariosDao.getUsuarioPorLogin(item.getLoginname());
-                if (userExiste == null){
+
+                //Se crea la respuesta de la lista
+                UsuarioPerfilMassive usuarioCreado = new UsuarioPerfilMassive();
+                usuarioCreado.setLoginname(item.getLoginname());
+
+                if (userExiste == null)
+                {
                     userExiste = new Usuarios();
                     userExiste.setLogin(item.getLoginname());
-                    userExiste.setNombres(item.getNames()!=null && !item.getNames().trim().equals("")?item.getNames():ConstantesBaseBean.EMPTY);
-                    userExiste.setApellidos(item.getLastname()!=null && !item.getLastname().trim().equals("")?item.getLastname():ConstantesBaseBean.EMPTY);
+                    userExiste.setNombres(item.getNames() != null && !item.getNames().trim().equals("") ? item.getNames() : ConstantesBaseBean.EMPTY);
+                    userExiste.setApellidos(item.getLastname() != null && !item.getLastname().trim().equals("") ? item.getLastname() : ConstantesBaseBean.EMPTY);
+                    //Se encripta la clave
+                    passord = passwordEncoder.encode(passord);
                     userExiste.setClave(passord);
                     userExiste.setFecha_registro(new Date());
                     userExiste.setHabilitado(new Long("1"));
                     convertAtrrUppercase(userExiste);
                     usuariosDao.agregar(userExiste);
-                    logger.error("Se agrega al usuario ["+userExiste.getLogin()+"]");
+                    logger.error("Se agrega al usuario [" + userExiste.getLogin() + "]");
+
                     //Se realiza la auditoria de la operacion
                     bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.WEB, new Usuarios());
 
                     Perfiles perfil = new Perfiles();
-                    /**
-                     * Todo: si el perfil no vienem
-                     * crear y asociar un perfil guest por defecto,
-                     * para que al menos el usaurio pueda ingrear a la aplicacion
-                     * con los permisos basicos.
-                     */
                     perfil.setNombre_perfil(item.getCodeperfil());
                     perfil = perfilesDao.buscarObjetoUnico(perfil);
 
                     //Transformar todos los string en mayusculas
+                    UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
                     if (perfil != null)
                     {
                         convertAtrrUppercase(perfil);
 
-                        //Se crea la relacion
-                        UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
                         usuarioPerfil.setUsuario(userExiste);
                         usuarioPerfil.setPerfil(perfil);
                         usuarioPerfil.setHabilitado(new Long("1"));
 
-                        //Se agrega la relacion
+                        //Se busca si la relacion no existe
                         UsuarioPerfil usuarioPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
                         logger.debug("Se agrega el perfil: [" + item.getCodeperfil() + "] al usuario [" + item.getLoginname() + "]");
-                        if (usuarioPerfilExist==null)
+                        if (usuarioPerfilExist == null)
+                        {
+                            //Se agrega la relacion.
                             usuarioPerfilDao.agregar(usuarioPerfil);
-                        else
-                            logger.debug("Se repite relacion: [" + item.getCodeperfil() + "] al usuario [" + item.getLoginname() + "], no se agrega nuevamente");
+
+                            //Se indica que el usuario se agrego satisfactoriamente en su creacion y su perfil
+                            usuarioCreado.setCodeperfil(perfil.getNombre_perfil());
+                            usuarioCreado.setDescription("Se agrega el elemento");
+                        }
                     }
                     else
                     {
-                        logger.debug("El perfil: [" + item.getCodeperfil() + "] no se agrega por que no existe");
+                        perfil = new Perfiles();
+                        perfil.setNombre_perfil(ConstantesBaseBean.GUEST);
+                        perfil = perfilesDao.buscarObjetoUnico(perfil);
+                        if (perfil == null)
+                            throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
+                        else
+                        {
+                            usuarioPerfil.setUsuario(userExiste);
+                            usuarioPerfil.setPerfil(perfil);
+                            usuarioPerfil.setHabilitado(new Long("1"));
+                            //Se busca si la relacion no existe
+                            UsuarioPerfil usuarioPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
+                            logger.debug("Se agrega el perfil: [" + item.getCodeperfil() + "] al usuario [" + item.getLoginname() + "]");
+                            if (usuarioPerfilExist == null)
+                            {
+                                //Se agrega la relacion.
+                                usuarioPerfilDao.agregar(usuarioPerfil);
+
+                                //Se asocia el perfil por defecto
+                                usuarioCreado.setCodeperfil(ConstantesBaseBean.GUEST);
+                                usuarioCreado.setDescription("Se agrega el elemento con el perfil por defecto, el perfil indicado no existia");
+                            }
+                        }
+
                     }
                 }
+                else
+                {
+                    usuarioCreado.setCodeperfil(ConstantesBaseBean.EMPTY);
+                    usuarioCreado.setDescription("El usuario ya existe");
+                }
+                //Se agrega al item como respuesta
+                listResponse.add(usuarioCreado);
             }
         }
         catch (DaoException e)
@@ -305,6 +347,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             logger.error(mensaje, e);
             throw new ServiceException(e.getMessage(), e, e.getCode());
         }
+        return listResponse;
     }
 
     @Override
@@ -339,7 +382,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                     //Se agrega la relacion
                     UsuarioPerfil usuarioPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
                     logger.debug("Se agrega el perfil: [" + itemperfil + "] al usuario [" + loginname + "]");
-                    if (usuarioPerfilExist==null)
+                    if (usuarioPerfilExist == null)
                         usuarioPerfilDao.agregar(usuarioPerfil);
                     else
                         logger.debug("Se repite relacion: [" + itemperfil + "] al usuario [" + loginname + "], no se agrega nuevamente");

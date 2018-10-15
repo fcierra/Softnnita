@@ -8,7 +8,8 @@ package co.isoft.nnita.profile.api.util;
 public enum EnumFuncionalityISoft
 {
 
-    FUNCIONALIDAD_CREAR_USUARIO("crear.usuarios", "Creacion de Usuarios ISoft"),;
+    FUNCIONALIDAD_CREAR_USUARIO("crear.usuarios", "Creacion de Usuarios ISoft"),
+    FUNCIONALIDAD_ASOCIAR_PERFIL("asociar.perfil", "Asociar Perfiles"),;
 
 
     private String codigo;

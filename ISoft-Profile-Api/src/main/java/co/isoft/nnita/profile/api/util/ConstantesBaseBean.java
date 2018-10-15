@@ -17,4 +17,8 @@ public abstract class ConstantesBaseBean
      * Valor vacios para cadenas de datios incompletas
      */
     public static String EMPTY= "EMPTY";
+    /**
+     * Perfil por defecto de la aplicacion.
+     */
+    public static String GUEST= "GUEST";
 }

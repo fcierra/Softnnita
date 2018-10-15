@@ -111,9 +111,9 @@ public class UsuariosServiceLdapImpl implements UsuariosService
     }
 
     @Override
-    public void createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
-
+        return null;
     }
 
     @Override

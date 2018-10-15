@@ -146,9 +146,9 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public void createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
-        getUsuariosService().createUsersMassiveIsoftProfile(passord, listUsers);
+        return getUsuariosService().createUsersMassiveIsoftProfile(passord, listUsers);
     }
 
     @Override

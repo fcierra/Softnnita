@@ -8,8 +8,10 @@ import co.isoft.nnita.profile.api.gateways.models.CommonsResponse;
 import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestAddProfileUser;
 import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUserISoftProfile;
 import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUsersMassiveISoftProfile;
+import co.isoft.nnita.profile.api.gateways.models.response.ResponseCreateUsersMassive;
 import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
 import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -120,7 +123,8 @@ public class GatewayServicesUsers
         {
             GatewayBaseBean.validarParametrosGenericos(request.getPassword());
             //Crea un usuario sin perfil, no puedra ingresar
-            userServices.createUsersMassiveIsoftProfile(request.getPassword(),request.getUsuariosYPerfil());
+            List<UsuarioPerfilMassive> list = userServices.createUsersMassiveIsoftProfile(request.getPassword(),request.getUsuariosYPerfil());
+            response.setResponse(list);
         }
         catch (ParamsException ex)
         {
@@ -141,7 +145,8 @@ public class GatewayServicesUsers
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
-        return response.toOk();
+        response.toOk();
+        return response;
     }
 
     @RequestMapping(value = "/asociarperfilusuario", method = RequestMethod.POST)

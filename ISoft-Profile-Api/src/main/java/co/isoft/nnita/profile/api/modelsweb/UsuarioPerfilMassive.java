@@ -14,7 +14,7 @@ public class UsuarioPerfilMassive
      */
     private String loginname;
     /**
-     *Nombres de usuario
+     * Nombres de usuario
      */
     private String names;
     /**
@@ -25,6 +25,10 @@ public class UsuarioPerfilMassive
      * Perfil del usuario masivo a crear
      */
     private String codeperfil;
+    /**
+     * Descripcion de las respuesta de response
+     */
+    private String description;
 
     /**
      * Obtienen el loginname del usuario masivo a crear
@@ -70,6 +74,7 @@ public class UsuarioPerfilMassive
 
     /**
      * Obtiene los nombres del usuario
+     *
      * @return
      */
     public String getNames()
@@ -79,6 +84,7 @@ public class UsuarioPerfilMassive
 
     /**
      * Asigna un valor a los nombres al item
+     *
      * @param names valor a asignar
      */
     public void setNames(String names)
@@ -88,6 +94,7 @@ public class UsuarioPerfilMassive
 
     /**
      * Obtiene el apellido del usuario
+     *
      * @return apellido a usar
      */
     public String getLastname()
@@ -97,10 +104,32 @@ public class UsuarioPerfilMassive
 
     /**
      * Asigna un valor a los apellidos del usuario
+     *
      * @param lastname valor a asignar
      */
     public void setLastname(String lastname)
     {
         this.lastname = lastname;
+    }
+
+    /**
+     * Obtiene la descripcion de las respuestas
+     * rest
+     *
+     * @return descripcion de las respuestas
+     */
+    public String getDescription()
+    {
+        return description;
+    }
+
+    /**
+     * Asigna un valor a la descripcion
+     *
+     * @param description valor a asignar.
+     */
+    public void setDescription(String description)
+    {
+        this.description = description;
     }
 }
