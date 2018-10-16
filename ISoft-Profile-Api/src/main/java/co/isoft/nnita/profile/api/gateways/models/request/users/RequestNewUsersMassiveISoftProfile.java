@@ -1,6 +1,5 @@
 package co.isoft.nnita.profile.api.gateways.models.request.users;
 
-import co.isoft.nnita.profile.api.models.UsuarioPerfil;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 
 import java.util.List;
@@ -15,9 +14,34 @@ import java.util.List;
 public class RequestNewUsersMassiveISoftProfile
 {
     /**
+     * Usuarios coordinador que realiza la actividad
+     */
+    private String loginusertransaction;
+    /**
      * Claves de usuarios
      */
     private String password;
+
+    /**
+     * Usuarios que realiza la transaccion
+     *
+     * @return login de usuarios
+     */
+    public String getLoginusertransaction()
+    {
+        return loginusertransaction;
+    }
+
+    /**
+     * Asigna un valor al usuario que realiza la transaccion
+     *
+     * @param loginusertransaction valor a asignar
+     */
+    public void setLoginusertransaction(String loginusertransaction)
+    {
+        this.loginusertransaction = loginusertransaction;
+    }
+
     /**
      * Nombres de usuario
      */

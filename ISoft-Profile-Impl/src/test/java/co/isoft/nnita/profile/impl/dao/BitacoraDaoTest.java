@@ -113,7 +113,7 @@ public class BitacoraDaoTest extends EntityDaoImplTest
         detalle.setEvento(evento);
         detalle.setHora_inicio(new Date().getTime());
         detalle.setHora_fin(new Date().getTime());
-        detalle.setHabilitado(1);
+        detalle.setHabilitado(new Long("1"));
         detalleBitacoraDao.agregar(detalle);
     }
 

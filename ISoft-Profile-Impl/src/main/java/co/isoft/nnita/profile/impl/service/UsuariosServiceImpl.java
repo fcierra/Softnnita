@@ -5,9 +5,7 @@ import co.isoft.nnita.profile.api.dao.UsuarioPerfilDao;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
-import co.isoft.nnita.profile.api.models.Perfiles;
-import co.isoft.nnita.profile.api.models.UsuarioPerfil;
-import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.models.*;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import co.isoft.nnita.profile.api.services.BitacoraService;
@@ -230,9 +228,9 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             convertAtrrUppercase(usuario);
             //Agrega al usuario en bdd
             usuariosDao.agregar(usuario);
-            logger.error("Se agrega al usuario [" + usuario.getLogin() + "]");
+            logger.info("Se agrega al usuario [" + usuario.getLogin() + "]");
             //Se realiza la auditoria de la operacion
-            bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.WEB, new Usuarios());
+            bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.WEB, "");
         }
         catch (DaoException e)
         {
@@ -243,39 +241,35 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
-        /**
-         * Todo: ajustar los elementos de bitacora para cada tipo de insercion.
-         */
+
         List<UsuarioPerfilMassive> listResponse = new ArrayList<>();
+        List<DetalleBitacora> listDetails = new ArrayList<>();
         try
         {
             for (UsuarioPerfilMassive item : listUsers)
             {
-                Usuarios userExiste = usuariosDao.getUsuarioPorLogin(item.getLoginname());
+                Usuarios userExist = usuariosDao.getUsuarioPorLogin(item.getLoginname());
 
                 //Se crea la respuesta de la lista
-                UsuarioPerfilMassive usuarioCreado = new UsuarioPerfilMassive();
-                usuarioCreado.setLoginname(item.getLoginname());
+                UsuarioPerfilMassive usersCreate = new UsuarioPerfilMassive();
+                usersCreate.setLoginname(item.getLoginname());
 
-                if (userExiste == null)
+                if (userExist == null)
                 {
-                    userExiste = new Usuarios();
-                    userExiste.setLogin(item.getLoginname());
-                    userExiste.setNombres(item.getNames() != null && !item.getNames().trim().equals("") ? item.getNames() : ConstantesBaseBean.EMPTY);
-                    userExiste.setApellidos(item.getLastname() != null && !item.getLastname().trim().equals("") ? item.getLastname() : ConstantesBaseBean.EMPTY);
+                    userExist = new Usuarios();
+                    userExist.setLogin(item.getLoginname());
+                    userExist.setNombres(item.getNames() != null && !item.getNames().trim().equals("") ? item.getNames() : ConstantesBaseBean.EMPTY);
+                    userExist.setApellidos(item.getLastname() != null && !item.getLastname().trim().equals("") ? item.getLastname() : ConstantesBaseBean.EMPTY);
                     //Se encripta la clave
                     passord = passwordEncoder.encode(passord);
-                    userExiste.setClave(passord);
-                    userExiste.setFecha_registro(new Date());
-                    userExiste.setHabilitado(new Long("1"));
-                    convertAtrrUppercase(userExiste);
-                    usuariosDao.agregar(userExiste);
-                    logger.error("Se agrega al usuario [" + userExiste.getLogin() + "]");
-
-                    //Se realiza la auditoria de la operacion
-                    bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.WEB, new Usuarios());
+                    userExist.setClave(passord);
+                    userExist.setFecha_registro(new Date());
+                    userExist.setHabilitado(new Long("1"));
+                    convertAtrrUppercase(userExist);
+                    usuariosDao.agregar(userExist);
+                    logger.info("Se agrega al usuario [" + userExist.getLogin() + "]");
 
                     Perfiles perfil = new Perfiles();
                     perfil.setNombre_perfil(item.getCodeperfil());
@@ -287,21 +281,23 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                     {
                         convertAtrrUppercase(perfil);
 
-                        usuarioPerfil.setUsuario(userExiste);
+                        usuarioPerfil.setUsuario(userExist);
                         usuarioPerfil.setPerfil(perfil);
                         usuarioPerfil.setHabilitado(new Long("1"));
 
                         //Se busca si la relacion no existe
-                        UsuarioPerfil usuarioPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
+                        UsuarioPerfil userProfileExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
                         logger.debug("Se agrega el perfil: [" + item.getCodeperfil() + "] al usuario [" + item.getLoginname() + "]");
-                        if (usuarioPerfilExist == null)
+                        if (userProfileExist == null)
                         {
                             //Se agrega la relacion.
                             usuarioPerfilDao.agregar(usuarioPerfil);
 
                             //Se indica que el usuario se agrego satisfactoriamente en su creacion y su perfil
-                            usuarioCreado.setCodeperfil(perfil.getNombre_perfil());
-                            usuarioCreado.setDescription("Se agrega el elemento");
+                            usersCreate.setCodeperfil(perfil.getNombre_perfil());
+                            usersCreate.setDescription("Se agrega el elemento");
+                            //Se lista el detalle de la transaccion
+                            listDetails.add(recordDetailBinnacleUsersMassiveSucess(item.getCodeperfil(),item.getLoginname()));
                         }
                     }
                     else
@@ -313,20 +309,22 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                             throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
                         else
                         {
-                            usuarioPerfil.setUsuario(userExiste);
+                            usuarioPerfil.setUsuario(userExist);
                             usuarioPerfil.setPerfil(perfil);
                             usuarioPerfil.setHabilitado(new Long("1"));
                             //Se busca si la relacion no existe
-                            UsuarioPerfil usuarioPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
+                            UsuarioPerfil userPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
                             logger.debug("Se agrega el perfil: [" + item.getCodeperfil() + "] al usuario [" + item.getLoginname() + "]");
-                            if (usuarioPerfilExist == null)
+                            if (userPerfilExist == null)
                             {
                                 //Se agrega la relacion.
                                 usuarioPerfilDao.agregar(usuarioPerfil);
 
                                 //Se asocia el perfil por defecto
-                                usuarioCreado.setCodeperfil(ConstantesBaseBean.GUEST);
-                                usuarioCreado.setDescription("Se agrega el elemento con el perfil por defecto, el perfil indicado no existia");
+                                usersCreate.setCodeperfil(ConstantesBaseBean.GUEST);
+                                usersCreate.setDescription("Se agrega el elemento con el perfil por defecto, el perfil indicado no existia");
+                                //Se lista el detalle de la transaccion
+                                listDetails.add(recordDetailBinnacleUsersMassiveProfileDefault(ConstantesBaseBean.GUEST,item.getCodeperfil(),item.getLoginname()));
                             }
                         }
 
@@ -334,11 +332,19 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                 }
                 else
                 {
-                    usuarioCreado.setCodeperfil(ConstantesBaseBean.EMPTY);
-                    usuarioCreado.setDescription("El usuario ya existe");
+                    usersCreate.setCodeperfil(ConstantesBaseBean.EMPTY);
+                    usersCreate.setDescription("El usuario ya existe");
+                    listDetails.add(recordDetailBinnacleUsersMassiveUserExist(item.getLoginname()));
                 }
                 //Se agrega al item como respuesta
-                listResponse.add(usuarioCreado);
+                listResponse.add(usersCreate);
+            }
+            //Se realiza la auditoria de la operacion
+            try
+            {
+                bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIOS_MASIVOS, EnumCanalesISoft.WEB, loginusertransaction,listDetails);
+            }catch (ServiceException ex){
+                logger.error("Falla el registro de bitacora de [" + loginusertransaction + "]");
             }
         }
         catch (DaoException e)

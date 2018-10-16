@@ -121,9 +121,9 @@ public class GatewayServicesUsers
         CommonsResponse response = new CommonsResponse();
         try
         {
-            GatewayBaseBean.validarParametrosGenericos(request.getPassword());
+            GatewayBaseBean.validarParametrosGenericos(request.getLoginusertransaction(),request.getPassword());
             //Crea un usuario sin perfil, no puedra ingresar
-            List<UsuarioPerfilMassive> list = userServices.createUsersMassiveIsoftProfile(request.getPassword(),request.getUsuariosYPerfil());
+            List<UsuarioPerfilMassive> list = userServices.createUsersMassiveIsoftProfile(request.getLoginusertransaction(),request.getPassword(),request.getUsuariosYPerfil());
             response.setResponse(list);
         }
         catch (ParamsException ex)

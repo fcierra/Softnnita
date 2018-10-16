@@ -76,11 +76,12 @@ public interface UsuariosService
 
     /**
      * Crea usuarios de forma masiva
+     * @param loginusertransaction usuario que realiza la transaccion
      * @param passord clave de todos los usuarios
      * @param listUsers usuarios y perfiles a crear
      * @throws ServiceException
      */
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException;
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException;
 
     /**
      * Agrega un listado de perfiles a un usuario indicado

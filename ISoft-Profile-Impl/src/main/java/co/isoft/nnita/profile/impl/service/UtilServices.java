@@ -1,5 +1,6 @@
 package co.isoft.nnita.profile.impl.service;
 
+import co.isoft.nnita.profile.api.models.DetalleBitacora;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -35,9 +36,12 @@ public class UtilServices
                 f.setAccessible(true);
                 try
                 {
-                    String valor = (String) (f.get(obj)!=null?f.get(obj):"");
-                    if (valor!=null && !valor.trim().equals(""))
-                        f.set(obj, (valor).toUpperCase());
+                    if (!f.getName().equals("clave")){
+                        String valor = (String) (f.get(obj)!=null?f.get(obj):"");
+                        if (valor!=null && !valor.trim().equals(""))
+                            f.set(obj, (valor).toUpperCase());
+                    }
+
                 }
                 catch (IllegalAccessException e)
                 {
@@ -45,5 +49,41 @@ public class UtilServices
                 }
             }
         }
+    }
+
+    /**
+     * Crea un detalle de bitacora de la creacion de usuarios masivos
+     * para detallar lo ocurrido en su creacion
+     * @return
+     */
+    public DetalleBitacora recordDetailBinnacleUsersMassiveSucess(String profile, String usercreate){
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_fin("Se crea el usuario ["+usercreate+"] y se agrega el perfil: [" + profile + "]");
+        detail.setDescripcion("Se agrega el elemento satisfactoriamente");
+        return detail;
+    }
+
+    /**
+     * Crea un detalle de bitacora de la creacion de usuarios masivos
+     * para detallar que se agrega un usuario con el perfil por defecto
+     * @return
+     */
+    public DetalleBitacora recordDetailBinnacleUsersMassiveProfileDefault(String profile,String profileDontExist, String usercreate){
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_fin("Se crea al usuario ["+usercreate+"] y se agrega el perfil: [" + profile + "]");
+        detail.setDescripcion("Se agrega el elemento con el perfil por defecto, el perfil indicado ["+profileDontExist+"] no existia");
+        return detail;
+    }
+
+    /**
+     * Crea un detalle de bitacora de la creacion de usuarios masivos
+     * para detallar que el usuarui ya existe
+     * @return
+     */
+    public DetalleBitacora recordDetailBinnacleUsersMassiveUserExist(String usercreate){
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_fin("Se intenta crear al usuario ["+usercreate+"]");
+        detail.setDescripcion("El usuario ya existe!.");
+        return detail;
     }
 }

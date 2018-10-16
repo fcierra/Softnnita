@@ -47,12 +47,12 @@ public class DetalleBitacora implements Serializable, BusinessClass
     @Column(name = "DETALLE_VALOR_FIN")
     private String detalle_valor_fin;
 
-    @Size(max = 50)
+    @Size(max = 260)
     @Column(name = "DESCRIPCION")
     private String descripcion;
 
     @Column(name = "HABILITADO", nullable = false)
-    private int habilitado;
+    private Long habilitado;
 
     public Long getId()
     {
@@ -134,12 +134,12 @@ public class DetalleBitacora implements Serializable, BusinessClass
         this.descripcion = descripcion;
     }
 
-    public int getHabilitado()
+    public Long getHabilitado()
     {
         return habilitado;
     }
 
-    public void setHabilitado(int habilitado)
+    public void setHabilitado(Long habilitado)
     {
         this.habilitado = habilitado;
     }
