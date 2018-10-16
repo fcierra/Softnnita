@@ -4,11 +4,13 @@ C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\models\MenuPerfiles.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\models\Parametros.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\EventosDao.java
+C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\util\EnumTypesLicense.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\ParametrosDao.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\gateways\util\GatewayBaseBean.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\PermisosDao.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\models\Menus.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\util\JSonUtil.java
+C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\exceptions\ParamsException.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\exceptions\DaoException.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\services\PermisosService.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\util\EnumServicesIsoftConfig.java
@@ -27,6 +29,7 @@ C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\gateways\models\request\ReqToken.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\MonedasDao.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\exceptions\JwtException.java
+C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\exceptions\LicenseException.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\util\ConstantesBaseBean.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\exceptions\ServiceException.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\gateways\models\request\users\RequestNewUsersMassiveISoftProfile.java
@@ -48,6 +51,7 @@ C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\MenusItemDao.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\models\Menus_Item.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\gateways\models\request\users\RequestNewUserISoftProfile.java
+C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\gateways\models\response\ResponseFindProfiles.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\models\DetalleBitacora.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\services\BitacoraService.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\gateways\models\response\ResponseCreateUsersMassive.java
@@ -57,4 +61,3 @@ C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\DetalleBitacoraDao.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\models\Permisos.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\CanalesDao.java
-C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\gateways\ParamsException.java

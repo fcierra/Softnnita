@@ -37,6 +37,16 @@ public class UsuariosDaoImpl extends HibernateDaoImpl<Integer, Usuarios> impleme
     }
 
     @Override
+    public Usuarios getUsuarioPorEmail(String correo) throws DaoException
+    {
+        Session session = this.getSession();
+        Query query = session.getNamedQuery("buscarUsuarioPorCorreo");
+        query.setParameter("PARAM_CORREO", correo);
+        Usuarios usuario = (Usuarios) query.uniqueResult();
+        return usuario;// OK
+    }
+
+    @Override
     public List<Usuarios> getUsuarioActivosMes(String login) throws DaoException
     {
         //Se resta un mes a la fecha actual

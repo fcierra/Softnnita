@@ -14,6 +14,9 @@ import java.io.Serializable;
  * @author Yaher Carrillo
  * @Date 06/06/2018
  */
+@NamedQueries({
+                @NamedQuery(name = "findProfilesSystem", query = "from Perfiles perfil where perfil.habilitado =:PARAM_STATUS and perfil.administrador = 0 "),
+            })
 @Entity
 @SequenceGenerator(name = "perfiles-gen", sequenceName = "isoft_perfiles_id_perfil_seq", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_PERFILES")

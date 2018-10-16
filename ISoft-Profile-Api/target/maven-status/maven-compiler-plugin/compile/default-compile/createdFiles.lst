@@ -4,9 +4,11 @@ co\isoft\nnita\profile\api\gateways\models\request\ReqToken.class
 co\isoft\nnita\profile\api\dao\PerfilesDao.class
 co\isoft\nnita\profile\api\exceptions\ServiceException.class
 co\isoft\nnita\profile\api\gateways\models\request\users\RequestNewUsersMassiveISoftProfile.class
+co\isoft\nnita\profile\api\util\EnumTypesLicense.class
 co\isoft\nnita\profile\api\models\MenuPerfiles.class
 co\isoft\nnita\profile\api\models\Permisos.class
 co\isoft\nnita\profile\api\dao\MenusDao.class
+co\isoft\nnita\profile\api\exceptions\LicenseException.class
 co\isoft\nnita\profile\api\services\UsuariosService.class
 co\isoft\nnita\profile\api\util\JSonUtil.class
 co\isoft\nnita\profile\api\gateways\util\GatewayBaseBean.class
@@ -17,10 +19,10 @@ co\isoft\nnita\profile\api\gateways\models\response\ResponseCreateUsersMassive.c
 co\isoft\nnita\profile\api\modelsweb\UsuarioPerfilMassive.class
 co\isoft\nnita\profile\api\util\EnumFuncionalityISoft.class
 co\isoft\nnita\profile\api\util\ConstantesBaseBean.class
-co\isoft\nnita\profile\api\gateways\ParamsException.class
 co\isoft\nnita\profile\api\dao\HibernateDao.class
 co\isoft\nnita\profile\api\util\EstatusGenericos.class
 co\isoft\nnita\profile\api\gateways\models\CommonsResponse.class
+co\isoft\nnita\profile\api\gateways\models\response\ResponseFindProfiles.class
 co\isoft\nnita\profile\api\models\Estilos.class
 co\isoft\nnita\profile\api\dao\MenusItemDao.class
 co\isoft\nnita\profile\api\services\SesionActivaService.class
@@ -31,6 +33,7 @@ co\isoft\nnita\profile\api\models\Canales.class
 co\isoft\nnita\profile\api\modelsweb\DatosSesionUsuario.class
 co\isoft\nnita\profile\api\dao\MonedasDao.class
 co\isoft\nnita\profile\api\util\EnumCanalesISoft.class
+co\isoft\nnita\profile\api\exceptions\ParamsException.class
 co\isoft\nnita\profile\api\util\EnumServicesIsoftConfig.class
 co\isoft\nnita\profile\api\models\Menus.class
 co\isoft\nnita\profile\api\models\UsuarioPerfil.class

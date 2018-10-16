@@ -26,6 +26,14 @@ public interface UsuariosDao extends HibernateDao<Usuarios, Long>
     public Usuarios getUsuarioPorLogin(String login)throws DaoException;
 
     /**
+     * Busca un usuario por correo
+     * @param correo correo de usuario
+     * @return usuario encontrado
+     * @throws DaoException Ocurre si falla la operacion
+     */
+    public Usuarios getUsuarioPorEmail(String correo)throws DaoException;
+
+    /**
      * Busca un usuario activo durante las fechas establecidas
      * @param login nombre de usuario
      * @return Objeto usuario

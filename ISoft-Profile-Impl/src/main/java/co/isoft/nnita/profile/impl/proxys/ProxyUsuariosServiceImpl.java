@@ -140,20 +140,26 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public void createUserIsoftProfile(Usuarios usuario) throws ServiceException
+    public void createUserIsoftProfile(String loginusertransaction, Usuarios usuario) throws ServiceException
     {
-        getUsuariosService().createUserIsoftProfile(usuario);
+        getUsuariosService().createUserIsoftProfile(loginusertransaction, usuario);
     }
 
     @Override
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction, String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
-        return getUsuariosService().createUsersMassiveIsoftProfile(loginusertransaction,passord, listUsers);
+        return getUsuariosService().createUsersMassiveIsoftProfile(loginusertransaction, passord, listUsers);
     }
 
     @Override
     public void addProfilesUser(String loginname, List<String> perfiles) throws ServiceException
     {
         getUsuariosService().addProfilesUser(loginname, perfiles);
+    }
+
+    @Override
+    public List<Perfiles> findProfilesSystem() throws ServiceException
+    {
+        return getUsuariosService().findProfilesSystem();
     }
 }

@@ -15,7 +15,9 @@ import java.util.Date;
  * @author Yaher Carrillo
  * @Date 01/06/2018
  */
-@NamedQueries({ @NamedQuery(name = "buscarUsuarioPorLogin", query = "from Usuarios usuario where usuario.login =:PARAM_LOGIN and usuario.habilitado = 1"),
+@NamedQueries({
+        @NamedQuery(name = "buscarUsuarioPorLogin", query = "from Usuarios usuario where usuario.login =:PARAM_LOGIN and usuario.habilitado = 1"),
+        @NamedQuery(name = "buscarUsuarioPorCorreo", query = "from Usuarios usuario where usuario.email =:PARAM_CORREO and usuario.habilitado = 1"),
         @NamedQuery(name = "buscarUsuarioUltimoMesActivo", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
         @NamedQuery(name = "buscarUsuarioActivosPorFecha", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
         @NamedQuery(name = "buscarUsuarioPorEstado", query = "from Usuarios usuario where usuario.habilitado =:PARAM_ESTADO") })

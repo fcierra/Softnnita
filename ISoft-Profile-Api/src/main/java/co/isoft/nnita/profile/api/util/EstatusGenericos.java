@@ -25,9 +25,12 @@ public enum EstatusGenericos
     PROFILER_USER_CREATE_FAIL("008", "Falla Creacion usuario", "login.error.008"),
     PROFILER_USER_EXIST("009", "El usuario ya existe", "login.error.009"),
     PROFILER_USER_PROFILE_GUEST_NOT_DONT_EXIST("010", "El perfil por defecto no existe", "login.error.010"),
+    PROFILER_USER_EMAIL_EXIST("011", "El correo ya existe", "login.error.011"),
     PROFILER_GENERIC_ERROR_FIELD_REQUIRED("091", "Error generico, campo requerido", "login.error.091"),
+    PROFILER_GENERIC_LICENSE("095","Error en Licencia", "login.error.095"),
     PROFILER_GENERIC_ERROR_PARAMS("096", "Error en parametros", "login.error.096"),
-    PROFILER_GENERIC_ERROR("099", "Error generico, modulo Profiler", "login.error.099");
+    PROFILER_GENERIC_ERROR("099", "Error generico, modulo Profiler", "login.error.099"),;
+
     /**
      * Codigo de la navegacion
      **/

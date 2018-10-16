@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways;
+package co.isoft.nnita.profile.api.exceptions;
 
 /**
  * Excepcion generica aplicada a la evaluacion

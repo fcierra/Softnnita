@@ -69,10 +69,11 @@ public interface UsuariosService
 
     /**
      * Crea un usuario sin perfil
-     * @param usuario
+     * @param loginusertransaction usuario que realiza la transaccion
+     * @param usuario usuario a crear
      * @throws ServiceException
      */
-    public void createUserIsoftProfile(Usuarios usuario) throws ServiceException;
+    public void createUserIsoftProfile(String loginusertransaction,Usuarios usuario) throws ServiceException;
 
     /**
      * Crea usuarios de forma masiva
@@ -90,5 +91,11 @@ public interface UsuariosService
      * @throws ServiceException Ocurre si falla la operacion.
      */
     public void addProfilesUser(String loginname, List<String> perfiles) throws ServiceException;
+
+    /**
+     * Busca los perfiles disponibles de sistema.
+     * @throws ServiceException Ocurre si falla la operacion.
+     */
+    public List<Perfiles> findProfilesSystem() throws ServiceException;
 
 }

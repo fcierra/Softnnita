@@ -5,6 +5,7 @@ import co.isoft.nnita.profile.api.dao.JwtDao;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.models.Canales;
 import co.isoft.nnita.profile.api.modelsweb.DatosLicencia;
+import co.isoft.nnita.profile.api.util.EnumTypesLicense;
 import co.isoft.nnita.profile.api.util.JSonUtil;
 import co.isoft.nnita.profile.impl.dao.EntityDaoImplTest;
 import co.isoft.nnita.profile.impl.dao.impl.JwtImpl;
@@ -42,7 +43,7 @@ public class LicenseISoftTest
         datosLicencia.setFechaInicio(new Date());
         datosLicencia.setFechaFin(new Date());
         datosLicencia.setIp("127.0.0.1");
-        datosLicencia.setTipoLicencia("ABIERTA");
+        datosLicencia.setTipoLicencia(EnumTypesLicense.OPEN_ALL.getCode());
 
         String generate = jwtDao.generarToken(datosLicencia, mapConfigurtation);
         System.out.println("Put Generate: " + generate);
@@ -62,7 +63,7 @@ public class LicenseISoftTest
         datosLicencia.setFechaInicio(new Date());
         datosLicencia.setFechaFin(new Date());
         datosLicencia.setIp("127.0.0.1");
-        datosLicencia.setTipoLicencia("ABIERTA");
+        datosLicencia.setTipoLicencia(EnumTypesLicense.OPEN_ALL.getCode());
 
 
         try {

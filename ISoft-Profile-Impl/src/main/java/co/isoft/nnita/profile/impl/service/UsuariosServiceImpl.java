@@ -5,7 +5,10 @@ import co.isoft.nnita.profile.api.dao.UsuarioPerfilDao;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
-import co.isoft.nnita.profile.api.models.*;
+import co.isoft.nnita.profile.api.models.DetalleBitacora;
+import co.isoft.nnita.profile.api.models.Perfiles;
+import co.isoft.nnita.profile.api.models.UsuarioPerfil;
+import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import co.isoft.nnita.profile.api.services.BitacoraService;
@@ -213,13 +216,18 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public void createUserIsoftProfile(Usuarios usuario) throws ServiceException
+    public void createUserIsoftProfile(String loginusertransaction,Usuarios usuario) throws ServiceException
     {
         try
         {
-            Usuarios userExiste = usuariosDao.getUsuarioPorLogin(usuario.getLogin());
-            if (userExiste != null)
+            List<DetalleBitacora> listDetails = new ArrayList<>();
+            convertAtrrUppercase(usuario);
+            Usuarios userExisteLogin = usuariosDao.getUsuarioPorLogin(usuario.getLogin());
+            if (userExisteLogin != null)
                 throw new DaoException(EstatusGenericos.PROFILER_USER_EXIST.getCode());
+            Usuarios userExisteEmail = usuariosDao.getUsuarioPorEmail(usuario.getEmail());
+            if (userExisteEmail != null)
+                throw new DaoException(EstatusGenericos.PROFILER_USER_EMAIL_EXIST.getCode());
 
             String pass = passwordEncoder.encode(usuario.getClave());
             usuario.setClave(pass);
@@ -230,7 +238,8 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             usuariosDao.agregar(usuario);
             logger.info("Se agrega al usuario [" + usuario.getLogin() + "]");
             //Se realiza la auditoria de la operacion
-            bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.WEB, "");
+            listDetails.add(recordDetailBinnacleUsersMassiveSucess("", usuario.getLogin()));
+            bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.WEB, loginusertransaction,listDetails);
         }
         catch (DaoException e)
         {
@@ -241,7 +250,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction, String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
 
         List<UsuarioPerfilMassive> listResponse = new ArrayList<>();
@@ -297,7 +306,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                             usersCreate.setCodeperfil(perfil.getNombre_perfil());
                             usersCreate.setDescription("Se agrega el elemento");
                             //Se lista el detalle de la transaccion
-                            listDetails.add(recordDetailBinnacleUsersMassiveSucess(item.getCodeperfil(),item.getLoginname()));
+                            listDetails.add(recordDetailBinnacleUsersMassiveSucess(item.getCodeperfil(), item.getLoginname()));
                         }
                     }
                     else
@@ -324,7 +333,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                                 usersCreate.setCodeperfil(ConstantesBaseBean.GUEST);
                                 usersCreate.setDescription("Se agrega el elemento con el perfil por defecto, el perfil indicado no existia");
                                 //Se lista el detalle de la transaccion
-                                listDetails.add(recordDetailBinnacleUsersMassiveProfileDefault(ConstantesBaseBean.GUEST,item.getCodeperfil(),item.getLoginname()));
+                                listDetails.add(recordDetailBinnacleUsersMassiveProfileDefault(ConstantesBaseBean.GUEST, item.getCodeperfil(), item.getLoginname()));
                             }
                         }
 
@@ -342,8 +351,10 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             //Se realiza la auditoria de la operacion
             try
             {
-                bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIOS_MASIVOS, EnumCanalesISoft.WEB, loginusertransaction,listDetails);
-            }catch (ServiceException ex){
+                bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIOS_MASIVOS, EnumCanalesISoft.WEB, loginusertransaction, listDetails);
+            }
+            catch (ServiceException ex)
+            {
                 logger.error("Falla el registro de bitacora de [" + loginusertransaction + "]");
             }
         }
@@ -402,6 +413,21 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         catch (DaoException e)
         {
             String mensaje = "Error tratando de asociar perfiles al usuario:  [" + loginname + "]";
+            logger.error(mensaje, e);
+            throw new ServiceException(e.getMessage(), e, e.getCode());
+        }
+    }
+
+    @Override
+    public List<Perfiles> findProfilesSystem() throws ServiceException
+    {
+        try
+        {
+            return perfilesDao.findProfilesSystem(true);
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error tratando de consultar los perfiles de sistema";
             logger.error(mensaje, e);
             throw new ServiceException(e.getMessage(), e, e.getCode());
         }

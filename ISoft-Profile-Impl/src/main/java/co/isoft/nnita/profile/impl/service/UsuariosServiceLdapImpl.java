@@ -105,10 +105,11 @@ public class UsuariosServiceLdapImpl implements UsuariosService
     }
 
     @Override
-    public void createUserIsoftProfile(Usuarios usuario) throws ServiceException
+    public void createUserIsoftProfile(String loginusertransaction, Usuarios usuario) throws ServiceException
     {
 
     }
+
 
     @Override
     public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
@@ -120,5 +121,11 @@ public class UsuariosServiceLdapImpl implements UsuariosService
     public void addProfilesUser(String loginname, List<String> perfiles) throws ServiceException
     {
 
+    }
+
+    @Override
+    public List<Perfiles> findProfilesSystem() throws ServiceException
+    {
+        return null;
     }
 }

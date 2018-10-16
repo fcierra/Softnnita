@@ -36,9 +36,10 @@ public class UtilServices
                 f.setAccessible(true);
                 try
                 {
-                    if (!f.getName().equals("clave")){
-                        String valor = (String) (f.get(obj)!=null?f.get(obj):"");
-                        if (valor!=null && !valor.trim().equals(""))
+                    if (!f.getName().equals("clave"))
+                    {
+                        String valor = (String) (f.get(obj) != null ? f.get(obj) : "");
+                        if (valor != null && !valor.trim().equals(""))
                             f.set(obj, (valor).toUpperCase());
                     }
 
@@ -54,11 +55,13 @@ public class UtilServices
     /**
      * Crea un detalle de bitacora de la creacion de usuarios masivos
      * para detallar lo ocurrido en su creacion
+     *
      * @return
      */
-    public DetalleBitacora recordDetailBinnacleUsersMassiveSucess(String profile, String usercreate){
+    public DetalleBitacora recordDetailBinnacleUsersMassiveSucess(String profile, String usercreate)
+    {
         DetalleBitacora detail = new DetalleBitacora();
-        detail.setDetalle_valor_fin("Se crea el usuario ["+usercreate+"] y se agrega el perfil: [" + profile + "]");
+        detail.setDetalle_valor_fin("Se crea el usuario [" + usercreate + "] y se agrega el perfil: [" + profile + "]");
         detail.setDescripcion("Se agrega el elemento satisfactoriamente");
         return detail;
     }
@@ -66,23 +69,27 @@ public class UtilServices
     /**
      * Crea un detalle de bitacora de la creacion de usuarios masivos
      * para detallar que se agrega un usuario con el perfil por defecto
+     *
      * @return
      */
-    public DetalleBitacora recordDetailBinnacleUsersMassiveProfileDefault(String profile,String profileDontExist, String usercreate){
+    public DetalleBitacora recordDetailBinnacleUsersMassiveProfileDefault(String profile, String profileDontExist, String usercreate)
+    {
         DetalleBitacora detail = new DetalleBitacora();
-        detail.setDetalle_valor_fin("Se crea al usuario ["+usercreate+"] y se agrega el perfil: [" + profile + "]");
-        detail.setDescripcion("Se agrega el elemento con el perfil por defecto, el perfil indicado ["+profileDontExist+"] no existia");
+        detail.setDetalle_valor_fin("Se crea al usuario [" + usercreate + "] y se agrega el perfil: [" + profile + "]");
+        detail.setDescripcion("Se agrega el elemento con el perfil por defecto, el perfil indicado [" + profileDontExist + "] no existia");
         return detail;
     }
 
     /**
      * Crea un detalle de bitacora de la creacion de usuarios masivos
      * para detallar que el usuarui ya existe
+     *
      * @return
      */
-    public DetalleBitacora recordDetailBinnacleUsersMassiveUserExist(String usercreate){
+    public DetalleBitacora recordDetailBinnacleUsersMassiveUserExist(String usercreate)
+    {
         DetalleBitacora detail = new DetalleBitacora();
-        detail.setDetalle_valor_fin("Se intenta crear al usuario ["+usercreate+"]");
+        detail.setDetalle_valor_fin("Se intenta crear al usuario [" + usercreate + "]");
         detail.setDescripcion("El usuario ya existe!.");
         return detail;
     }
