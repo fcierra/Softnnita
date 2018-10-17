@@ -10,7 +10,8 @@ public enum EnumFuncionalityISoft
 
     FUNCIONALIDAD_CREAR_USUARIO("crear.usuarios", "Creacion de Usuarios ISoft"),
     FUNCIONALIDAD_CREAR_USUARIOS_MASIVOS("crear.usuarios.masivos", "Creacion de Usuarios ISoft Masivos"),
-    FUNCIONALIDAD_ASOCIAR_PERFIL("asociar.perfil", "Asociar Perfiles"),;
+    FUNCIONALIDAD_ASOCIAR_PERFIL("asociar.perfil", "Asociar Perfiles"),
+    FUNCIONALIDAD_CONSULTAR_PERFILES("consulta.perfiles", "Consulta de Perfiles"),;
 
 
     private String codigo;

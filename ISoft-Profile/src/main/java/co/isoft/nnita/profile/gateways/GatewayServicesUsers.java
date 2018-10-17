@@ -23,6 +23,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Gateway de servicio de usuarios ISoftProfiler
@@ -87,12 +88,12 @@ public class GatewayServicesUsers
         try
         {
             //Se valida la licencia si puede consumir los procesos
-            GatewayBaseBean.validateLicence(sharedkey);
+            Map<String,String> mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
 
-            GatewayBaseBean.validarParametrosGenericos(request.getLoginusertransaction(),request.getLoginname(), request.getNombres(), request.getClave());
+            GatewayBaseBean.validarParametrosGenericos(request.getLoginname(), request.getNombres(), request.getClave());
             Usuarios user = GatewayBaseBean.clonUsersRequest(request);
             //Crea un usuario sin perfil, no puedra ingresar
-            userServices.createUserIsoftProfile(request.getLoginusertransaction(),user);
+            userServices.createUserIsoftProfile(mapConfiguration,user);
         }
         catch (ParamsException ex)
         {
@@ -132,13 +133,13 @@ public class GatewayServicesUsers
         try
         {
             //Se valida la licencia si puede consumir los procesos.
-            GatewayBaseBean.validateLicence(sharedkey);
+            Map<String,String> mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
 
             //Se validan los parametros de entrada.
-            GatewayBaseBean.validarParametrosGenericos(request.getLoginusertransaction(),request.getPassword());
+            GatewayBaseBean.validarParametrosGenericos(request.getPassword());
 
             //Crea un usuario sin perfil, no puedra ingresar.
-            List<UsuarioPerfilMassive> list = userServices.createUsersMassiveIsoftProfile(request.getLoginusertransaction(),request.getPassword(),request.getUsuariosYPerfil());
+            List<UsuarioPerfilMassive> list = userServices.createUsersMassiveIsoftProfile(mapConfiguration,request.getPassword(),request.getUsuariosYPerfil());
             response.setResponse(list);
         }
         catch (ParamsException ex)
@@ -179,14 +180,14 @@ public class GatewayServicesUsers
         try
         {
             //Se valida la licencia si puede consumir los procesos.
-            GatewayBaseBean.validateLicence(sharedkey);
+            Map<String,String> mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
 
             //Se validan los parametros de entrada
             GatewayBaseBean.validarParametrosGenericos(request.getLoginname());
             GatewayBaseBean.validarParametrosGenericos(request.getCodesProfiles());
 
             //Crea un usuario sin perfil, no puedra ingresar
-            userServices.addProfilesUser(request.getLoginname(),request.getCodesProfiles());
+            userServices.addProfilesUser(mapConfiguration,request.getLoginname(),request.getCodesProfiles());
         }
         catch (ParamsException ex)
         {
@@ -230,10 +231,12 @@ public class GatewayServicesUsers
         try
         {
             //Se valida la licencia si puede consumir los procesos.
-            GatewayBaseBean.validateLicence(sharedkey);
+            Map<String,String> mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
 
             //Crea un usuario sin perfil, no puedra ingresar
-            List<Perfiles> list = userServices.findProfilesSystem();
+            List<Perfiles> list = userServices.findProfilesSystem(mapConfiguration);
+            if (list==null || list.isEmpty())
+                return response.toEmpty();
             response.setResponse(GatewayBaseBean.clonProfileResponse(list));
         }
         catch (LicenseException ex)

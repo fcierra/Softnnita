@@ -69,33 +69,34 @@ public interface UsuariosService
 
     /**
      * Crea un usuario sin perfil
-     * @param loginusertransaction usuario que realiza la transaccion
+     * @param mapConfiguration mapa de configuracion
      * @param usuario usuario a crear
      * @throws ServiceException
      */
-    public void createUserIsoftProfile(String loginusertransaction,Usuarios usuario) throws ServiceException;
+    public void createUserIsoftProfile(Map<String,String> mapConfiguration,Usuarios usuario) throws ServiceException;
 
     /**
      * Crea usuarios de forma masiva
-     * @param loginusertransaction usuario que realiza la transaccion
+     * @param mapConfiguration mapa de configuracion
      * @param passord clave de todos los usuarios
      * @param listUsers usuarios y perfiles a crear
      * @throws ServiceException
      */
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException;
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException;
 
     /**
      * Agrega un listado de perfiles a un usuario indicado
-     * @param loginname nombre de usuario
+     * @param mapConfiguration mapa de configuracion de datos utiles
+     * @param loginuser usuario que se le asociara el perfil.
      * @param perfiles listado de perfiles
      * @throws ServiceException Ocurre si falla la operacion.
      */
-    public void addProfilesUser(String loginname, List<String> perfiles) throws ServiceException;
+    public void addProfilesUser(Map<String,String> mapConfiguration,String loginuser, List<String> perfiles) throws ServiceException;
 
     /**
      * Busca los perfiles disponibles de sistema.
      * @throws ServiceException Ocurre si falla la operacion.
      */
-    public List<Perfiles> findProfilesSystem() throws ServiceException;
+    public List<Perfiles> findProfilesSystem(Map<String,String> mapConfiguration) throws ServiceException;
 
 }

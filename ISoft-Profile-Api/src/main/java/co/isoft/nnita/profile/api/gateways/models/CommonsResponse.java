@@ -39,6 +39,18 @@ public class CommonsResponse
     }
 
     /**
+     * Response comun para respuestas vacias
+     * o sin datos
+     * @return
+     */
+    public CommonsResponse toEmpty(){
+        this.setCodeTrasacction(EstatusGenericos.INFO_EMPTY.getDescription());
+        this.setStatus(EstatusGenericos.INFO_EMPTY.getCode());
+        this.setDescriptionTransacction(EstatusGenericos.INFO_EMPTY.getRefbundle());
+        return this;
+    }
+
+    /**
      * Obtiene el estatus de la operacion
      *
      * @return estatus de la operacion

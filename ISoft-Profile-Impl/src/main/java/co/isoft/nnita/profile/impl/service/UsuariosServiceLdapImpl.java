@@ -105,26 +105,26 @@ public class UsuariosServiceLdapImpl implements UsuariosService
     }
 
     @Override
-    public void createUserIsoftProfile(String loginusertransaction, Usuarios usuario) throws ServiceException
+    public void createUserIsoftProfile(Map<String,String> mapConfiguration, Usuarios usuario) throws ServiceException
     {
 
     }
 
 
     @Override
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
         return null;
     }
 
     @Override
-    public void addProfilesUser(String loginname, List<String> perfiles) throws ServiceException
+    public void addProfilesUser(Map<String,String> mapConfiguration, String loginname, List<String> perfiles) throws ServiceException
     {
 
     }
 
     @Override
-    public List<Perfiles> findProfilesSystem() throws ServiceException
+    public List<Perfiles> findProfilesSystem(Map<String,String> mapConfiguration) throws ServiceException
     {
         return null;
     }

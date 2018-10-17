@@ -10,10 +10,6 @@ package co.isoft.nnita.profile.api.gateways.models.request.users;
 public class RequestNewUserISoftProfile
 {
     /**
-     * Usuarios coordinador que realiza la actividad
-     */
-    private String loginusertransaction;
-    /**
      * Login de usuario a crear
      */
     private String loginname;
@@ -33,26 +29,6 @@ public class RequestNewUserISoftProfile
      * Clave de acceso de usuario
      */
     private String clave;
-
-    /**
-     * Obtiene el login del usuario que realiza la transaccion
-     *
-     * @return login de usuario
-     */
-    public String getLoginusertransaction()
-    {
-        return loginusertransaction;
-    }
-
-    /**
-     * Asigna un valor al usuario que realiza la transaccion
-     *
-     * @param loginusertransaction valor a asignar
-     */
-    public void setLoginusertransaction(String loginusertransaction)
-    {
-        this.loginusertransaction = loginusertransaction;
-    }
 
     /**
      * Obtiene el login de usuario a crear

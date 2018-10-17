@@ -40,6 +40,7 @@ public class LicenseISoftTest
 
         DatosLicencia datosLicencia = new DatosLicencia();
         datosLicencia.setClienteISoft("ISOFT");
+        datosLicencia.setCanal(1);
         datosLicencia.setFechaInicio(new Date());
         datosLicencia.setFechaFin(new Date());
         datosLicencia.setIp("127.0.0.1");
@@ -60,6 +61,7 @@ public class LicenseISoftTest
 
         DatosLicencia datosLicencia = new DatosLicencia();
         datosLicencia.setClienteISoft("ISOFT");
+        datosLicencia.setCanal(1);
         datosLicencia.setFechaInicio(new Date());
         datosLicencia.setFechaFin(new Date());
         datosLicencia.setIp("127.0.0.1");

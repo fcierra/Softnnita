@@ -6,6 +6,7 @@ import java.util.Date;
  * Objeto que contendra los datos
  * de creacion y soporte de linceciamiento
  * de la aplicacion.
+ *
  * @author Yaher Carrillo
  */
 public class DatosLicencia
@@ -14,6 +15,10 @@ public class DatosLicencia
      * Cliente licenciado
      */
     private String clienteISoft;
+    /**
+     * Canal de transaccion
+     */
+    private int canal;
     /**
      * Fecha de inicio de uso hacia la aplicacion
      */
@@ -33,6 +38,7 @@ public class DatosLicencia
 
     /**
      * Obtiene el cliente asociado a isoft.
+     *
      * @return
      */
     public String getClienteISoft()
@@ -42,6 +48,7 @@ public class DatosLicencia
 
     /**
      * Asigna un valor al cliente isoft.
+     *
      * @param clienteISoft
      */
     public void setClienteISoft(String clienteISoft)
@@ -51,6 +58,7 @@ public class DatosLicencia
 
     /**
      * Fecha de inicio de la vigencia de la licencia.
+     *
      * @return
      */
     public Date getFechaInicio()
@@ -60,6 +68,7 @@ public class DatosLicencia
 
     /**
      * Asigna un valor a la fecha de inicio de vigencia.
+     *
      * @param fechaInicio fecha de inicio
      */
     public void setFechaInicio(Date fechaInicio)
@@ -70,6 +79,7 @@ public class DatosLicencia
     /**
      * Ontiene un valor a la fecha fin de vigencia de la
      * licencia.
+     *
      * @return valor a asignar
      */
     public Date getFechaFin()
@@ -80,6 +90,7 @@ public class DatosLicencia
     /**
      * Asigna un valor a la fecga fin de vigencia de la
      * licencia.
+     *
      * @param fechaFin
      */
     public void setFechaFin(Date fechaFin)
@@ -89,6 +100,7 @@ public class DatosLicencia
 
     /**
      * Obtiene la ip de accceso de la aplicacion.
+     *
      * @return
      */
     public String getIp()
@@ -99,6 +111,7 @@ public class DatosLicencia
     /**
      * Asigna un valor a la ip de acceso del
      * licenciamiento.
+     *
      * @param ip
      */
     public void setIp(String ip)
@@ -108,6 +121,7 @@ public class DatosLicencia
 
     /**
      * Obtiene el tipo de licencia asignada
+     *
      * @return tipo de licencia
      */
     public String getTipoLicencia()
@@ -117,6 +131,7 @@ public class DatosLicencia
 
     /**
      * Asigna un valor al tipo de licencia a crear
+     *
      * @param tipoLicencia valor a asignar.
      */
     public void setTipoLicencia(String tipoLicencia)
@@ -124,9 +139,29 @@ public class DatosLicencia
         this.tipoLicencia = tipoLicencia;
     }
 
+    /**
+     * Obtiene el canal de la transaccion
+     *
+     * @return canal de la transaccion
+     */
+    public int getCanal()
+    {
+        return canal;
+    }
+
+    /**
+     * Asigna un valor al canal de la transaccion
+     *
+     * @param canal valor a asignar.
+     */
+    public void setCanal(int canal)
+    {
+        this.canal = canal;
+    }
+
     @Override
     public String toString()
     {
-        return "Datos [cliente=" + clienteISoft + ", " + "Fecha Inicio=" + fechaInicio+ ", " + "Fecha Fin=" + fechaFin + ", " + "IP=" + ip + " , Tipo Licencia: "+ tipoLicencia +" ]";
+        return "Datos [cliente=" + clienteISoft + ", " + "Fecha Inicio=" + fechaInicio + ", " + "Fecha Fin=" + fechaFin + ", " + "IP=" + ip + " , Tipo Licencia: " + tipoLicencia + " ]";
     }
 }

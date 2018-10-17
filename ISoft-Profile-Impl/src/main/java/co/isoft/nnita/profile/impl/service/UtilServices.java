@@ -12,13 +12,22 @@ import java.lang.reflect.Field;
  * @author Yaher Carrillo
  * @Date 10/07/2018
  */
-public class UtilServices
+public abstract class UtilServices
 {
 
     /**
      * Objeto utilizado para el log
      */
     private static final Log logger = LogFactory.getLog(UtilServices.class);
+
+    /**
+     * Constantes Mapa de transacciones de la llave de usuario.
+     */
+    public static String MAP_USER_TRANSACTION = "usertransaction";
+    /**
+     * Constantes Mapa de transacciones de la llave del canal de transaccion.
+     */
+    public static String MAP_CANAL_TRANSACTION = "canaltransaction";
 
     /**
      * Convierte todos los fields String a Uppercase

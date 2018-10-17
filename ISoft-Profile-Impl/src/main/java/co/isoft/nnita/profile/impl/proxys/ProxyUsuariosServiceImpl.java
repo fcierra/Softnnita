@@ -140,26 +140,26 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public void createUserIsoftProfile(String loginusertransaction, Usuarios usuario) throws ServiceException
+    public void createUserIsoftProfile(Map<String,String> mapConfiguration, Usuarios usuario) throws ServiceException
     {
-        getUsuariosService().createUserIsoftProfile(loginusertransaction, usuario);
+        getUsuariosService().createUserIsoftProfile(mapConfiguration, usuario);
     }
 
     @Override
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction, String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration, String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
-        return getUsuariosService().createUsersMassiveIsoftProfile(loginusertransaction, passord, listUsers);
+        return getUsuariosService().createUsersMassiveIsoftProfile(mapConfiguration, passord, listUsers);
     }
 
     @Override
-    public void addProfilesUser(String loginname, List<String> perfiles) throws ServiceException
+    public void addProfilesUser(Map<String,String> mapConfiguration,String loginname, List<String> perfiles) throws ServiceException
     {
-        getUsuariosService().addProfilesUser(loginname, perfiles);
+        getUsuariosService().addProfilesUser(mapConfiguration,loginname, perfiles);
     }
 
     @Override
-    public List<Perfiles> findProfilesSystem() throws ServiceException
+    public List<Perfiles> findProfilesSystem(Map<String,String> mapConfiguration) throws ServiceException
     {
-        return getUsuariosService().findProfilesSystem();
+        return getUsuariosService().findProfilesSystem(mapConfiguration);
     }
 }

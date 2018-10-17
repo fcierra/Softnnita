@@ -12,6 +12,7 @@ package co.isoft.nnita.profile.api.util;
 public enum EstatusGenericos
 {
     INFO("INFO","200", "PROCESO Efectivo de la operacion"),
+    INFO_EMPTY("INFO","404", "Consulta sin valores"),
     WARN("WARN", "202","PROCESO Efectivo de la operacion con advertencias"),
     ERROR("ERROR","500", "PROCESO Fallido de la operacion"),
 

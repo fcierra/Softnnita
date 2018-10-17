@@ -216,7 +216,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public void createUserIsoftProfile(String loginusertransaction,Usuarios usuario) throws ServiceException
+    public void createUserIsoftProfile(Map<String, String> mapConfiguration, Usuarios usuario) throws ServiceException
     {
         try
         {
@@ -239,7 +239,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             logger.info("Se agrega al usuario [" + usuario.getLogin() + "]");
             //Se realiza la auditoria de la operacion
             listDetails.add(recordDetailBinnacleUsersMassiveSucess("", usuario.getLogin()));
-            bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.WEB, loginusertransaction,listDetails);
+            bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.valueOf(1), mapConfiguration.get(MAP_USER_TRANSACTION), listDetails);
         }
         catch (DaoException e)
         {
@@ -250,7 +250,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(String loginusertransaction, String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(Map<String, String> mapConfiguration, String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
 
         List<UsuarioPerfilMassive> listResponse = new ArrayList<>();
@@ -261,7 +261,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             {
                 Usuarios userExist = usuariosDao.getUsuarioPorLogin(item.getLoginname());
 
-                //Se crea la respuesta de la lista
+                //Se crea la respuesta de la lista response
                 UsuarioPerfilMassive usersCreate = new UsuarioPerfilMassive();
                 usersCreate.setLoginname(item.getLoginname());
 
@@ -351,11 +351,11 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             //Se realiza la auditoria de la operacion
             try
             {
-                bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIOS_MASIVOS, EnumCanalesISoft.WEB, loginusertransaction, listDetails);
+                bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIOS_MASIVOS, EnumCanalesISoft.valueOf(1), mapConfiguration.get(MAP_USER_TRANSACTION), listDetails);
             }
             catch (ServiceException ex)
             {
-                logger.error("Falla el registro de bitacora de [" + loginusertransaction + "]");
+                logger.error("Falla el registro de bitacora de [" + mapConfiguration.get(MAP_USER_TRANSACTION) + "]");
             }
         }
         catch (DaoException e)
@@ -368,7 +368,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public void addProfilesUser(String loginname, List<String> perfiles) throws ServiceException
+    public void addProfilesUser(Map<String, String> mapConfiguration, String loginname, List<String> perfiles) throws ServiceException
     {
         try
         {
@@ -419,11 +419,13 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<Perfiles> findProfilesSystem() throws ServiceException
+    public List<Perfiles> findProfilesSystem(Map<String, String> mapConfiguration) throws ServiceException
     {
         try
         {
-            return perfilesDao.findProfilesSystem(true);
+            List<Perfiles> listProfiles = perfilesDao.findProfilesSystem(true);
+            bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CONSULTAR_PERFILES, EnumCanalesISoft.valueOf(1), mapConfiguration.get(MAP_USER_TRANSACTION));
+            return listProfiles;
         }
         catch (DaoException e)
         {

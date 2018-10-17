@@ -25,6 +25,14 @@ public abstract class GatewayBaseBean
      * Servicios JWT
      */
     private static JwtDao jwtDao;
+    /**
+     * Constantes Mapa de transacciones de la llave de usuario.
+     */
+    public static String MAP_USER_TRANSACTION = "usertransaction";
+    /**
+     * Constantes Mapa de transacciones de la llave del canal de transaccion.
+     */
+    public static String MAP_CANAL_TRANSACTION = "canaltransaction";
 
     /**
      * Validacions base a parametros de entrada, comparacion
@@ -45,12 +53,13 @@ public abstract class GatewayBaseBean
     /**
      * Valida la licencia que intenta interactuar con el
      * sistema.
+     *
      * @param key Llave de sistema
      * @throws LicenseException ocurre si falla la operacion.
      */
-    public static String validateLicence(String key) throws LicenseException
+    public static Map<String, String> validateLicence(String key) throws LicenseException
     {
-        String loginuser;
+        Map<String, String> mapConfigurationLicence = new HashMap<>();
         try
         {
             Map<String, Object> mapConfiguration = new HashMap<>();
@@ -58,22 +67,26 @@ public abstract class GatewayBaseBean
             mapConfiguration.put("access", "Prueba12$");
             String generate = (String) jwtDao.deGenerarToken(key, mapConfiguration);
             DatosLicencia quote = (DatosLicencia) JSonUtil.fromJson(generate, DatosLicencia.class);
-            loginuser = quote.getClienteISoft();
+            //Se llena el mapa de configuracion
+            mapConfigurationLicence.put(MAP_USER_TRANSACTION, quote.getClienteISoft());
+            mapConfigurationLicence.put(MAP_CANAL_TRANSACTION, String.valueOf(quote.getCanal()));
         }
         catch (JWTVerificationException e)
         {
-            throw new LicenseException(e.getMessage(),EstatusGenericos.PROFILER_GENERIC_LICENSE.getCode(),"Falla la verificacion JWT");
+            throw new LicenseException(e.getMessage(), EstatusGenericos.PROFILER_GENERIC_LICENSE.getCode(), "Falla la verificacion JWT");
         }
         catch (UnsupportedEncodingException e)
         {
-            throw new LicenseException(e.getMessage(),EstatusGenericos.PROFILER_GENERIC_LICENSE.getCode(),"Falla encoding JWT");
+            throw new LicenseException(e.getMessage(), EstatusGenericos.PROFILER_GENERIC_LICENSE.getCode(), "Falla encoding JWT");
         }
         catch (JwtException e)
         {
-            throw new LicenseException(e.getMessage(),EstatusGenericos.PROFILER_GENERIC_LICENSE.getCode(),"Falla general JWT");
+            throw new LicenseException(e.getMessage(), EstatusGenericos.PROFILER_GENERIC_LICENSE.getCode(), "Falla general JWT");
         }
-        return loginuser;
-
+        finally
+        {
+            return mapConfigurationLicence;
+        }
     }
 
     /**
