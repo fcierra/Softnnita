@@ -30,11 +30,13 @@ C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\MonedasDao.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\exceptions\JwtException.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\exceptions\LicenseException.java
+C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\gateways\models\response\ResponseFindProfilesUsers.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\util\ConstantesBaseBean.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\exceptions\ServiceException.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\gateways\models\request\users\RequestNewUsersMassiveISoftProfile.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\util\EnumSexConfig.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\modelsweb\DatosSesionUsuario.java
+C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\modelsweb\PerfilesDeUsuario.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\JwtDao.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\HibernateDao.java
 C:\Users\ycarrillo\Desktop\Herramientas\Personal\Documentacion\ISOFT\REPOSITORIO\Softnnita\ISoft-Profile-Api\src\main\java\co\isoft\nnita\profile\api\dao\MenuPerfilDao.java

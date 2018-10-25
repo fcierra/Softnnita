@@ -26,7 +26,7 @@ public interface BitacoraService
      * @param loginuser  usuario que realiza la transaccion
      * @throws ServiceException Ocurre si falla la operacion.
      */
-    public void registarBitacora(EnumFuncionalityISoft funcionalidad, EnumCanalesISoft enumCanal, String loginuser) throws ServiceException;
+    public void registrarBitacora(EnumFuncionalityISoft funcionalidad, EnumCanalesISoft enumCanal, String loginuser) throws ServiceException;
 
     /**
      * Realiza un registro de bitacora asociada a un evento
@@ -37,6 +37,6 @@ public interface BitacoraService
      * @param listDetails detalle de la transaccion.
      * @throws ServiceException Ocurre si falla la operacion.
      */
-    public void registarBitacora(EnumFuncionalityISoft funcionalidad, EnumCanalesISoft enumCanal, String loginuser,List<DetalleBitacora> listDetails) throws ServiceException;
+    public void registrarBitacora(EnumFuncionalityISoft funcionalidad, EnumCanalesISoft enumCanal, String loginuser,List<DetalleBitacora> listDetails) throws ServiceException;
 
 }

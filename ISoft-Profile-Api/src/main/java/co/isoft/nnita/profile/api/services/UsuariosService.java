@@ -4,6 +4,7 @@ import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
+import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 
 import java.util.List;
@@ -91,12 +92,29 @@ public interface UsuariosService
      * @param perfiles listado de perfiles
      * @throws ServiceException Ocurre si falla la operacion.
      */
-    public void addProfilesUser(Map<String,String> mapConfiguration,String loginuser, List<String> perfiles) throws ServiceException;
+    public List<UsuarioPerfilMassive> addProfilesUser(Map<String,String> mapConfiguration,String loginuser, List<String> perfiles) throws ServiceException;
+
+    /**
+     * Desasociar perfiles de un determinado usuario.
+     * @param mapConfiguration mapa de configuracion de acceso.
+     * @param loginuser usuario a desasociar perfiles
+     * @param perfiles perfiles a desasociar.
+     * @throws ServiceException Ocurre si falla la operacion.
+     */
+    public List<UsuarioPerfilMassive> unAddProfilesUser(Map<String,String> mapConfiguration,String loginuser, List<String> perfiles) throws ServiceException;
 
     /**
      * Busca los perfiles disponibles de sistema.
      * @throws ServiceException Ocurre si falla la operacion.
      */
     public List<Perfiles> findProfilesSystem(Map<String,String> mapConfiguration) throws ServiceException;
+
+    /**
+     * Busca los perfiles disponibles de sistema.
+     * @param loginuser usuario que se desea consultar.
+     * @param mapConfiguration mapa de configuracion.
+     * @throws ServiceException Ocurre si falla la operacion.
+     */
+    public List<PerfilesDeUsuario> findProfilesUsers(Map<String,String> mapConfiguration,String loginuser) throws ServiceException;
 
 }

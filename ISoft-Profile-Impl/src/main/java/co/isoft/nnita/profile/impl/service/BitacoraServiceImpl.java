@@ -59,7 +59,7 @@ public class BitacoraServiceImpl extends UtilServices implements BitacoraService
     private UsuariosDao usuariosDao;
 
     @Override
-    public void registarBitacora(EnumFuncionalityISoft funcionalidad, EnumCanalesISoft enumCanal, String loginuser) throws ServiceException
+    public void registrarBitacora(EnumFuncionalityISoft funcionalidad, EnumCanalesISoft enumCanal, String loginuser) throws ServiceException
     {
         try
         {
@@ -98,7 +98,7 @@ public class BitacoraServiceImpl extends UtilServices implements BitacoraService
     }
 
     @Override
-    public void registarBitacora(EnumFuncionalityISoft funcionalidad, EnumCanalesISoft enumCanal, String loginuser, List<DetalleBitacora> listDetails) throws ServiceException
+    public void registrarBitacora(EnumFuncionalityISoft funcionalidad, EnumCanalesISoft enumCanal, String loginuser, List<DetalleBitacora> listDetails) throws ServiceException
     {
         try
         {

@@ -29,6 +29,26 @@ public class UsuarioPerfilMassive
      * Descripcion de las respuesta de response
      */
     private String description;
+    /**
+     * Codigo de la transaccion
+     */
+    private String codetransaction;
+
+    /**
+     * Constructor por defecto
+     */
+    public UsuarioPerfilMassive()
+    {
+    }
+
+    /**
+     * Constructor que inicializa el valor del login de usuario
+     * @param loginname login de usuario
+     */
+    public UsuarioPerfilMassive(String loginname)
+    {
+        this.loginname = loginname;
+    }
 
     /**
      * Obtienen el loginname del usuario masivo a crear
@@ -131,5 +151,25 @@ public class UsuarioPerfilMassive
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    /**
+     * Obtiene el codigo de la transaccion del item
+     *
+     * @return valor de la transaccion
+     */
+    public String getCodetransaction()
+    {
+        return codetransaction;
+    }
+
+    /**
+     * Asigna un valor al codigo de la transaccion
+     *
+     * @param codetransaction valor a asignar
+     */
+    public void setCodetransaction(String codetransaction)
+    {
+        this.codetransaction = codetransaction;
     }
 }

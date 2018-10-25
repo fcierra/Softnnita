@@ -10,6 +10,7 @@ import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUsersM
 import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.EstatusGenericos;
@@ -81,7 +82,7 @@ public class GatewayServicesUsers
      * @param request Datos de entrada de elementos de usuario
      * @return Response comun con los datos de servicio
      */
-    @RequestMapping(value = "/crearusuarioisoft", method = RequestMethod.POST)
+    @RequestMapping(value = "/crearusuarioisoft", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse crearusuarioisoft(@RequestParam String sharedkey, @RequestBody RequestNewUserISoftProfile request)
     {
         CommonsResponse response = new CommonsResponse();
@@ -126,7 +127,7 @@ public class GatewayServicesUsers
     }
 
 
-    @RequestMapping(value = "/crearusuariosisoftmasivo", method = RequestMethod.POST)
+    @RequestMapping(value = "/crearusuariosisoftmasivo", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse crearusuarioisoftmasivo(@RequestParam String sharedkey, @RequestBody RequestNewUsersMassiveISoftProfile request)
     {
         CommonsResponse response = new CommonsResponse();
@@ -173,7 +174,7 @@ public class GatewayServicesUsers
         return response;
     }
 
-    @RequestMapping(value = "/asociarperfilusuario", method = RequestMethod.POST)
+    @RequestMapping(value = "/asociarperfilusuario", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse asociarperfilusuario(@RequestParam String sharedkey, @RequestBody RequestAddProfileUser request)
     {
         CommonsResponse response = new CommonsResponse();
@@ -187,7 +188,55 @@ public class GatewayServicesUsers
             GatewayBaseBean.validarParametrosGenericos(request.getCodesProfiles());
 
             //Crea un usuario sin perfil, no puedra ingresar
-            userServices.addProfilesUser(mapConfiguration,request.getLoginname(),request.getCodesProfiles());
+            List<UsuarioPerfilMassive> list = userServices.addProfilesUser(mapConfiguration,request.getLoginname(),request.getCodesProfiles());
+            response.setResponse(list);
+        }
+        catch (ParamsException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            return response;
+        }
+        catch (LicenseException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            response.setResponse(sharedkey);
+            return response;
+        }
+        catch (ServiceException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(),message, EstatusGenericos.WARN.getCode());
+            return response;
+        }
+        catch (Exception ex)
+        {
+            GatewayBaseBean.matchToResponses(response);
+            return response;
+        }
+        return response.toOk();
+    }
+
+    @RequestMapping(value = "/desasociarperfilusuario", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public CommonsResponse desasociarperfilusuario(@RequestParam String sharedkey, @RequestBody RequestAddProfileUser request)
+    {
+        CommonsResponse response = new CommonsResponse();
+        try
+        {
+            //Se valida la licencia si puede consumir los procesos.
+            Map<String,String> mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+
+            //Se validan los parametros de entrada
+            GatewayBaseBean.validarParametrosGenericos(request.getLoginname());
+            GatewayBaseBean.validarParametrosGenericos(request.getCodesProfiles());
+
+            //Crea un usuario sin perfil, no puedra ingresar
+            List<UsuarioPerfilMassive> list = userServices.unAddProfilesUser(mapConfiguration,request.getLoginname(),request.getCodesProfiles());
+            response.setResponse(list);
         }
         catch (ParamsException ex)
         {
@@ -262,4 +311,46 @@ public class GatewayServicesUsers
         return response.toOk();
     }
 
+    /**
+     * Crea un usuario en el sistema ISoftProfile
+     *
+     * @return Response comun con los datos de servicio
+     */
+    @RequestMapping(value = "/consultarperfilesusuario", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public CommonsResponse findprofilesusers(@RequestParam String loginuser,@RequestParam String sharedkey)
+    {
+        CommonsResponse response = new CommonsResponse();
+        try
+        {
+            //Se valida la licencia si puede consumir los procesos.
+            Map<String,String> mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+
+            //Se consulta los perfiles de usuario
+            List<PerfilesDeUsuario> list = userServices.findProfilesUsers(mapConfiguration,loginuser);
+            if (list==null || list.isEmpty())
+                return response.toEmpty();
+            response.setResponse(list);
+        }
+        catch (LicenseException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            response.setResponse(sharedkey);
+            return response;
+        }
+        catch (ServiceException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(),message, EstatusGenericos.WARN.getCode());
+            return response;
+        }
+        catch (Exception ex)
+        {
+            GatewayBaseBean.matchToResponses(response);
+            return response;
+        }
+        return response.toOk();
+    }
 }

@@ -10,6 +10,7 @@ import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.UsuarioPerfil;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
+import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import co.isoft.nnita.profile.api.services.BitacoraService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
@@ -239,7 +240,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             logger.info("Se agrega al usuario [" + usuario.getLogin() + "]");
             //Se realiza la auditoria de la operacion
             listDetails.add(recordDetailBinnacleUsersMassiveSucess("", usuario.getLogin()));
-            bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.valueOf(1), mapConfiguration.get(MAP_USER_TRANSACTION), listDetails);
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION), listDetails);
         }
         catch (DaoException e)
         {
@@ -351,7 +352,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             //Se realiza la auditoria de la operacion
             try
             {
-                bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIOS_MASIVOS, EnumCanalesISoft.valueOf(1), mapConfiguration.get(MAP_USER_TRANSACTION), listDetails);
+                bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIOS_MASIVOS, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION), listDetails);
             }
             catch (ServiceException ex)
             {
@@ -368,11 +369,76 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public void addProfilesUser(Map<String, String> mapConfiguration, String loginname, List<String> perfiles) throws ServiceException
+    public List<UsuarioPerfilMassive> addProfilesUser(Map<String, String> mapConfiguration, String loginname, List<String> perfiles) throws ServiceException
     {
+        List<UsuarioPerfilMassive> listResponse = new ArrayList<>();
+        List<DetalleBitacora> listDetails = new ArrayList<>();
         try
         {
+            //Se consulta el usuario para saber si existe y garantizar el agregado del perfil
             Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginname);
+            if (usuario == null)
+                throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
+
+            //Transformar todos los string en mayusculas
+            convertAtrrUppercase(usuario);
+
+            for (String itemperfil : perfiles)
+            {
+                //Se busca el perfil
+                Perfiles perfil = new Perfiles(itemperfil);
+                perfil = perfilesDao.buscarObjetoUnico(perfil);
+
+                //Transformar todos los string en mayusculas
+                if (perfil != null)
+                {
+                    convertAtrrUppercase(perfil);
+
+                    //Se crea la relacion
+                    UsuarioPerfil usuarioPerfil = new UsuarioPerfil(usuario,perfil,new Long("1"));
+
+                    //Se agrega la relacion
+                    UsuarioPerfil usuarioPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
+                    logger.debug("Se agrega el perfil: [" + itemperfil + "] al usuario [" + loginname + "]");
+                    if (usuarioPerfilExist == null){
+                        usuarioPerfilDao.agregar(usuarioPerfil);
+                        //Se crea la respuesta
+                        listResponse.add(construcObjectResponseAddProfileOk(usuario,itemperfil));
+                        //Se lista el detalle de la transaccion
+                        listDetails.add(recordDetailBinnacleUsersAddProfileOk(usuario.getLogin(), itemperfil));
+                    }
+                    else
+                        logger.debug("Se repite relacion: [" + itemperfil + "] al usuario [" + loginname + "], no se agrega nuevamente");
+                }
+                else
+                {
+                    //Se crea la respuesta
+                    listResponse.add(construcObjectResponseAddProfileFail(usuario,itemperfil));
+                    //Se lista el detalle de la transaccion
+                    listDetails.add(recordDetailBinnacleUsersAddProfileFail(usuario.getLogin(), itemperfil));
+                    logger.debug("El perfil: [" + itemperfil + "] no se agrega por que no existe");
+                }
+            }
+            //Se registra la transaccion
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_ASOCIAR_PERFIL, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION),listDetails);
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error tratando de asociar perfiles al usuario:  [" + loginname + "]";
+            logger.error(mensaje, e);
+            throw new ServiceException(e.getMessage(), e, e.getCode());
+        }
+        return listResponse;
+    }
+
+    @Override
+    public List<UsuarioPerfilMassive> unAddProfilesUser(Map<String, String> mapConfiguration, String loginuser, List<String> perfiles) throws ServiceException
+    {
+        List<UsuarioPerfilMassive> listResponse = new ArrayList<>();
+        List<DetalleBitacora> listDetails = new ArrayList<>();
+        try
+        {
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginuser);
             if (usuario == null)
                 throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
 
@@ -391,31 +457,46 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                     convertAtrrUppercase(perfil);
 
                     //Se crea la relacion
-                    UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
-                    usuarioPerfil.setUsuario(usuario);
-                    usuarioPerfil.setPerfil(perfil);
-                    usuarioPerfil.setHabilitado(new Long("1"));
+                    UsuarioPerfil usuarioPerfil = new UsuarioPerfil(usuario,perfil,new Long("1"));
 
                     //Se agrega la relacion
-                    UsuarioPerfil usuarioPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
-                    logger.debug("Se agrega el perfil: [" + itemperfil + "] al usuario [" + loginname + "]");
-                    if (usuarioPerfilExist == null)
-                        usuarioPerfilDao.agregar(usuarioPerfil);
-                    else
-                        logger.debug("Se repite relacion: [" + itemperfil + "] al usuario [" + loginname + "], no se agrega nuevamente");
+                    usuarioPerfil = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
+                    logger.debug("Se agrega el perfil: [" + itemperfil + "] al usuario [" + loginuser + "]");
+                    if (usuarioPerfil != null){
+                        usuarioPerfilDao.eliminar(usuarioPerfil);
+                        //Se crea la respuesta
+                        listResponse.add(construcObjectResponseUnAddProfileOk(usuario,itemperfil));
+                        //Se lista el detalle de la transaccion
+                        listDetails.add(recordDetailBinnacleUsersUnAddProfileOk(usuario.getLogin(), itemperfil));
+                    }
+                    else{
+                        logger.debug("La relacion: [" + itemperfil + "] al usuario [" + loginuser + "], no existe");
+                        //Se crea la respuesta
+                        listResponse.add(construcObjectResponseUnAddProfileFail(usuario,itemperfil));
+                        //Se lista el detalle de la transaccion
+                        listDetails.add(recordDetailBinnacleUsersUnAddProfileFail(usuario.getLogin(), itemperfil));
+                    }
+
                 }
                 else
                 {
-                    logger.debug("El perfil: [" + itemperfil + "] no se agrega por que no existe");
+                    //Se crea la respuesta
+                    listResponse.add(construcObjectResponseUnAddProfileFail(usuario,itemperfil));
+                    //Se lista el detalle de la transaccion
+                    listDetails.add(recordDetailBinnacleUsersUnAddProfileFail(usuario.getLogin(), itemperfil));
+                    logger.debug("El perfil: [" + itemperfil + "] no existe");
                 }
             }
+            //Se registra la transaccion
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_DESASOCIAR_PERFIL, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION),listDetails);
         }
         catch (DaoException e)
         {
-            String mensaje = "Error tratando de asociar perfiles al usuario:  [" + loginname + "]";
+            String mensaje = "Error tratando de desasociar perfiles al usuario:  [" + loginuser + "]";
             logger.error(mensaje, e);
             throw new ServiceException(e.getMessage(), e, e.getCode());
         }
+        return listResponse;
     }
 
     @Override
@@ -424,12 +505,41 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         try
         {
             List<Perfiles> listProfiles = perfilesDao.findProfilesSystem(true);
-            bitacoraService.registarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CONSULTAR_PERFILES, EnumCanalesISoft.valueOf(1), mapConfiguration.get(MAP_USER_TRANSACTION));
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CONSULTAR_PERFILES, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION));
             return listProfiles;
         }
         catch (DaoException e)
         {
             String mensaje = "Error tratando de consultar los perfiles de sistema";
+            logger.error(mensaje, e);
+            throw new ServiceException(e.getMessage(), e, e.getCode());
+        }
+    }
+
+    @Override
+    public List<PerfilesDeUsuario> findProfilesUsers(Map<String, String> mapConfiguration, String loginuser) throws ServiceException
+    {
+        try
+        {
+            List<DetalleBitacora> listDetails = new ArrayList<>();
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginuser);
+            if (usuario == null)
+                throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
+
+            //Transformar todos los string en mayusculas
+            convertAtrrUppercase(usuario);
+
+            List<PerfilesDeUsuario> listProfiles = perfilesDao.findProfilesUsers(usuario);
+            for (PerfilesDeUsuario perfil : listProfiles){
+                //Se lista el detalle de la transaccion
+                listDetails.add(recordDetailBinnacleUsersFindProfileOk(usuario.getLogin(), perfil.getNombre_perfil()));
+            }
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CONSULTAR_PERFILES_USUARIO, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION),listDetails);
+            return listProfiles;
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error tratando de consultar los perfiles del usuario ["+loginuser+"]";
             logger.error(mensaje, e);
             throw new ServiceException(e.getMessage(), e, e.getCode());
         }

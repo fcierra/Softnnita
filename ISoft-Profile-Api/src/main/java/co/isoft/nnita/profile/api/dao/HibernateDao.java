@@ -68,4 +68,11 @@ public abstract interface HibernateDao<ENTIDAD,TIPO_ID> extends Serializable
      * @exception DaoException Sucede si falla la operacion.
      */
     public abstract void actualizar(ENTIDAD dato) throws DaoException;
+
+    /**
+     * Eliminar un registro
+     * @param dato
+     * @throws DaoException
+     */
+    public abstract void eliminar(ENTIDAD dato) throws DaoException;
 }

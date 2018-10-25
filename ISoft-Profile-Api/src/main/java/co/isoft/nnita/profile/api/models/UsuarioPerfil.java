@@ -1,6 +1,7 @@
 package co.isoft.nnita.profile.api.models;
 
 import co.isoft.nnita.profile.api.dao.BusinessClass;
+import sun.misc.Perf;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +15,8 @@ import java.io.Serializable;
  * @Date 13/07/2018
  */
 @NamedQueries({
-        @NamedQuery(name = "buscarPerfilesUsuarios", query = "select usr.perfil from UsuarioPerfil usr where usr.usuario.id =:PARAM_USER")
+        @NamedQuery(name = "buscarPerfilesUsuarios", query = "select usr.perfil from UsuarioPerfil usr where usr.usuario.id =:PARAM_USER"),
+        @NamedQuery(name = "findProfilesUsers", query = "select new co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario(usr.perfil.nombre_perfil,usr.habilitado)from UsuarioPerfil usr where usr.usuario.id =:PARAM_USER")
 })
 
 @Entity
@@ -76,6 +78,24 @@ public class UsuarioPerfil implements Serializable, BusinessClass
 
     public void setHabilitado(Long habilitado)
     {
+        this.habilitado = habilitado;
+    }
+
+    /**
+     * Constructor por defecto
+     */
+    public UsuarioPerfil (){
+    }
+
+    /**
+     * Constructor que inicializa los valores de parametros
+     * @param usuario usuario
+     * @param perfil perfil
+     * @param habilitado registro habilitado
+     */
+    public UsuarioPerfil (Usuarios usuario, Perfiles perfil, Long habilitado){
+        this.usuario = usuario;
+        this.perfil = perfil;
         this.habilitado = habilitado;
     }
 

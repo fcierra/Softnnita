@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @Date 06/06/2018
  */
 @NamedQueries({
-                @NamedQuery(name = "findProfilesSystem", query = "from Perfiles perfil where perfil.habilitado =:PARAM_STATUS and perfil.administrador = 0 "),
+                @NamedQuery(name = "findProfilesSystem", query = "from Perfiles perfil where perfil.habilitado =:PARAM_STATUS and perfil.administrador = 0 ")
             })
 @Entity
 @SequenceGenerator(name = "perfiles-gen", sequenceName = "isoft_perfiles_id_perfil_seq", initialValue = 1, allocationSize = 1)
@@ -76,6 +76,22 @@ public class Perfiles implements Serializable, BusinessClass
     public void setHabilitado(Long habilitado)
     {
         this.habilitado = habilitado;
+    }
+
+    /**
+     * Constructor por defecto
+     */
+    public Perfiles(){
+
+    }
+
+    /**
+     * Constructor que inicializa el valor
+     * del codigo del perfil.
+     * @param nombre_perfil
+     */
+    public Perfiles(String nombre_perfil){
+        this.nombre_perfil = nombre_perfil;
     }
 
     @Override

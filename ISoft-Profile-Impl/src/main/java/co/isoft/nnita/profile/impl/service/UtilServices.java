@@ -1,6 +1,8 @@
 package co.isoft.nnita.profile.impl.service;
 
 import co.isoft.nnita.profile.api.models.DetalleBitacora;
+import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -100,6 +102,127 @@ public abstract class UtilServices
         DetalleBitacora detail = new DetalleBitacora();
         detail.setDetalle_valor_fin("Se intenta crear al usuario [" + usercreate + "]");
         detail.setDescripcion("El usuario ya existe!.");
+        return detail;
+    }
+
+    /**
+     * Realiza un detalle de bitacora de adicion
+     * de perfile a un determinado usuario.
+     * @return
+     */
+    public DetalleBitacora recordDetailBinnacleUsersAddProfileOk(String loginuser, String profile)
+    {
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_fin("Se agrega el perfil: ["+profile+"] al usuario :[" + loginuser + "]");
+        detail.setDescripcion("Se agrega satisfactoriamente el perfil.");
+        return detail;
+    }
+
+    /**
+     * Realiza un detalle de bitacora de adicion
+     * de perfile a un determinado usuario.
+     * @return
+     */
+    public DetalleBitacora recordDetailBinnacleUsersAddProfileFail(String loginuser, String profile)
+    {
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_fin("No se agrega el perfil: ["+profile+"] al usuario :[" + loginuser + "]");
+        detail.setDescripcion("No se registra la operacion, el perfil indicado no existe.");
+        return detail;
+    }
+
+    /**
+     * Realiza un detalle de bitacora de adicion
+     * de perfile a un determinado usuario.
+     * @return
+     */
+    public DetalleBitacora recordDetailBinnacleUsersUnAddProfileOk(String loginuser, String profile)
+    {
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_fin("Se elimina el perfil: ["+profile+"] al usuario :[" + loginuser + "]");
+        detail.setDescripcion("Se Elimina satisfactoriamente el perfil.");
+        return detail;
+    }
+
+    public DetalleBitacora recordDetailBinnacleUsersUnAddProfileFail(String loginuser, String profile){
+        DetalleBitacora detail = recordDetailBinnacleUsersUnAddProfileOk(loginuser,profile);
+        detail.setDetalle_valor_fin("No se elimina el perfil: ["+profile+"] al usuario :[" + loginuser + "]");
+        detail.setDescripcion("El perfil indicado a eliminar no existe o no esta asociado al usuario.");
+        return detail;
+    }
+
+    /**
+     * Construye el response de la transaccion de adicion de perfiles a }
+     * un usuario.
+     * @param user usuario a agregar perfiles.
+     * @param codeprofile codigo del perfil.
+     * @return Objeto usuario.
+     */
+    public UsuarioPerfilMassive construcObjectResponseAddProfileOk (Usuarios user, String codeprofile){
+        UsuarioPerfilMassive usersCreate = new UsuarioPerfilMassive();
+        usersCreate.setNames(user.getNombres());
+        usersCreate.setLastname(user.getApellidos());
+        usersCreate.setCodeperfil(codeprofile);
+        usersCreate.setDescription("Se agrega satisfactoriamente el perfil.");
+        usersCreate.setCodetransaction("200");
+        return usersCreate;
+    }
+
+    /**
+     * Construye el response de la transaccion de eliminacion de perfiles a
+     * un usuario.
+     * @param user usuario a agregar perfiles.
+     * @param codeprofile codigo del perfil.
+     * @return Objeto usuario.
+     */
+    public UsuarioPerfilMassive construcObjectResponseUnAddProfileOk (Usuarios user, String codeprofile){
+        UsuarioPerfilMassive usersCreate = new UsuarioPerfilMassive();
+        usersCreate.setNames(user.getNombres());
+        usersCreate.setLastname(user.getApellidos());
+        usersCreate.setCodeperfil(codeprofile);
+        usersCreate.setDescription("Se desasocia satisfactoriamente el perfil.");
+        usersCreate.setCodetransaction("200");
+        return usersCreate;
+    }
+
+    /**
+     * Construye el response de la transaccion de adicion de perfiles a
+     * un usuario por un perfil no existente.
+     * @param user usuario a agregar perfiles.
+     * @param codeprofile codigo del perfil.
+     * @return Objeto usuario.
+     */
+    public UsuarioPerfilMassive construcObjectResponseAddProfileFail (Usuarios user, String codeprofile){
+        UsuarioPerfilMassive usersCreate = construcObjectResponseAddProfileOk(user,codeprofile);
+        usersCreate.setDescription("No se registra la operacion, el perfil indicado no existe.");
+        usersCreate.setCodetransaction("404");
+        return usersCreate;
+    }
+
+    /**
+     * Construye un response de la transaccion de eliminar un perfil no existente
+     * de un determinado usuario
+     * @param user usuario a indicar
+     * @param codeprofile codigo del perfil.
+     * @return objeto de respuesta
+     */
+    public UsuarioPerfilMassive construcObjectResponseUnAddProfileFail (Usuarios user, String codeprofile){
+        UsuarioPerfilMassive usersCreate = construcObjectResponseAddProfileOk(user,codeprofile);
+        usersCreate.setDescription("No se registra la operacion, el perfil indicado no existe o no esta asociado al usuario.");
+        usersCreate.setCodetransaction("404");
+        return usersCreate;
+    }
+
+    /**
+     * Realiza un detalle de bitacora de consulta de perfiles de un usuario.
+     * de perfile a un determinado usuario.
+     * @return
+     */
+    public DetalleBitacora recordDetailBinnacleUsersFindProfileOk(String loginuser, String profile)
+    {
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_fin("Se consulta el perfil: ["+profile+"] al usuario :[" + loginuser + "]");
+        detail.setDescripcion("Consulta Satisfactoria.");
         return detail;
     }
 }

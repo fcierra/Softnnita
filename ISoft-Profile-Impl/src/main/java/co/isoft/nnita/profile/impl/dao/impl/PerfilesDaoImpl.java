@@ -1,7 +1,9 @@
 package co.isoft.nnita.profile.impl.dao.impl;
 
 import co.isoft.nnita.profile.api.exceptions.DaoException;
+import co.isoft.nnita.profile.api.models.UsuarioPerfil;
 import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
 import co.isoft.nnita.profile.impl.dao.HibernateDaoImpl;
 import co.isoft.nnita.profile.api.dao.PerfilesDao;
 import co.isoft.nnita.profile.api.models.Perfiles;
@@ -29,6 +31,16 @@ public class PerfilesDaoImpl extends HibernateDaoImpl<Integer,Perfiles> implemen
         Query query = session.getNamedQuery("findProfilesSystem");
         query.setParameter("PARAM_STATUS", status?new Long("1"):new Long("0"));
         List<Perfiles> list = (List<Perfiles>) query.list();
+        return list;// OK
+    }
+
+    @Override
+    public List<PerfilesDeUsuario> findProfilesUsers(Usuarios usuario) throws DaoException
+    {
+        Session session = this.getSession();
+        Query query = session.getNamedQuery("findProfilesUsers");
+        query.setParameter("PARAM_USER", usuario.getId());
+        List<PerfilesDeUsuario> list = (List<PerfilesDeUsuario>) query.list();
         return list;// OK
     }
 }

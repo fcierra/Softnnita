@@ -8,6 +8,7 @@ import co.isoft.nnita.profile.api.models.Parametros;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
+import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ContextProvider;
@@ -152,14 +153,26 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public void addProfilesUser(Map<String,String> mapConfiguration,String loginname, List<String> perfiles) throws ServiceException
+    public List<UsuarioPerfilMassive> addProfilesUser(Map<String,String> mapConfiguration,String loginname, List<String> perfiles) throws ServiceException
     {
-        getUsuariosService().addProfilesUser(mapConfiguration,loginname, perfiles);
+        return getUsuariosService().addProfilesUser(mapConfiguration,loginname, perfiles);
+    }
+
+    @Override
+    public List<UsuarioPerfilMassive> unAddProfilesUser(Map<String, String> mapConfiguration, String loginuser, List<String> perfiles) throws ServiceException
+    {
+        return getUsuariosService().unAddProfilesUser(mapConfiguration,loginuser, perfiles);
     }
 
     @Override
     public List<Perfiles> findProfilesSystem(Map<String,String> mapConfiguration) throws ServiceException
     {
         return getUsuariosService().findProfilesSystem(mapConfiguration);
+    }
+
+    @Override
+    public List<PerfilesDeUsuario> findProfilesUsers(Map<String, String> mapConfiguration, String loginuser) throws ServiceException
+    {
+        return getUsuariosService().findProfilesUsers(mapConfiguration,loginuser);
     }
 }

@@ -13,6 +13,7 @@ co\isoft\nnita\profile\api\services\UsuariosService.class
 co\isoft\nnita\profile\api\util\JSonUtil.class
 co\isoft\nnita\profile\api\gateways\util\GatewayBaseBean.class
 co\isoft\nnita\profile\api\util\EnumSexConfig.class
+co\isoft\nnita\profile\api\gateways\models\response\ResponseFindProfilesUsers.class
 co\isoft\nnita\profile\api\models\Bitacora.class
 co\isoft\nnita\profile\api\models\Usuarios.class
 co\isoft\nnita\profile\api\gateways\models\response\ResponseCreateUsersMassive.class
@@ -49,6 +50,7 @@ co\isoft\nnita\profile\api\gateways\models\request\profile\RequestAddProfileUser
 co\isoft\nnita\profile\api\models\DetalleBitacora.class
 co\isoft\nnita\profile\api\dao\CanalesDao.class
 co\isoft\nnita\profile\api\dao\EventosDao.class
+co\isoft\nnita\profile\api\modelsweb\PerfilesDeUsuario.class
 co\isoft\nnita\profile\api\dao\EstilosDao.class
 co\isoft\nnita\profile\api\models\Menus_Item.class
 co\isoft\nnita\profile\api\services\PermisosService.class

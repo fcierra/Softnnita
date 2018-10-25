@@ -73,6 +73,6 @@ public enum EnumCanalesISoft
             case 2:
                 return APP;
         }
-        return null;
+        return WEB;
     }
 }

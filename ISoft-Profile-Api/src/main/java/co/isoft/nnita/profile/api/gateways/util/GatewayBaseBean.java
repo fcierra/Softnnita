@@ -7,6 +7,7 @@ import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.gateways.models.CommonsResponse;
 import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUserISoftProfile;
 import co.isoft.nnita.profile.api.gateways.models.response.ResponseFindProfiles;
+import co.isoft.nnita.profile.api.gateways.models.response.ResponseFindProfilesUsers;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosLicencia;
@@ -83,10 +84,9 @@ public abstract class GatewayBaseBean
         {
             throw new LicenseException(e.getMessage(), EstatusGenericos.PROFILER_GENERIC_LICENSE.getCode(), "Falla general JWT");
         }
-        finally
-        {
-            return mapConfigurationLicence;
-        }
+
+        return mapConfigurationLicence;
+
     }
 
     /**
@@ -178,6 +178,29 @@ public abstract class GatewayBaseBean
                 ResponseFindProfiles item = new ResponseFindProfiles();
                 item.setId(perfil.getId().toString());
                 item.setNombre(perfil.getNombre_perfil());
+                listClone.add(item);
+            }
+        }
+        return listClone;
+    }
+
+    /**
+     * Clona la informacion de entrada respecto a perfiles
+     * para trabajar con las instacias de la aplicacion basados
+     * en la consulta de perfiles de usuarios
+     *
+     * @param list objeto con informacion
+     * @return objeto listado de perfiles de respuestas clonados
+     */
+    public static List<ResponseFindProfiles> clonProfileUsersResponse(List<Perfiles> list)
+    {
+        List<ResponseFindProfiles> listClone = new ArrayList<>();
+        if (list!=null && !list.isEmpty()){
+            for (Perfiles perfil: list){
+                ResponseFindProfilesUsers item = new ResponseFindProfilesUsers();
+                item.setId(perfil.getId().toString());
+                item.setNombre(perfil.getNombre_perfil());
+                item.setHabilitado(perfil.getHabilitado());
                 listClone.add(item);
             }
         }
