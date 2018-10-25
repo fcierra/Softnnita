@@ -225,4 +225,18 @@ public abstract class UtilServices
         detail.setDescripcion("Consulta Satisfactoria.");
         return detail;
     }
+
+    /**
+     * Realiza un detalle de bitacora abocado al cambio de estatus de usuarios-
+     * @param loginuser usuario a detallar
+     * @param status status asignado
+     * @return Un detalle de bitacora
+     */
+    public DetalleBitacora recordDetailBinnacleStatusUsers(String loginuser, boolean status)
+    {
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_fin("Se agrega el estatus : ["+status+"] al usuario :[" + loginuser + "]");
+        detail.setDescripcion("Se administrar el estado satisfactoriamente.");
+        return detail;
+    }
 }

@@ -153,6 +153,12 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
+    public void manageStatusEnabledUsers(Map<String, String> mapConfiguration, String loginuser, boolean status) throws ServiceException
+    {
+        getUsuariosService().manageStatusEnabledUsers(mapConfiguration, loginuser, status);
+    }
+
+    @Override
     public List<UsuarioPerfilMassive> addProfilesUser(Map<String,String> mapConfiguration,String loginname, List<String> perfiles) throws ServiceException
     {
         return getUsuariosService().addProfilesUser(mapConfiguration,loginname, perfiles);

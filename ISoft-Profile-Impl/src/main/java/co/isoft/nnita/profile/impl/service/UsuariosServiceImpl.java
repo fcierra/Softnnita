@@ -197,7 +197,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             if (idUsuario != null)
             {
                 UsuarioPerfil perfilUsuario = new UsuarioPerfil();
-                perfilUsuario.setHabilitado(new Long("1"));
+                perfilUsuario.setHabilitado(1L);
                 perfilUsuario.setUsuario(usuario);
                 for (Map.Entry<String, Perfiles> entry : perfiles.entrySet())
                 {
@@ -276,7 +276,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                     passord = passwordEncoder.encode(passord);
                     userExist.setClave(passord);
                     userExist.setFecha_registro(new Date());
-                    userExist.setHabilitado(new Long("1"));
+                    userExist.setHabilitado(1L);
                     convertAtrrUppercase(userExist);
                     usuariosDao.agregar(userExist);
                     logger.info("Se agrega al usuario [" + userExist.getLogin() + "]");
@@ -293,7 +293,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
 
                         usuarioPerfil.setUsuario(userExist);
                         usuarioPerfil.setPerfil(perfil);
-                        usuarioPerfil.setHabilitado(new Long("1"));
+                        usuarioPerfil.setHabilitado(1L);
 
                         //Se busca si la relacion no existe
                         UsuarioPerfil userProfileExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
@@ -321,7 +321,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                         {
                             usuarioPerfil.setUsuario(userExist);
                             usuarioPerfil.setPerfil(perfil);
-                            usuarioPerfil.setHabilitado(new Long("1"));
+                            usuarioPerfil.setHabilitado(1L);
                             //Se busca si la relacion no existe
                             UsuarioPerfil userPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
                             logger.debug("Se agrega el perfil: [" + item.getCodeperfil() + "] al usuario [" + item.getLoginname() + "]");
@@ -369,6 +369,36 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
+    public void manageStatusEnabledUsers(Map<String, String> mapConfiguration, String loginuser, boolean status) throws ServiceException
+    {
+        List<DetalleBitacora> listDetails = new ArrayList<>();
+        try
+        {
+            //Se consulta el usuario para saber si existe y garantizar las consultas posteriores
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginuser);
+            if (usuario == null)
+                throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
+
+            if (status)
+                usuario.setHabilitado(1L);
+            else
+                usuario.setHabilitado(0L);
+
+            usuariosDao.actualizar(usuario);
+            //Se registra la transaccion
+            //Se lista el detalle de la transaccion
+            listDetails.add(recordDetailBinnacleStatusUsers(usuario.getLogin(), status));
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_ADMINISTRAR_STATUS_USUARIOS, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION),listDetails);
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error tratando de habilitar / deshabilitar :["+status+"] para el usuario :[" + loginuser + "]";
+            logger.error(mensaje, e);
+            throw new ServiceException(e.getMessage(), e, e.getCode());
+        }
+    }
+
+    @Override
     public List<UsuarioPerfilMassive> addProfilesUser(Map<String, String> mapConfiguration, String loginname, List<String> perfiles) throws ServiceException
     {
         List<UsuarioPerfilMassive> listResponse = new ArrayList<>();
@@ -395,7 +425,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                     convertAtrrUppercase(perfil);
 
                     //Se crea la relacion
-                    UsuarioPerfil usuarioPerfil = new UsuarioPerfil(usuario,perfil,new Long("1"));
+                    UsuarioPerfil usuarioPerfil = new UsuarioPerfil(usuario,perfil,1l);
 
                     //Se agrega la relacion
                     UsuarioPerfil usuarioPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
@@ -457,7 +487,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                     convertAtrrUppercase(perfil);
 
                     //Se crea la relacion
-                    UsuarioPerfil usuarioPerfil = new UsuarioPerfil(usuario,perfil,new Long("1"));
+                    UsuarioPerfil usuarioPerfil = new UsuarioPerfil(usuario,perfil,1l);
 
                     //Se agrega la relacion
                     usuarioPerfil = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);

@@ -86,6 +86,16 @@ public interface UsuariosService
     public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException;
 
     /**
+     * Metodo que administra la disponibilidad o estatus de un usuario
+     * se puede habilitar o deshabilitar
+     * @param mapConfiguration mapa de configuracion
+     * @param loginuser usuario a habilitar o deshabilitar
+     * @param status status a asignar
+     * @throws ServiceException Ocurre si falla la operacion.
+     */
+    public void manageStatusEnabledUsers(Map<String,String> mapConfiguration,String loginuser, boolean status) throws ServiceException;
+
+    /**
      * Agrega un listado de perfiles a un usuario indicado
      * @param mapConfiguration mapa de configuracion de datos utiles
      * @param loginuser usuario que se le asociara el perfil.

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> ISOFT NNITA </title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
+  <!-- Morris chart -->
+  <link rel="stylesheet" href="plugins/morris/morris.css">
+  <!-- jvectormap -->
+  <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+  <!-- Date Picker -->
+  <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+  <!-- bootstrap wysihtml5 - text editor -->
+  <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini">
+	<div class="wrapper"><!-- CONTENEDOR PRINCIPAL-->
+  		<nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom"> <!-- Barra notificaciones -->
+		<ul class="navbar-nav"> <!-- Icono menu "desplegable" -->
+			<li class="nav-item">
+			<a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+			</li>
+		</ul> <!-- Fin Icono menu "desplegable" -->
+		<ul class="navbar-nav ml-auto">
+			<!--TODO: posible imagen -->	
+			<li class="nav-item dropdown"> <!-- COMPOSISION MENSAJES--> 
+				<a class="nav-link" data-toggle="dropdown" href="#TODO"><!-- Icono Mensajes -->
+				<i class="fa fa-comments-o"></i>
+				<span class="badge badge-danger navbar-badge">3</span>
+				</a> <!-- Fin Icono Mensajes -->
+			<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"> <!-- SUB MENU CONTENIDO MENSAJES -->
+				<a href="#TODO" class="dropdown-item"> <!-- Contenido icono mensajes 1 -->
+					<div class="media">
+					<img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+					<div class="media-body">
+					<h3 class="dropdown-item-title">Brad Diesel
+					<span class="float-right text-sm text-danger"><i class="fa fa-star"></i></span>
+					</h3>
+					<p class="text-sm">Call me whenever you can...</p>
+					<p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i> 4 Hours Ago 
+					</p>
+					</div>
+					</div>
+				</a><!-- fin Contenido icono mensajes 1 -->
+			  <div class="dropdown-divider"></div>
+				<a href="#TODO" class="dropdown-item"> <!-- Contenido icono mensajes 2 -->
+					<div class="media">
+					<img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+					<div class="media-body">
+					<h3 class="dropdown-item-title">John Pierce
+					<span class="float-right text-sm text-muted"><i class="fa fa-star"></i></span>
+					</h3>
+					<p class="text-sm">I got your message bro</p>
+					<p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i> 4 Hours Ago</p>
+					</div>
+					</div>
+				</a> <!-- Fin Contenido icono mensajes 2 -->
+			  <div class="dropdown-divider"></div>
+				<a href="#TODO" class="dropdown-item"> <!-- Contenido icono mensajes 3 -->
+					<div class="media">
+					<img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+					<div class="media-body">
+					<h3 class="dropdown-item-title">Nora Silvester
+					<span class="float-right text-sm text-warning"><i class="fa fa-star"></i></span>
+					</h3>
+					<p class="text-sm">The subject goes here</p>
+					<p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i> 4 Hours Ago</p>
+					</div>
+					</div>
+				</a> <!-- Fin Contenido icono mensajes 3 -->
+			  <div class="dropdown-divider"></div>
+				<a href="#TODO" class="dropdown-item dropdown-footer">See All Messages
+				</a>
+			</div><!-- FIN SUB MENU CONTENIDO MENSAJES -->
+			</li><!-- FIN COMPOSISION MENSAJES-->
+			<li class="nav-item dropdown"> <!-- COMPOSICION NOTIFICACIONES-->
+				<a class="nav-link" data-toggle="dropdown" href="#TODO"><!-- Icono notificacion-->
+				<i class="fa fa-bell-o"></i>
+				<span class="badge badge-warning navbar-badge">15</span>
+				</a> <!-- Fin Icono notificacion-->
+			<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"> <!-- SUB MENU NOTIFIACIONES-->
+				<span class="dropdown-item dropdown-header">15 Notifications</span>
+				<div class="dropdown-divider"></div>
+				<a href="#TODO" class="dropdown-item"><!--Notifiacion 1-->
+				<i class="fa fa-envelope mr-2"></i> 4 new messages
+				<span class="float-right text-muted text-sm">3 mins</span>
+				</a> <!--Fin Notifiacion 1-->
+				<div class="dropdown-divider"></div>
+				<a href="#TODO" class="dropdown-item"><!--Notificacion 2-->
+				<i class="fa fa-file mr-2"></i> 3 new reports
+				<span class="float-right text-muted text-sm">2 days</span>
+				</a> <!--Fin Notifiacion 2-->
+				<div class="dropdown-divider"></div>
+				<a href="#TODO" class="dropdown-item dropdown-footer"> <!--Notifiacion 3-->
+				See All Notifications
+				</a> <!--Fin Notifiacion 3-->
+			</div>
+			</li>		
+				<ul class="navbar-nav"><!-- Boton Salir -->
+				<li class="nav-item">
+				<a class="nav-link"  href="#todo: enlace para salir de la app"><i class="fa fa-power-off">
+				</i></a>
+				</li>
+				</ul> <!--Fin Boton Salir -->
+    	</ul>
+  		</nav> <!--Fin Barra notificaciones -->
+  	<aside class="main-sidebar sidebar-dark-primary elevation-3"> <!--CONTENEDOR BARRA VERTICAL IZQUIERDO-->
+    		<!--Logo Isoftnnita-->
+    		<a href="index.html" class="brand-link">
+      		<img src="dist/img/Softnnita.png" alt="logo softnnita" class="brand-image img-circle elevation-3 "
+           	style="opacity: .8"><!-- iImagen Logo-->
+      		<span class="brand-text font-weight-right"> &nbsp;</span>
+    		</a>
+	  		<!--Fin Logo Isoftnnita-->
+    	<div class="sidebar"> <!-- MENU IZQUIERDO DE LA PANTALLA -->
+      	<div class="user-panel mt-3 pb-3 mb-3 d-flex"><!-- Imagen Perfil-->
+        	<div class="image">
+          	<img src="dist/img/avatar2.png" class="img-circle elevation-2" alt="User Image">
+        	</div>
+        	<div class="info">
+          	<a href="#" class="d-block">Mi Perfil</a> 
+        	</div>
+      	</div><!--Fin Imagen Perfil-->
+      	<nav class="mt-2"> <!-- MENU DE ISOFTNNITA -->
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          	<li class="nav-item"> <!-- Modulo Administracion -->
+            	<a href="./index2.html" class="nav-link">
+              	<i class="nav-icon fa fa-laptop"></i>
+              	<p>Administar</p>
+            	</a>
+          	</li> <!--Fin Modulo Administracion -->
+			<li class="nav-item"> <!-- Modulo Parametros -->
+            	<a href="./index.html" class="nav-link">
+              	<i class="nav-icon fa fa-laptop"></i>
+              	<p>Parametros</p>
+            	</a>
+          	</li><!--Fin Modulo Parametros -->	
+        </ul>
+      </nav> <!--FIN MENU DE ISOFTNNITA -->
+    	</div> <!-- FIN MENU IZQUIERDO DE LA PANTALLA  -->
+  </aside> <!--FIN CONTENEDOR BARRA VERTICAL IZQUIERDO-->
+  		<div class="content-wrapper"><!--CONTENEDOR CENTRAL-->
+    		<section class="content"><!--CONTENIDO DEL CONTENEDOR CENTRAL-->
+			<img src="dist/img/Softnnita.png"
+			 alt="logo de softnnita"
+			 class="nnita">
+    		</section><!-- FIN CONTENIDO DEL CONTENEDOR CENTRAL-->
+		</div><!--FIN CONTENEDOR CENTRAL-->
+	  <footer class="main-footer"> <!--PIE DE PAGINA-->
+			<strong>Copyright &copy; 2018 <a href="https://www.youtube.com/watch?v=Nod3jt2pKbk&start_radio=1&list=RDNod3jt2pKbk">ISOFTNNITA</a>.</strong>
+			All rights reserved.
+			<div class="float-right d-none d-sm-inline-block">
+			<b>Version</b> 1.0.0-Isoftnnita
+			</div>
+	  </footer><!--FIN PIE DE PAGINA-->
+	  <aside class="control-sidebar control-sidebar-dark">
+		<!-- Control sidebar content goes here -->
+	  </aside>
+	</div><!--FIN CONTENEDOR PRINCIPAL-->
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+$.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Morris.js charts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="plugins/morris/morris.min.js"></script>
+<!-- Sparkline -->
+<script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+<!-- jvectormap -->
+<script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="plugins/knob/jquery.knob.js"></script>
+<!-- daterangepicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- datepicker -->
+<script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<!-- Slimscroll -->
+<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+</body>
+</html>
