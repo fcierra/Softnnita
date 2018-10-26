@@ -13,6 +13,7 @@ import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
+import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,106 @@ public class GatewayServicesUsers
     /**
      * Crea un usuario en el sistema ISoftProfile
      *
+     * @param loginuser Login de usuario
+     * @param sharedkey Licencia de consumo
+     * @return Response comun con los datos de servicio
+     */
+    @RequestMapping(value = "/consultarusuario", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public CommonsResponse consultarusuario(@RequestParam String loginuser,@RequestParam String sharedkey)
+    {
+        CommonsResponse response = new CommonsResponse();
+        try
+        {
+            //Se valida la licencia si puede consumir los procesos
+            Map<String,String> mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+
+            //Se validan los parametros de entrada
+            GatewayBaseBean.validarParametrosGenericos(loginuser);
+
+            //Crea un usuario sin perfil, no puedra ingresar
+            Usuarios usuario = userServices.findUser(loginuser);
+            usuario.setClave(null);
+            response.setResponse(usuario);
+        }
+        catch (ParamsException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            return response;
+        }
+        catch (LicenseException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            response.setResponse(sharedkey);
+            return response;
+        }
+        catch (ServiceException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(),message, EstatusGenericos.WARN.getCode());
+            return response;
+        }
+        catch (Exception ex)
+        {
+            GatewayBaseBean.matchToResponses(response);
+            return response;
+        }
+        return response.toOk();
+    }
+
+    /**
+     * Consulta todos los usuarios del sistema
+     *
+     * @param sharedkey Licencia de consumo
+     * @return Response comun con los datos de servicio
+     */
+    @RequestMapping(value = "/consultarusuariossistema", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public CommonsResponse consultarusuariossistema(@RequestParam String sharedkey)
+    {
+        CommonsResponse response = new CommonsResponse();
+        try
+        {
+            //Se valida la licencia si puede consumir los procesos
+            GatewayBaseBean.validateLicence(sharedkey);
+
+            //Crea un usuario sin perfil, no puedra ingresar
+            List<UsuariosTodos> usuarios = userServices.findAllUsers();
+            if (usuarios!=null && !usuarios.isEmpty())
+                response.setResponse(usuarios);
+            else
+                return response.toEmpty();
+        }
+        catch (LicenseException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            response.setResponse(sharedkey);
+            return response;
+        }
+        catch (ServiceException ex)
+        {
+            String code_error = "login.error." + ex.getCode();
+            String message = messageSource.getMessage( code_error, new Object[]{"App"},Locale.getDefault());
+            GatewayBaseBean.matchToResponses(response, ex.getCode(),message, EstatusGenericos.WARN.getCode());
+            return response;
+        }
+        catch (Exception ex)
+        {
+            GatewayBaseBean.matchToResponses(response);
+            return response;
+        }
+        return response.toOk();
+    }
+
+    /**
+     * Crea un usuario en el sistema ISoftProfile
+     *
+     * @param sharedkey Licencia de consumo
      * @param request Datos de entrada de elementos de usuario
      * @return Response comun con los datos de servicio
      */
@@ -127,7 +228,12 @@ public class GatewayServicesUsers
         return response.toOk();
     }
 
-
+    /**
+     * Crea usuarios masivos en el sistema
+     * @param sharedkey Licencia de consumo
+     * @param request cuerpo del request
+     * @return Response comun con los datos de respuesta
+     */
     @RequestMapping(value = "/crearusuariosisoftmasivo", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse crearusuarioisoftmasivo(@RequestParam String sharedkey, @RequestBody RequestNewUsersMassiveISoftProfile request)
     {
@@ -269,8 +375,8 @@ public class GatewayServicesUsers
         return response.toOk();
     }
 
-    @RequestMapping(value = "/administatususuarios", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse administatususuarios(@RequestParam String sharedkey, @RequestBody RequestAdminStatusUsers request)
+    @RequestMapping(value = "/adminstatususuarios", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public CommonsResponse adminstatususuarios(@RequestParam String sharedkey, @RequestBody RequestAdminStatusUsers request)
     {
         CommonsResponse response = new CommonsResponse();
         try
@@ -283,7 +389,7 @@ public class GatewayServicesUsers
 
 
             //Crea un usuario sin perfil, no puedra ingresar
-            userServices.manageStatusEnabledUsers(mapConfiguration,request.getLoginname(),request.getStatus().equals("1")?true:false);
+            userServices.manageStatusEnabledUsers(mapConfiguration,request.getLoginname(),request.getStatus().equals(1L)?true:false);
         }
         catch (ParamsException ex)
         {

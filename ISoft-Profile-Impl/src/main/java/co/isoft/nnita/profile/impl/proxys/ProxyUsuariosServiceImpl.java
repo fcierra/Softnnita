@@ -10,6 +10,7 @@ import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
+import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ContextProvider;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ServicesReferencesMapping;
@@ -104,22 +105,21 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public DatosSesionUsuario validateUser(String login, String clave) throws ServiceException
+    public DatosSesionUsuario findUser(String login, String clave) throws ServiceException
     {
-        return getUsuariosService().validateUser(login, clave);
+        return getUsuariosService().findUser(login, clave);
     }
 
     @Override
-    public Usuarios validateUser(String login) throws ServiceException
+    public Usuarios findUser(String login) throws ServiceException
     {
-        return getUsuariosService().validateUser(login);
+        return getUsuariosService().findUser(login);
     }
 
     @Override
-    public List<Usuarios> getAll(boolean estado) throws ServiceException
+    public List<UsuariosTodos> findAllUsers() throws ServiceException
     {
-        String cadena = "";
-        return null;
+        return getUsuariosService().findAllUsers();
     }
 
     @Override

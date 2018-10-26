@@ -5,6 +5,7 @@ import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
 
 import java.util.Date;
 import java.util.List;
@@ -58,5 +59,12 @@ public interface UsuariosDao extends HibernateDao<Usuarios, Long>
      * @throws DaoException Excepcion que ocurre si falla la consulta
      */
     public List<Usuarios> getUsuarioPorEstados(boolean activo) throws DaoException;
+
+    /**
+     * Busca todos los usuarios del sistema
+     * @return Listado de usuarios
+     * @throws DaoException Ocurre si falla la excepcion.
+     */
+    public List<UsuariosTodos> getTodosLosUsuarios() throws DaoException;
 
 }
