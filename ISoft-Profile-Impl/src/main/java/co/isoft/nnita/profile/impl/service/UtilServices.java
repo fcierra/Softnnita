@@ -160,6 +160,7 @@ public abstract class UtilServices
      */
     public UsuarioPerfilMassive construcObjectResponseAddProfileOk (Usuarios user, String codeprofile){
         UsuarioPerfilMassive usersCreate = new UsuarioPerfilMassive();
+        usersCreate.setLoginname(user.getLogin());
         usersCreate.setNames(user.getNombres());
         usersCreate.setLastname(user.getApellidos());
         usersCreate.setCodeperfil(codeprofile);
@@ -178,6 +179,7 @@ public abstract class UtilServices
     public UsuarioPerfilMassive construcObjectResponseUnAddProfileOk (Usuarios user, String codeprofile){
         UsuarioPerfilMassive usersCreate = new UsuarioPerfilMassive();
         usersCreate.setNames(user.getNombres());
+        usersCreate.setLoginname(user.getLogin());
         usersCreate.setLastname(user.getApellidos());
         usersCreate.setCodeperfil(codeprofile);
         usersCreate.setDescription("Se desasocia satisfactoriamente el perfil.");
