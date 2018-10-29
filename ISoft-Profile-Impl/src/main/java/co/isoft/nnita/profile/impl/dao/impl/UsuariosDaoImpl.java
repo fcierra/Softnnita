@@ -6,6 +6,7 @@ import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.models.Usuarios;
+import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
 import co.isoft.nnita.profile.impl.dao.HibernateDaoImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -83,6 +84,15 @@ public class UsuariosDaoImpl extends HibernateDaoImpl<Integer, Usuarios> impleme
         Query query = session.getNamedQuery("buscarUsuarioPorEstado");
         query.setParameter("PARAM_ESTADO", activo ? 1 : 0);
         List<Usuarios> usuarios = (List<Usuarios>) query.list();
+        return usuarios;// OK
+    }
+
+    @Override
+    public List<UsuariosTodos> getTodosLosUsuarios() throws DaoException
+    {
+        Session session = this.getSession();
+        Query query = session.getNamedQuery("buscarTodosLosUsuarios");
+        List<UsuariosTodos> usuarios = (List<UsuariosTodos>) query.list();
         return usuarios;// OK
     }
 

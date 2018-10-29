@@ -12,6 +12,7 @@ import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
+import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
 import co.isoft.nnita.profile.api.services.BitacoraService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.ConstantesBaseBean;
@@ -80,12 +81,12 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public DatosSesionUsuario validateUser(String loginUsuario, String clave) throws ServiceException
+    public DatosSesionUsuario findUser(String loginUsuario, String clave) throws ServiceException
     {
         try
         {
             DatosSesionUsuario datosUsuario = new DatosSesionUsuario();
-            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginUsuario);
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginUsuario.toUpperCase());
             if (usuario != null)
             {
                 if (usuario.getClave().equals(clave.trim()))
@@ -114,11 +115,11 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public Usuarios validateUser(String loginUsuario) throws ServiceException
+    public Usuarios findUser(String loginUsuario) throws ServiceException
     {
         try
         {
-            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginUsuario);
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginUsuario.toUpperCase());
             if (usuario != null)
             {
                 return usuario;
@@ -133,15 +134,15 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<Usuarios> getAll(boolean estado) throws ServiceException
+    public List<UsuariosTodos> findAllUsers() throws ServiceException
     {
         try
         {
-            return usuariosDao.getUsuarioPorEstados(estado);
+            return usuariosDao.getTodosLosUsuarios();
         }
         catch (DaoException e)
         {
-            String mensaje = "Error al obtener el listado de Usuarios por estado [" + estado + "]";
+            String mensaje = "Error al obtener el listado de todos los usuarios del sistema";
             logger.error(mensaje, e);
             throw new ServiceException(mensaje, e);
         }
@@ -260,7 +261,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         {
             for (UsuarioPerfilMassive item : listUsers)
             {
-                Usuarios userExist = usuariosDao.getUsuarioPorLogin(item.getLoginname());
+                Usuarios userExist = usuariosDao.getUsuarioPorLogin(item.getLoginname().toUpperCase());
 
                 //Se crea la respuesta de la lista response
                 UsuarioPerfilMassive usersCreate = new UsuarioPerfilMassive();
@@ -375,7 +376,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         try
         {
             //Se consulta el usuario para saber si existe y garantizar las consultas posteriores
-            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginuser);
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginuser.toUpperCase());
             if (usuario == null)
                 throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
 
@@ -406,12 +407,9 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         try
         {
             //Se consulta el usuario para saber si existe y garantizar el agregado del perfil
-            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginname);
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginname.toUpperCase());
             if (usuario == null)
                 throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
-
-            //Transformar todos los string en mayusculas
-            convertAtrrUppercase(usuario);
 
             for (String itemperfil : perfiles)
             {
@@ -468,12 +466,9 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         List<DetalleBitacora> listDetails = new ArrayList<>();
         try
         {
-            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginuser);
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginuser.toUpperCase());
             if (usuario == null)
                 throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
-
-            //Transformar todos los string en mayusculas
-            convertAtrrUppercase(usuario);
 
             for (String itemperfil : perfiles)
             {
@@ -552,12 +547,9 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         try
         {
             List<DetalleBitacora> listDetails = new ArrayList<>();
-            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginuser);
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginuser.toUpperCase());
             if (usuario == null)
                 throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
-
-            //Transformar todos los string en mayusculas
-            convertAtrrUppercase(usuario);
 
             List<PerfilesDeUsuario> listProfiles = perfilesDao.findProfilesUsers(usuario);
             for (PerfilesDeUsuario perfil : listProfiles){

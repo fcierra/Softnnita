@@ -6,6 +6,7 @@ import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
 import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
 import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
+import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public interface UsuariosService
      * @return Objeto con el los datos de usuario
      * @throws ServiceException sucede si falla la operacion
      */
-    public DatosSesionUsuario validateUser(String login,String clave) throws ServiceException;
+    public DatosSesionUsuario findUser(String login,String clave) throws ServiceException;
 
     /**
      * Regersa la informacion de usuario
@@ -33,15 +34,14 @@ public interface UsuariosService
      * @return Objeto usuarios
      * @throws ServiceException Sucede si falla la operacion.
      */
-    public Usuarios validateUser(String login) throws ServiceException;
+    public Usuarios findUser(String login) throws ServiceException;
 
     /**
      * Obtiene todos los usuarios del sistema
-     * @param estado estado que se desea buscar
      * @return Listado de usuarios
      * @throws ServiceException Excepcion que ocurre si falla la operacion
      */
-    public List<Usuarios> getAll(boolean estado) throws ServiceException;
+    public List<UsuariosTodos> findAllUsers() throws ServiceException;
 
     /**
      * Valida la clave actual del usuario

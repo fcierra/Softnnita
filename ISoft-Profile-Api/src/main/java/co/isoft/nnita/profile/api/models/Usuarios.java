@@ -16,11 +16,15 @@ import java.util.Date;
  * @Date 01/06/2018
  */
 @NamedQueries({
-        @NamedQuery(name = "buscarUsuarioPorLogin", query = "from Usuarios usuario where usuario.login =:PARAM_LOGIN and usuario.habilitado = 1"),
+        @NamedQuery(name = "buscarUsuarioPorLogin", query = "from Usuarios usuario where usuario.login =:PARAM_LOGIN"),
         @NamedQuery(name = "buscarUsuarioPorCorreo", query = "from Usuarios usuario where usuario.email =:PARAM_CORREO and usuario.habilitado = 1"),
         @NamedQuery(name = "buscarUsuarioUltimoMesActivo", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
         @NamedQuery(name = "buscarUsuarioActivosPorFecha", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
-        @NamedQuery(name = "buscarUsuarioPorEstado", query = "from Usuarios usuario where usuario.habilitado =:PARAM_ESTADO") })
+        @NamedQuery(name = "buscarUsuarioPorEstado", query = "from Usuarios usuario where usuario.habilitado =:PARAM_ESTADO"),
+        @NamedQuery(name = "buscarTodosLosUsuarios", query = "select new co.isoft.nnita.profile.api.modelsweb.UsuariosTodos("
+                + " usuario.login,usuario.nombres,usuario.apellidos,usuario.email,usuario.sexo,usuario.fecha_ultima_visita,usuario.habilitado"
+                + ")from Usuarios usuario")
+})
 @Entity
 @SequenceGenerator(name = "usuarios-gen", sequenceName = "isoft_usuarios_id_usuario_seq", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_USUARIOS")
@@ -63,7 +67,7 @@ public class Usuarios implements Serializable, BusinessClass
     private Date fecha_ultima_visita;
 
     @ManyToOne
-    @JoinColumn(name = "PERFIL_DEFAULT", nullable = true)
+    @JoinColumn(name = "PERFIL_DEFAULT")
     private Perfiles perfilDefault;
 
     @Column(name = "HABILITADO", nullable = false)

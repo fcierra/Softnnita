@@ -235,7 +235,8 @@ public abstract class UtilServices
     public DetalleBitacora recordDetailBinnacleStatusUsers(String loginuser, boolean status)
     {
         DetalleBitacora detail = new DetalleBitacora();
-        detail.setDetalle_valor_fin("Se agrega el estatus : ["+status+"] al usuario :[" + loginuser + "]");
+        String status_seg = status?"Habilidato":"Deshabilitado";
+        detail.setDetalle_valor_fin("Se agrega el estatus : ["+status_seg+"] al usuario :[" + loginuser + "]");
         detail.setDescripcion("Se administrar el estado satisfactoriamente.");
         return detail;
     }
