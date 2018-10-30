@@ -67,7 +67,7 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
         Usuarios user = null;
         try
         {
-            user = userService.findUser(ssoId);
+            user = userService.findUser(ssoId.toUpperCase());
         }
         catch (ServiceException e)
         {
@@ -79,7 +79,7 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
         {
             throw new UsernameNotFoundException("Username no existe ["+ssoId+"]");
         }
-        setLoginUser(ssoId);
+        setLoginUser(ssoId.toUpperCase());
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getClave(), true, true, true, true, getGrantedAuthorities(user));
     }
 

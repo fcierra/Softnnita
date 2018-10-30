@@ -2,9 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://java.sun.com/jsf/core"
-      >
+>
 <h:head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title>ISoftnnita-Profiler</title>
@@ -19,59 +18,51 @@
     <f:event listener="#{loginBean.preRenderViewIndex}" type="preRenderView"/>
 </f:metadata>
 <h:body styleClass="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <b>
-                #{msg['commons.name.company.sub']}
-            </b>
-                #{msg['commons.name.company.sub1']}
-        </div>
-        <!-- /.login-logo -->
-        <div class="card">
+    <div class="login-box"> <!-- CONTENDOR PRINCIPAL -->
+        <div class="login-logo"> <!-- IMAGEN SOFTNNITA -->
+            <img src="http://localhost:8080/ContenidoEstatico/resources/ui/img/Softnnita.png" alt="Product 1" class="img-circle img-size-10 mr-2"/>
+        </div> <!--FIN IMAGEN SOFTNNITA -->
+        <div class="card"> <!-- CONTENDOR FORMULARIO LOGIN-->
             <div class="card-body login-card-body">
-                <p class="login-box-msg">
-                    #{msg['login.init']}
-                </p>
                 <form action="${request.contextPath}/appLogin" method="POST">
                     <div class="form-group has-feedback">
                         <input type="text" name="app_username" class="form-control" placeholder="#{msg['login.holder.login']}"/>
                         <span class="fa fa-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" name="app_password" class="form-control" placeholder="#{msg['login.holder.pass']}" />
+                        <input type="password" name="app_password" class="form-control" placeholder="#{msg['login.holder.pass']}"/>
                         <span class="fa fa-lock form-control-feedback"></span>
                     </div>
+
                     <div class="row">
+                        <div class="col-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox"/>Recuerdame
+                                </label>
+                            </div>
+                        </div>
                         <div class="col-4">
                             <input class="btn btn-primary btn-block btn-flat" type="submit" value="#{msg['commons.buttom.accept']}"/>
                         </div>
                     </div>
                 </form>
-                <!--Mensajes de error-->
-                <div>
-                    <h:messages infoClass="alert alert-success"
-                                warnClass="alert alert-info"
-                                errorClass="alert alert-warning"
-                                fatalClass="alert alert-danger" />
+                <div class="social-auth-links text-center mb-3">
                 </div>
-
-                <!-- /.social-auth-links -->
-
                 <p class="mb-1">
-                    <a href="#">
-                        #{msg['login.label.forgot.pass']}
-                    </a>
-                </p>
-                <p class="mb-0">
-                    <a href="register.html" class="text-center">
-                        #{msg['login.label.register']}
-                    </a>
+                    <a href="#TODO">Recordar Contraseña</a>
                 </p>
             </div>
-            <!-- /.login-card-body -->
+        </div> <!--FIN CONTENDOR FORMULARIO LOGIN-->
+        <!-- INICIO MENSAJES DE NOTIFICACION -->
+        <div>
+            <h:messages infoClass="alert alert-success"
+                        warnClass="alert alert-info"
+                        errorClass="alert alert-warning"
+                        fatalClass="alert alert-danger" />
         </div>
-    </div>
-    <!-- /.login-box -->
+        <!-- FIN INICIO MENSAJES DE NOTIFICACION -->
+    </div> <!--FIN CONTENDOR PRINCIPAL -->
 
     <!-- jQuery -->
     <h:outputScript library="ui/plugins/jquery" name="jquery.min.js"/>

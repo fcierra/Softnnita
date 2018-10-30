@@ -112,7 +112,7 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
         try
         {
             HttpSession session = ISoftProfilerBaseBean.getHttpSession();
-            usuario = userServices.findUser(username);
+            usuario = userServices.findUser(username.toUpperCase());
             if (usuario != null)
             {
                 DatosSesionUsuario datosSesionUsuario = new DatosSesionUsuario();

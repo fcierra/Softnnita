@@ -26,20 +26,12 @@
 <h:body styleClass="hold-transition login-page">
     <h:form prependId="false">
         <div class="login-box">
-            <div class="login-logo">
-                <b>
-                    #{msg['commons.name.company.sub']}
-                </b>
-                #{msg['commons.name.company.sub1']}
-            </div>
+            <div class="login-logo"> <!-- IMAGEN SOFTNNITA -->
+                <img src="http://localhost:8080/ContenidoEstatico/resources/ui/img/Softnnita.png" alt="Product 1" class="img-circle img-size-10 mr-2"/>
+            </div> <!--FIN IMAGEN SOFTNNITA -->
             <!-- /.login-logo -->
             <div class="card">
                 <div class="card-body login-card-body">
-                    <p class="login-box-msg">
-                        #{msg['login.init']}
-                    </p>
-
-
                     <div class="form-group has-feedback">
                         <h:inputText styleClass="form-control" id="username" value="#{loginBean.username}" a:placeholder="#{msg['login.holder.login']}">
                         </h:inputText>
@@ -50,14 +42,18 @@
                         </h:inputSecret>
                         <span class="fa fa-lock form-control-feedback"></span>
                     </div>
+
                     <div class="row">
-
-
+                        <div class="col-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox"/>Recuerdame
+                                </label>
+                            </div>
+                        </div>
                         <div class="col-4">
                             <h:commandButton styleClass="btn btn-primary btn-block btn-flat" id="siguiente" value="#{msg['commons.buttom.accept']}" action="#{loginBean.process}"/>
                         </div>
-
-
                     </div>
 
                     <!--<form action="${request.contextPath}/appLogin" method="POST">
@@ -76,17 +72,10 @@
                                     fatalClass="alert alert-danger"/>
                     </div>
 
-                    <!-- /.social-auth-links -->
-
+                    <div class="social-auth-links text-center mb-3">
+                    </div>
                     <p class="mb-1">
-                        <a href="#">
-                            #{msg['login.label.forgot.pass']}
-                        </a>
-                    </p>
-                    <p class="mb-0">
-                        <a href="register.html" class="text-center">
-                            #{msg['login.label.register']}
-                        </a>
+                        <a href="#TODO">Recordar Contraseña</a>
                     </p>
                 </div>
                 <!-- /.login-card-body -->
