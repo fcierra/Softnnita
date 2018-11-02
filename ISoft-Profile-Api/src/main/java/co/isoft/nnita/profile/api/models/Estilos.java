@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @Date 06/06/2018
  */
 @Entity
-@SequenceGenerator(name = "estilos-gen", sequenceName = "isoft_mestilos_id_estilo_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "estilos-gen", sequenceName = "ISOFT_MESTILOS_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_MESTILOS")
 public class Estilos implements Serializable, BusinessClass
 {

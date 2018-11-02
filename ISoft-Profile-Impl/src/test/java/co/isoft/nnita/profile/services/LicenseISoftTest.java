@@ -16,11 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.FORMAT_DATES;
 
 /**
  * Implementacion de servicio de integracion
@@ -33,7 +36,8 @@ public class LicenseISoftTest
     private JwtDao jwtDao = new JwtImpl();
 
     @Test
-    public void shouldGenerateTokenCredenciales() throws Exception {
+    public void shouldGenerateTokenCredenciales() throws Exception
+    {
         Map<String, Object> mapConfigurtation = new HashMap<>();
         mapConfigurtation.put("client", "ISOFT");
         mapConfigurtation.put("access", "Prueba12$");
@@ -41,10 +45,16 @@ public class LicenseISoftTest
         DatosLicencia datosLicencia = new DatosLicencia();
         datosLicencia.setClienteISoft("ISOFT");
         datosLicencia.setCanal(1);
-        datosLicencia.setFechaInicio(new Date());
-        datosLicencia.setFechaFin(new Date());
+
+        SimpleDateFormat format = new SimpleDateFormat(FORMAT_DATES);
+        String finicio = "2018-10-01";
+        String ffin = "2018-12-31";
+        datosLicencia.setFechaInicio(format.parse ( finicio ));
+        datosLicencia.setFechaFin(format.parse ( ffin ));
+
+
         datosLicencia.setIp("127.0.0.1");
-        datosLicencia.setTipoLicencia(EnumTypesLicense.OPEN_ALL.getCode());
+        datosLicencia.setTipoLicencia(EnumTypesLicense.OPEN_ALL);
 
         String generate = jwtDao.generarToken(datosLicencia, mapConfigurtation);
         System.out.println("Put Generate: " + generate);
@@ -65,8 +75,7 @@ public class LicenseISoftTest
         datosLicencia.setFechaInicio(new Date());
         datosLicencia.setFechaFin(new Date());
         datosLicencia.setIp("127.0.0.1");
-        datosLicencia.setTipoLicencia(EnumTypesLicense.OPEN_ALL.getCode());
-
+        datosLicencia.setTipoLicencia(EnumTypesLicense.OPEN_ALL);
 
         try {
             String generate = (String) jwtDao.deGenerarToken(jwtDao.generarToken(datosLicencia, mapConfigurtation), mapConfigurtationOther);

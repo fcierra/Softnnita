@@ -26,7 +26,7 @@ import java.util.Date;
                 + ")from Usuarios usuario")
 })
 @Entity
-@SequenceGenerator(name = "usuarios-gen", sequenceName = "isoft_usuarios_id_usuario_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "usuarios-gen", sequenceName = "ISOFT_USUARIOS_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_USUARIOS")
 public class Usuarios implements Serializable, BusinessClass
 {

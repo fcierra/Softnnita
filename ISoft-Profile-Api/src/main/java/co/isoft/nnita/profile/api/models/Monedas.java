@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @Date 06/06/2018
  */
 @Entity
-@SequenceGenerator(name = "monedas-gen", sequenceName = "isoft_mmonedas_id_moneda_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "monedas-gen", sequenceName = "ISOFT_MMONEDAS_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_MMONEDAS")
 public class Monedas implements Serializable, BusinessClass
 {

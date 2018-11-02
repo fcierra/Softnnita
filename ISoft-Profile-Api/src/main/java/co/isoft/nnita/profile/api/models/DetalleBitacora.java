@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @Date 11/06/2018
  */
 @Entity
-@SequenceGenerator(name = "detalle-bitacora-gen", sequenceName = "isoft_detalle_bitacora_id_detalle_bitacora_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "detalle-bitacora-gen", sequenceName = "ISOFT_DETALLE_BITACORA_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_DETALLE_BITACORA")
 public class DetalleBitacora implements Serializable, BusinessClass
 {

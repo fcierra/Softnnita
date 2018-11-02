@@ -18,7 +18,7 @@ import java.io.Serializable;
         @NamedQuery(name = "buscarItemsNavegacionDisponiblesPerfil", query = "Select permiso.menuItem from Permisos permiso INNER JOIN permiso.menuItem item where permiso.perfil.id =:PARAM_PERFIL and item.habilitado = 1 and item.menu_padre.id=:PARAM_MENU_PADRE"),
 })
 @Entity
-@SequenceGenerator(name = "permisos-gen", sequenceName = "isoft_permisos_id_permisos_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "permisos-gen", sequenceName = "ISOFT_PERMISOS_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_PERMISOS")
 public class Permisos implements Serializable, BusinessClass
 {

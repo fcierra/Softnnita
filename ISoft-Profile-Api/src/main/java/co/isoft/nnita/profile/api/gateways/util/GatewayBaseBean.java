@@ -16,8 +16,11 @@ import co.isoft.nnita.profile.api.util.JSonUtil;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.*;
 import static co.isoft.nnita.profile.api.util.EstatusGenericos.PROFILER_GENERIC_ERROR_PARAMS;
 
 public abstract class GatewayBaseBean
@@ -26,15 +29,6 @@ public abstract class GatewayBaseBean
      * Servicios JWT
      */
     private static JwtDao jwtDao;
-    /**
-     * Constantes Mapa de transacciones de la llave de usuario.
-     */
-    public static String MAP_USER_TRANSACTION = "usertransaction";
-    /**
-     * Constantes Mapa de transacciones de la llave del canal de transaccion.
-     */
-    public static String MAP_CANAL_TRANSACTION = "canaltransaction";
-
     /**
      * Validacions base a parametros de entrada, comparacion
      * distintas a nulls, espacios vacios y caracteres especiales
@@ -58,19 +52,29 @@ public abstract class GatewayBaseBean
      * @param key Llave de sistema
      * @throws LicenseException ocurre si falla la operacion.
      */
-    public static Map<String, String> validateLicence(String key) throws LicenseException
+    public static Map<String, String> validateLicenceToWS(String key,String ip) throws LicenseException
     {
         Map<String, String> mapConfigurationLicence = new HashMap<>();
         try
         {
             Map<String, Object> mapConfiguration = new HashMap<>();
-            mapConfiguration.put("client", "ISOFT");
-            mapConfiguration.put("access", "Prueba12$");
+            mapConfiguration.put("client", USER_JWT);
+            mapConfiguration.put("access", PASS_JWT);
             String generate = (String) jwtDao.deGenerarToken(key, mapConfiguration);
             DatosLicencia quote = (DatosLicencia) JSonUtil.fromJson(generate, DatosLicencia.class);
+
+            //Se evaluan las fecha de consumo
+            SimpleDateFormat format = new SimpleDateFormat(FORMAT_DATES);
+            String fecha_actual_String = format.format(new Date());
+            Date fecha_actual = format.parse(fecha_actual_String);
+
+            if (!compareDatesRange(quote.getFechaInicio(),quote.getFechaFin(),fecha_actual))
+                throw new LicenseException("Las Fechas de Licencia no Coinciden.",EstatusGenericos.PROFILER_GENERIC_LICENSE.getCode(),"Las Fechas de Licencia no Coinciden.");
+
             //Se llena el mapa de configuracion
             mapConfigurationLicence.put(MAP_USER_TRANSACTION, quote.getClienteISoft());
             mapConfigurationLicence.put(MAP_CANAL_TRANSACTION, String.valueOf(quote.getCanal()));
+            mapConfigurationLicence.put(MAP_IP_TRANSACTION, ip);
         }
         catch (JWTVerificationException e)
         {
@@ -83,6 +87,10 @@ public abstract class GatewayBaseBean
         catch (JwtException e)
         {
             throw new LicenseException(e.getMessage(), EstatusGenericos.PROFILER_GENERIC_LICENSE.getCode(), "Falla general JWT");
+        }
+        catch (ParseException e)
+        {
+            throw new LicenseException(e.getMessage(),EstatusGenericos.PROFILER_GENERIC_LICENSE.getCode(),"Las Fechas de Licencia no Coinciden.");
         }
 
         return mapConfigurationLicence;
@@ -205,6 +213,18 @@ public abstract class GatewayBaseBean
             }
         }
         return listClone;
+    }
+
+    /**
+     * Metodo que compara una fecha entre rangos
+     * @return logico
+     */
+    public static boolean compareDatesRange(Date finit, Date fend, Date question)
+    {
+        //compare no inclusive
+        //return a.compareTo(d) * d.compareTo(b) > 0;
+        //Compare inclusive
+        return finit.compareTo(question) * question.compareTo(fend) >= 0;
     }
 
     /**

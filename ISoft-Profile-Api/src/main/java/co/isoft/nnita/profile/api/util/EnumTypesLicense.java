@@ -9,8 +9,9 @@ package co.isoft.nnita.profile.api.util;
  */
 public enum EnumTypesLicense
 {
-    OPEN_ALL("open.all", "Abierta", "Licencia de alto consumo"),
-    CLOSE_RESERVE("close.reserve", "Reservada", "Licencia de consumo exclusivo"),;
+    OPEN_ALL("open.all", "Abierta", "Licencia de alto consumo."),
+    USERS_CONCURRENT("user.concurrent", "Abierta por usuarios", "Licencia de consumo por usuarios."),
+    IPS("ip.users", "Reservada", "Licencia de consumo exclusivo"),;
     /**
      * Codigo de la licencia
      **/

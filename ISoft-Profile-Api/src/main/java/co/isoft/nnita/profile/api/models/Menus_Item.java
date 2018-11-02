@@ -19,7 +19,7 @@ import java.io.Serializable;
                 @NamedQuery(name = "buscarItemsAdmin", query = "from Menus_Item item where item.menu_padre.id=:PARAM_MENU_PADRE"),
                 @NamedQuery(name = "buscarItemsDeSistema", query = "from Menus_Item item where menu_padre.habilitado = 1 and item.habilitado = 1") })
 @Entity
-@SequenceGenerator(name = "menu-item-gen", sequenceName = "isoft_menu_id_item_menu_item_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "menu-item-gen", sequenceName = "ISOFT_MENU_ITEM_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_MENU_ITEM")
 public class Menus_Item implements Serializable, BusinessClass
 {

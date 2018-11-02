@@ -18,7 +18,7 @@ import java.io.Serializable;
                 @NamedQuery(name = "findProfilesSystem", query = "from Perfiles perfil where perfil.habilitado =:PARAM_STATUS and perfil.administrador = 0 ")
             })
 @Entity
-@SequenceGenerator(name = "perfiles-gen", sequenceName = "isoft_perfiles_id_perfil_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "perfiles-gen", sequenceName = "ISOFT_PERFILES_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_PERFILES")
 public class Perfiles implements Serializable, BusinessClass
 {

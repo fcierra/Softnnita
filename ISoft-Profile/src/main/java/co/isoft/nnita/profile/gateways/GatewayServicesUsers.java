@@ -18,6 +18,7 @@ import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
 import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.EstatusGenericos;
+import co.isoft.nnita.profile.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -25,12 +26,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import static co.isoft.nnita.profile.impl.service.UtilServices.MAP_USER_TRANSACTION;
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.KEY_ERRORS_GENERIC;
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_USER_TRANSACTION;
 
 /**
  * Gateway de microservicios de operaciones sobre usuarios ISoftProfiler
@@ -42,10 +44,6 @@ import static co.isoft.nnita.profile.impl.service.UtilServices.MAP_USER_TRANSACT
 @RequestMapping(value = "/GatewayServicesUsersISoftProfile")
 public class GatewayServicesUsers
 {
-    /**
-     * Llave para unica para la busqueda de errores.
-     */
-    private static String KEY_ERRORS_GENERIC = "login.error.";
 
     /**
      * Contexto spring
@@ -62,7 +60,10 @@ public class GatewayServicesUsers
      * Recursos de mensajes internacionalizables
      */
     @Autowired
-    MessageSource messageSource;
+    private MessageSource messageSource;
+
+    @Autowired
+    private WebUtils webUtils;
 
     /**
      * Configura los headers de aceptacion
@@ -102,14 +103,14 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/consultarusuario", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse finduser(@RequestParam String loginuser, @RequestParam String sharedkey)
+    public CommonsResponse finduser(@RequestParam String loginuser, @RequestParam String sharedkey, HttpServletRequest request)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), loginuser, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(request));
 
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(loginuser);
@@ -120,27 +121,20 @@ public class GatewayServicesUsers
         }
         catch (ParamsException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
             Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (LicenseException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            response.setResponse(sharedkey);
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
+            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (Exception ex)
@@ -160,14 +154,14 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/consultarusuariossistema", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse findallusers(@RequestParam String sharedkey)
+    public CommonsResponse findallusers(@RequestParam String sharedkey, HttpServletRequest request)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), "GET", "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(request));
 
             List<UsuariosTodos> usuarios = userServices.findAllUsers();
             if (usuarios != null && !usuarios.isEmpty())
@@ -177,19 +171,14 @@ public class GatewayServicesUsers
         }
         catch (LicenseException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            response.setResponse(sharedkey);
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
             Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (Exception ex)
@@ -210,14 +199,14 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/crearusuarioisoft", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse createuser(@RequestParam String sharedkey, @RequestBody RequestNewUserISoftProfile request)
+    public CommonsResponse createuser(@RequestParam String sharedkey, @RequestBody RequestNewUserISoftProfile request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getLoginname(), request.getNombres(), request.getClave());
@@ -227,27 +216,20 @@ public class GatewayServicesUsers
         }
         catch (ParamsException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
             Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (LicenseException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            response.setResponse(sharedkey);
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
             Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (Exception ex)
@@ -268,14 +250,14 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de respuesta
      */
     @RequestMapping(value = "/crearusuariosisoftmasivo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse createusersmassive(@RequestParam String sharedkey, @RequestBody RequestNewUsersMassiveISoftProfile request)
+    public CommonsResponse createusersmassive(@RequestParam String sharedkey, @RequestBody RequestNewUsersMassiveISoftProfile request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getPassword());
@@ -285,27 +267,20 @@ public class GatewayServicesUsers
         }
         catch (ParamsException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
             Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (LicenseException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            response.setResponse(sharedkey);
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
             Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (Exception ex)
@@ -328,14 +303,14 @@ public class GatewayServicesUsers
      * @return Response comun
      */
     @RequestMapping(value = "/asociarperfilusuario", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse addprofileuser(@RequestParam String sharedkey, @RequestBody RequestAddProfileUser request)
+    public CommonsResponse addprofileuser(@RequestParam String sharedkey, @RequestBody RequestAddProfileUser request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getLoginname());
@@ -347,27 +322,20 @@ public class GatewayServicesUsers
         }
         catch (ParamsException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
             Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (LicenseException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            response.setResponse(sharedkey);
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
             Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (Exception ex)
@@ -388,14 +356,14 @@ public class GatewayServicesUsers
      * @return Response comun
      */
     @RequestMapping(value = "/desasociarperfilusuario", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse unaddprofileuser(@RequestParam String sharedkey, @RequestBody RequestAddProfileUser request)
+    public CommonsResponse unaddprofileuser(@RequestParam String sharedkey, @RequestBody RequestAddProfileUser request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getLoginname());
@@ -407,27 +375,20 @@ public class GatewayServicesUsers
         }
         catch (ParamsException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
             Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (LicenseException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            response.setResponse(sharedkey);
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
             Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (Exception ex)
@@ -448,14 +409,14 @@ public class GatewayServicesUsers
      * @return Response comun
      */
     @RequestMapping(value = "/adminstatususuarios", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse managedstatususuarios(@RequestParam String sharedkey, @RequestBody RequestAdminStatusUsers request)
+    public CommonsResponse managedstatususuarios(@RequestParam String sharedkey, @RequestBody RequestAdminStatusUsers request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getLoginname(), request.getStatus().toString());
@@ -465,27 +426,20 @@ public class GatewayServicesUsers
         }
         catch (ParamsException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
             Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (LicenseException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            response.setResponse(sharedkey);
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
             Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (Exception ex)
@@ -505,14 +459,14 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/consultarperfiles", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse findprofiles(@RequestParam String sharedkey)
+    public CommonsResponse findprofiles(@RequestParam String sharedkey, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
             List<Perfiles> list = userServices.findProfilesSystem(mapConfiguration);
             if (list == null || list.isEmpty())
@@ -521,19 +475,14 @@ public class GatewayServicesUsers
         }
         catch (LicenseException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            response.setResponse(sharedkey);
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
             Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (Exception ex)
@@ -553,14 +502,14 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/consultarperfilesusuario", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse findprofilesusers(@RequestParam String loginuser, @RequestParam String sharedkey)
+    public CommonsResponse findprofilesusers(@RequestParam String loginuser, @RequestParam String sharedkey, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicence(sharedkey);
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
             List<PerfilesDeUsuario> list = userServices.findProfilesUsers(mapConfiguration, loginuser);
             if (list == null || list.isEmpty())
@@ -569,19 +518,14 @@ public class GatewayServicesUsers
         }
         catch (LicenseException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            response.setResponse(sharedkey);
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
             Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String code_error = KEY_ERRORS_GENERIC + ex.getCode();
-            String message = messageSource.getMessage(code_error, new Object[] { "App" }, Locale.getDefault());
-            GatewayBaseBean.matchToResponses(response, ex.getCode(), message, EstatusGenericos.WARN.getCode());
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
             return response;
         }
         catch (Exception ex)

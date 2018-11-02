@@ -17,7 +17,7 @@ import java.util.List;
  * @Date 07/08/2018
  */
 @Entity
-@SequenceGenerator(name = "menus-gen", sequenceName = "isoft_menu_id_menu_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "menus-gen", sequenceName = "ISOFT_MENU_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_MENU")
 public class Menus implements Serializable, BusinessClass
 {

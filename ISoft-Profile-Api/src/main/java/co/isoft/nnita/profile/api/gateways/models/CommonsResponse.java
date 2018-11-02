@@ -1,6 +1,10 @@
 package co.isoft.nnita.profile.api.gateways.models;
 
+import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
 import co.isoft.nnita.profile.api.util.EstatusGenericos;
+import org.springframework.context.MessageSource;
+
+import java.util.Locale;
 
 /**
  * Response comun para el manejo de respuestas
@@ -26,6 +30,10 @@ public class CommonsResponse
      * Objeto de la respuesta del servicio
      */
     private Object response;
+    /**
+     * Recurso de texto que debe ser inyectado
+     */
+    private MessageSource messageSource;
 
     /**
      * Operacion comun de llenado de la informacion
@@ -49,6 +57,30 @@ public class CommonsResponse
         this.setDescriptionTransacction(EstatusGenericos.INFO_EMPTY.getRefbundle());
         return this;
     }
+
+    /**
+     * Response comun para respuestas vacias
+     * o sin datos
+     * @return
+     */
+    public String toLicenceWarn(MessageSource messageSource ,String codeerror, String sharedkey){
+        String message = messageSource.getMessage(codeerror, new Object[] { "App" }, Locale.getDefault());
+        GatewayBaseBean.matchToResponses(this,codeerror, message, EstatusGenericos.WARN.getCode());
+        this.setResponse(sharedkey);
+        return message;
+    }
+
+    /**
+     * Response comun para respuestas vacias
+     * o sin datos
+     * @return
+     */
+    public String toParamsWarn(MessageSource messageSource ,String codeerror){
+        String message = messageSource.getMessage(codeerror, new Object[] { "App" }, Locale.getDefault());
+        GatewayBaseBean.matchToResponses(this,codeerror, message, EstatusGenericos.WARN.getCode());
+        return message;
+    }
+
 
     /**
      * Obtiene el estatus de la operacion

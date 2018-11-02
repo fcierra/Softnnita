@@ -23,15 +23,6 @@ public abstract class UtilServices
     private static final Log logger = LogFactory.getLog(UtilServices.class);
 
     /**
-     * Constantes Mapa de transacciones de la llave de usuario.
-     */
-    public static String MAP_USER_TRANSACTION = "usertransaction";
-    /**
-     * Constantes Mapa de transacciones de la llave del canal de transaccion.
-     */
-    public static String MAP_CANAL_TRANSACTION = "canaltransaction";
-
-    /**
      * Convierte todos los fields String a Uppercase
      * de una clase para las implementaciones de uso
      * con la capa transaccional

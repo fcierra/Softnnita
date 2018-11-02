@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @Date 06/06/2018
  */
 @Entity
-@SequenceGenerator(name = "canales-gen", sequenceName = "isoft_mcanales_id_canal_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "canales-gen", sequenceName = "ISOFT_MCANALES_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_MCANALES")
 public class Canales implements Serializable, BusinessClass
 {

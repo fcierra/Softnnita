@@ -20,7 +20,7 @@ import java.io.Serializable;
 })
 
 @Entity
-@SequenceGenerator(name = "usuarioperfil-gen", sequenceName = "isoft_usuario_perfil_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "usuarioperfil-gen", sequenceName = "ISOFT_USUARIO_PERFIL_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_USUARIO_PERFIL")
 public class UsuarioPerfil implements Serializable, BusinessClass
 {

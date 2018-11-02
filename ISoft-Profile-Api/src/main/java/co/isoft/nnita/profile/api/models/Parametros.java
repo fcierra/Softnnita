@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @Date 10/07/2018
  */
 @Entity
-@SequenceGenerator(name = "parametros-gen", sequenceName = "isoft_parametros_id_parametro_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "parametros-gen", sequenceName = "ISOFT_PARAMETROS_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_PARAMETROS")
 public class Parametros implements Serializable, BusinessClass
 {

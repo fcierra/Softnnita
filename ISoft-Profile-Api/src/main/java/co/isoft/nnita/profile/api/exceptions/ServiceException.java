@@ -2,9 +2,8 @@ package co.isoft.nnita.profile.api.exceptions;
 
 /**
  * Excepcion lanzada en caso de fallar una operacion de crud.
- * @author Alejandro Vivas
- * @version 1.0 19/01/2009
- * @date 19/01/2009
+ * @author Yaher Carrillo
+ * @date 30/10/2018
  */
 public class ServiceException extends Exception
 {

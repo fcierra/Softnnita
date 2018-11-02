@@ -21,4 +21,34 @@ public abstract class ConstantesBaseBean
      * Perfil por defecto de la aplicacion.
      */
     public static String GUEST= "GUEST";
+
+    /**
+     * Constantes Mapa de transacciones de la llave de usuario.
+     */
+    public static String MAP_USER_TRANSACTION = "usertransaction";
+    /**
+     * Constantes Mapa de transacciones de la llave del canal de transaccion.
+     */
+    public static String MAP_CANAL_TRANSACTION = "canaltransaction";
+    /**
+     * IP desde donde se origina la transaccion
+     */
+    public static String MAP_IP_TRANSACTION = "iptransaction";
+
+    /**
+     * Llave para unica para la busqueda de errores.
+     */
+    public static String KEY_ERRORS_GENERIC = "login.error.";
+    /**
+     * Formato de fechas
+     */
+    public static String FORMAT_DATES = "yyyy-MM-dd";
+    /**
+     * Usuario de encriptacion de JWT
+     */
+    public static String USER_JWT = "ISOFT";
+    /**
+     * Clave de encriptacion de JWT
+     */
+    public static String PASS_JWT = "Prueba12$";
 }

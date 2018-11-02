@@ -6,6 +6,7 @@ import co.isoft.nnita.profile.api.util.EnumCanalesISoft;
 import co.isoft.nnita.profile.api.util.EnumFuncionalityISoft;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interfaz que expone los servicios del modelo de negocio
@@ -38,5 +39,16 @@ public interface BitacoraService
      * @throws ServiceException Ocurre si falla la operacion.
      */
     public void registrarBitacora(EnumFuncionalityISoft funcionalidad, EnumCanalesISoft enumCanal, String loginuser,List<DetalleBitacora> listDetails) throws ServiceException;
+
+    /**
+     * Realiza un registro de bitacora asociados
+     * a un mapan de configuracion que contiene
+     * elementos comunes, como el canal, el evento e IP
+     * @param funcionalidad Funcionalidad a refistrar
+     * @param mapconfiguration mapa de configuracion
+     * @param listDetails listado de detalles
+     * @throws ServiceException Ocurre si falla la operacion.
+     */
+    public void registrarBitacora(EnumFuncionalityISoft funcionalidad, Map<String,String> mapconfiguration,List<DetalleBitacora> listDetails) throws ServiceException;
 
 }

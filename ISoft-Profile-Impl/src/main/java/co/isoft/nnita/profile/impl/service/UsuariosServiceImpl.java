@@ -31,6 +31,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_CANAL_TRANSACTION;
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_USER_TRANSACTION;
+
 /**
  * Implementacion Original de consulta de usuarios Isoftnnita
  *
@@ -241,7 +244,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             logger.info("Se agrega al usuario [" + usuario.getLogin() + "]");
             //Se realiza la auditoria de la operacion
             listDetails.add(recordDetailBinnacleUsersMassiveSucess("", usuario.getLogin()));
-            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION), listDetails);
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, mapConfiguration, listDetails);
         }
         catch (DaoException e)
         {
@@ -353,7 +356,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             //Se realiza la auditoria de la operacion
             try
             {
-                bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIOS_MASIVOS, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION), listDetails);
+                bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIOS_MASIVOS, mapConfiguration, listDetails);
             }
             catch (ServiceException ex)
             {
@@ -389,7 +392,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             //Se registra la transaccion
             //Se lista el detalle de la transaccion
             listDetails.add(recordDetailBinnacleStatusUsers(usuario.getLogin(), status));
-            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_ADMINISTRAR_STATUS_USUARIOS, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION),listDetails);
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_ADMINISTRAR_STATUS_USUARIOS, mapConfiguration,listDetails);
         }
         catch (DaoException e)
         {
@@ -448,7 +451,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                 }
             }
             //Se registra la transaccion
-            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_ASOCIAR_PERFIL, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION),listDetails);
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_ASOCIAR_PERFIL, mapConfiguration,listDetails);
         }
         catch (DaoException e)
         {
@@ -513,7 +516,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                 }
             }
             //Se registra la transaccion
-            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_DESASOCIAR_PERFIL, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION),listDetails);
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_DESASOCIAR_PERFIL, mapConfiguration,listDetails);
         }
         catch (DaoException e)
         {
@@ -556,7 +559,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                 //Se lista el detalle de la transaccion
                 listDetails.add(recordDetailBinnacleUsersFindProfileOk(usuario.getLogin(), perfil.getNombre_perfil()));
             }
-            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CONSULTAR_PERFILES_USUARIO, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION),listDetails);
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CONSULTAR_PERFILES_USUARIO, mapConfiguration,listDetails);
             return listProfiles;
         }
         catch (DaoException e)

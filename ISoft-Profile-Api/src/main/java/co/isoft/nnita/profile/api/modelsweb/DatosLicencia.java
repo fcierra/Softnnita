@@ -1,5 +1,7 @@
 package co.isoft.nnita.profile.api.modelsweb;
 
+import co.isoft.nnita.profile.api.util.EnumTypesLicense;
+
 import java.util.Date;
 
 /**
@@ -32,9 +34,13 @@ public class DatosLicencia
      */
     private String ip;
     /**
+     * Cantidad de usuarios concurrentes
+     */
+    private Long ususariosConcurrentes;
+    /**
      * Tipo Licensia
      */
-    private String tipoLicencia;
+    private EnumTypesLicense tipoLicencia;
 
     /**
      * Obtiene el cliente asociado a isoft.
@@ -124,7 +130,7 @@ public class DatosLicencia
      *
      * @return tipo de licencia
      */
-    public String getTipoLicencia()
+    public EnumTypesLicense getTipoLicencia()
     {
         return tipoLicencia;
     }
@@ -134,7 +140,7 @@ public class DatosLicencia
      *
      * @param tipoLicencia valor a asignar.
      */
-    public void setTipoLicencia(String tipoLicencia)
+    public void setTipoLicencia(EnumTypesLicense tipoLicencia)
     {
         this.tipoLicencia = tipoLicencia;
     }
@@ -159,9 +165,31 @@ public class DatosLicencia
         this.canal = canal;
     }
 
+    /**
+     * Obtiene la cantidad de usuarios concurrentes
+     * permitidos por la licencia
+     *
+     * @return cantidad de usuarios
+     */
+    public Long getUsusariosConcurrentes()
+    {
+        return ususariosConcurrentes;
+    }
+
+    /**
+     * Asigna una cantidad de usuarios concurrentes a
+     * permitir por la licencia
+     *
+     * @param ususariosConcurrentes Cantidad de usuarios concurrentes
+     */
+    public void setUsusariosConcurrentes(Long ususariosConcurrentes)
+    {
+        this.ususariosConcurrentes = ususariosConcurrentes;
+    }
+
     @Override
     public String toString()
     {
-        return "Datos [cliente=" + clienteISoft + ", " + "Fecha Inicio=" + fechaInicio + ", " + "Fecha Fin=" + fechaFin + ", " + "IP=" + ip + " , Tipo Licencia: " + tipoLicencia + " ]";
+        return "Datos [cliente=" + clienteISoft + ", " + "Fecha Inicio=" + fechaInicio + ", " + "Fecha Fin=" + fechaFin + ", " + "IP=" + ip + " , Usuarios" + ususariosConcurrentes + " , Tipo Licencia: " + tipoLicencia.getDescription() + " ]";
     }
 }

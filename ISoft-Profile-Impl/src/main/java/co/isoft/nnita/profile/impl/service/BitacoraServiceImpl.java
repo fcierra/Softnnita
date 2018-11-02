@@ -15,6 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_CANAL_TRANSACTION;
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_IP_TRANSACTION;
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_USER_TRANSACTION;
 
 /**
  * Implementacion de logica de acceso a registros de auditoria
@@ -128,6 +133,62 @@ public class BitacoraServiceImpl extends UtilServices implements BitacoraService
             bitacora.setHabilitado(Long.valueOf("1"));
             //Se realiza el registro
             Long idTransacction = bitacoraDao.agregar(bitacora);
+            crearRegistroDetalle(funcionalidad,listDetails,evento,idTransacction);
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error al generear el detalle de auditoria del Evento [" + funcionalidad.getNombre() + "]";
+            throw new ServiceException(mensaje, e, e.getCode());
+        }
+    }
+
+    @Override
+    public void registrarBitacora(EnumFuncionalityISoft funcionalidad, Map<String, String> mapconfiguration, List<DetalleBitacora> listDetails) throws ServiceException
+    {
+        try
+        {
+            //Se busca el evento
+            Eventos evento = new Eventos();
+            evento.setCodigo_evento(funcionalidad.getCodigo());
+            evento = eventosDao.buscarObjetoUnico(evento);
+
+            //Se busca el canal
+            EnumCanalesISoft enumCanal = EnumCanalesISoft.valueOf(Integer.parseInt(mapconfiguration.get(MAP_CANAL_TRANSACTION)));
+            Canales canal = new Canales();
+            canal.setCodigo_canal(enumCanal.getCodigo());
+            canal = canalesDao.buscarObjetoUnico(canal);
+
+            //Se busca al usuario
+            String loginuser = mapconfiguration.get(MAP_USER_TRANSACTION);
+            Usuarios usuario = new Usuarios();
+            usuario.setLogin(loginuser);
+            //Se transforman los string en mayusculas
+            convertAtrrUppercase(usuario);
+            usuario = usuariosDao.buscarObjetoUnico(usuario);
+
+            Bitacora bitacora = new Bitacora();
+            bitacora.setEvento(evento);
+            bitacora.setCanal(canal);
+            bitacora.setUsuario(usuario);
+            bitacora.setFecha_registro(new Date());
+            bitacora.setFecha_registro_segundos(new Date().getTime());
+            bitacora.setIp(mapconfiguration.get(MAP_IP_TRANSACTION));
+            bitacora.setHabilitado(Long.valueOf("1"));
+            //Se realiza el registro
+            Long idTransacction = bitacoraDao.agregar(bitacora);
+            //Se realiza el registro del detalle de la transaccion
+            crearRegistroDetalle(funcionalidad,listDetails,evento,idTransacction);
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error al generear el detalle de auditoria del Evento [" + funcionalidad.getNombre() + "]";
+            throw new ServiceException(mensaje, e, e.getCode());
+        }
+    }
+
+    public void crearRegistroDetalle (EnumFuncionalityISoft funcionalidad, List<DetalleBitacora> listDetails, Eventos evento,Long idTransacction) throws ServiceException{
+        try
+        {
             for (DetalleBitacora detail : listDetails){
                 detail.setEvento(evento);
                 detail.setHabilitado(new Long("1"));
@@ -138,9 +199,7 @@ public class BitacoraServiceImpl extends UtilServices implements BitacoraService
                 detail.setHora_fin(new Date().getTime());
                 detalleBitacoraDao.agregar(detail);
             }
-        }
-        catch (DaoException e)
-        {
+        }catch (DaoException e){
             String mensaje = "Error al generear el detalle de auditoria del Evento [" + funcionalidad.getNombre() + "]";
             throw new ServiceException(mensaje, e, e.getCode());
         }

@@ -19,7 +19,7 @@ import java.io.Serializable;
         @NamedQuery(name = "buscarNavegacionesPerfilesAdmin", query = "Select menuperfil.menu from MenuPerfiles menuperfil group by menuperfil.menu.id")
 })
 @Entity
-@SequenceGenerator(name = "menu-perfil-gen", sequenceName = "isoft_menu_perfil_id_menu_perfil_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "menu-perfil-gen", sequenceName = "ISOFT_MENUS_PERFIL_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_MENUS_PERFIL")
 public class MenuPerfiles implements Serializable, BusinessClass
 {

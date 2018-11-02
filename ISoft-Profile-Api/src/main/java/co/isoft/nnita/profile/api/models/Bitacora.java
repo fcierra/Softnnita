@@ -16,7 +16,7 @@ import java.util.Date;
  * @Date 06/06/2018
  */
 @Entity
-@SequenceGenerator(name = "bitacora-gen", sequenceName = "isoft_bitacora_id_bitacora_seq", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "bitacora-gen", sequenceName = "ISOFT_BITACORA_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_BITACORA")
 public class Bitacora implements Serializable, BusinessClass
 {
