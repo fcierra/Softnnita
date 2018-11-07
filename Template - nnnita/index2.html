@@ -17,9 +17,9 @@
   <!-- Morris chart -->
   <link rel="stylesheet" href="plugins/morris/morris.css">
   <!-- jvectormap -->
+  <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Select2 -->
   <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
-  <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Date Picker -->
   <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
   <!-- Daterange picker -->
@@ -209,42 +209,41 @@
             </form>
 			</div>
 			</div><!-- fin formulario crear usuario-->
-			<div class="tab-pane" id="tab_2"><!-- formulario modificar usuario-->
+			<div class="tab-pane " id="tab_2"><!-- formulario modificar usuario-->
 			<div class="card card-primary">
 			<div class="card-header"> 
 			<h3 class="card-title">Modificar un Usuario</h3>
 			</div>
          	<form role="form">
          	<div class="card-body">
-			<div class="form-group">
-            <label>Usuario</label>
+            <div class="row">
+            <div class="col-md-6">
+            <div class="form-group">
+            <label>Seleccionar Usuario</label>
             <select class="form-control select2" style="width: 100%;">
-            <option selected="selected">Fsierra</option>
+			<option selected="selected">Ycarrillo</option>
             <option>Ycarrillo</option>
-            <option>Dmoyano</option>
-            <option>Mgutierrez</option>
-			<option>ycarr</option>
+            <option>Fsierra</option>
+            <option>Framirez</option>
             </select>
-            </div>	
-            <div class="form-group">
-            <label for="exampleInputEmail1">Nombre</label>
-            <input type="Nombre" class="form-control" id="Crear Usuario - Nombre" placeholder="Ingrese Nombre">
             </div>
-            <div class="form-group">
-            <label for="exampleInputPassword1">Apellido</label>
-            <input type="Apellido" class="form-control" id="Crear Usuario - Apellido" placeholder="Ingrese Apellido">
+            </div>
             </div>
 			<div class="form-group">
-            <label for="exampleInputEmail1">Nueva Contraseña</label>
-            <input type="password" class="form-control" id="Crear Usuario - Contraseña" placeholder="Ingrese una Contraseña">
+            <label for="exampleInputEmail1">Nombre</label>
+            <input type="Nombre" class="form-control" id="Modificar Usuario - Nombre" placeholder="Ingrese Nombre">
+            </div>	
+			<div class="form-group">
+            <label for="exampleInputPassword1">Apellido</label>
+            <input type="Apellido" class="form-control" id="Modificar Usuario - Apellido" placeholder="Ingrese Apellido">
             </div>
-            <div class="form-check">
+			<div class="form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Activo</label>
-            </div>
+            </div>	
             </div>
 			<div class="card-footer">
-            <button type="submit" class="btn btn-info">Registrar</button>
+            <button type="submit" class="btn btn-info">Modificar</button>
             <button type="submit" class="btn btn-default float-right">Cancelar</button>
            	</div>
             </form>
@@ -345,7 +344,9 @@
 <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="plugins/knob/jquery.knob.js"></script>
-<!-- daterangepicker -->
+<!-- Select2 -->
+<script src="../../plugins/select2/select2.full.min.js"></script>	
+<!-- daterangepicker -->	
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
@@ -361,6 +362,20 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<script src="dist/js/demo.js"></script>	
+<script>	
+	  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    $('#daterange-btn').daterangepicker(
+      {
+      },
+      function (start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    	)
+  	})
+</script>	
 </body>
 </html>
