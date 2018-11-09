@@ -210,6 +210,7 @@ public class GatewayServicesUsers
 
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getLoginname(), request.getNombres(), request.getClave());
+            GatewayBaseBean.validarEmail(request.getEmail());
             Usuarios user = GatewayBaseBean.clonUsersRequest(request);
 
             userServices.createUserIsoftProfile(mapConfiguration, user);
@@ -313,6 +314,7 @@ public class GatewayServicesUsers
 
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getLoginname(), request.getNombres());
+            GatewayBaseBean.validarEmail(request.getEmail());
             Usuarios user = GatewayBaseBean.clonUsersRequest(request);
 
             userServices.modifyUser(mapConfiguration, user);

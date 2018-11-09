@@ -30,6 +30,7 @@ public enum EstatusGenericos
     PROFILER_GENERIC_ERROR_FIELD_REQUIRED("091", "Error generico, campo requerido", "login.error.091"),
     PROFILER_GENERIC_LICENSE("095","Error en Licencia", "login.error.095"),
     PROFILER_GENERIC_ERROR_PARAMS("096", "Error en parametros", "login.error.096"),
+    PROFILER_GENERIC_ERROR_PARAMS_EMAIL("097", "Error en parametros", "login.error.097"),
     PROFILER_GENERIC_ERROR("099", "Error generico, modulo Profiler", "login.error.099"),;
 
     /**

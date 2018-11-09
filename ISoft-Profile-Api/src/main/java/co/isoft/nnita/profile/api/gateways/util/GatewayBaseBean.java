@@ -22,6 +22,7 @@ import java.util.*;
 
 import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.*;
 import static co.isoft.nnita.profile.api.util.EstatusGenericos.PROFILER_GENERIC_ERROR_PARAMS;
+import static co.isoft.nnita.profile.api.util.EstatusGenericos.PROFILER_GENERIC_ERROR_PARAMS_EMAIL;
 
 public abstract class GatewayBaseBean
 {
@@ -29,6 +30,11 @@ public abstract class GatewayBaseBean
      * Servicios JWT
      */
     private static JwtDao jwtDao;
+    /**
+     * Validador de emails
+     */
+    private static EmailValidator emailValidator = new EmailValidator();
+
     /**
      * Validacions base a parametros de entrada, comparacion
      * distintas a nulls, espacios vacios y caracteres especiales
@@ -43,6 +49,18 @@ public abstract class GatewayBaseBean
             if (parametro == null || parametro.trim().equals("") || parametro.trim().equals("?"))
                 throw (new ParamsException(PROFILER_GENERIC_ERROR_PARAMS.getDescription(), PROFILER_GENERIC_ERROR_PARAMS.getCode(), PROFILER_GENERIC_ERROR_PARAMS.getRefbundle()));
         }
+    }
+
+    /**
+     * Valida el formato de emails
+     * @param param email a validar
+     * @throws ParamsException
+     */
+    public static void validarEmail(String param) throws ParamsException
+    {
+        if (param!=null && !param.trim().equals(""))
+            if (!emailValidator.validateEmail(param))
+                throw (new ParamsException(PROFILER_GENERIC_ERROR_PARAMS_EMAIL.getDescription(), PROFILER_GENERIC_ERROR_PARAMS_EMAIL.getCode(), PROFILER_GENERIC_ERROR_PARAMS.getRefbundle()));
     }
 
     /**
