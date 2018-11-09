@@ -168,7 +168,9 @@
 		</li>	
         <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Crear Perfil</a>
 		</li>
-        <li class="nav-item"><a class="nav-link" href="#tab_4" data-toggle="tab">Creacion masiva de Usuarios</a>
+		<li class="nav-item"><a class="nav-link" href="#tab_4" data-toggle="tab">Modificar Perfil</a>
+		</li>	
+        <li class="nav-item"><a class="nav-link" href="#tab_5" data-toggle="tab">Creacion masiva de Usuarios</a>
 		</li>
         </ul>
         </div><!-- Fin panel de control -->
@@ -203,8 +205,8 @@
 				</div>
 				</div>
 				<div class="card-footer">
-				<button type="submit" class="btn btn-info">Registrar</button>
-				<button type="submit" class="btn btn-default float-right">Cancelar</button>
+				<button type="submit">Registrar</button>
+				<button type="reset">Cancelar</button>
 				</div>
 				</form>
 				</div>
@@ -229,7 +231,7 @@
 				</div>
 				</div>
 				</div>
-				<div class="form-group"><!-- #TODO En de los placeholder debe ir los datos que el Usuario trae al ser seleccionado (ESTO PARA EL MODULO DE MODIFICAR UN USUARIO) -->
+				<div class="form-group"><!-- #TODO En los placeholder debe ir los datos que el Usuario trae al ser seleccionado (ESTO PARA EL MODULO DE MODIFICAR UN USUARIO) -->
 				<label>Nombre</label>
 				<input type="Nombre" class="form-control" id="Modificar Usuario - Nombre" placeholder="Nombre">
 				</div>	
@@ -256,7 +258,7 @@
 				</div>
 				<div class="card-footer">
 				<button type="submit" class="btn btn-info">Modificar</button>
-				<button type="submit" class="btn btn-default float-right">Cancelar</button>
+				<button type="reset" class="btn btn-default float-right">Cancelar</button>
 				</div>
 				</form>
 				</div>
@@ -270,11 +272,11 @@
 				<div class="card-body">
 				<div class="form-group">
 				<label for="exampleInputEmail1">Nombre de perfil</label>
-				<input type="#todo" class="form-control" id="#todo" placeholder="Ingrese nombre de Perfil">
+				<input class="form-control" id="Crear Perfil - Nombre Perfil" placeholder="Ingrese nombre de Perfil">
 				</div>
 				<div class="form-group">
 				<label for="exampleInputEmail1">E-mail</label>
-				<input type="#todo" class="form-control" id="#todo" placeholder="Ingrese un E-mail">
+				<input type="email" class="form-control" id="Crear Perfil - Email" placeholder="Ingrese un E-mail">
 				</div>
 				<div class="form-check">
 				<input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -283,41 +285,77 @@
 				</div>
 				<div class="card-footer">
 				<button type="submit" class="btn btn-info">Crear</button>
-				<button type="submit" class="btn btn-default float-right">Cancelar</button>
+				<button type="reset" class="btn btn-default float-right">Cancelar</button>
 				</div>	
 				</form>	
 				</div>	
 			</div><!-- fin formulario crear perfil-->
-			<div class="tab-pane" id="tab_4"> <!-- fomulario Generacion masiva de Usuarios-->
-			<div class="card card-primary">
-			<div class="card-header"> 
-			<h3 class="card-title">Generacion masiva de Usuarios</h3>
-			</div>
-			<form role="form">
-			<div class="card-body">	
-			<div class="form-group">
-            <label for="exampleInputEmail1">Contraseña Generica</label>
-            <input type="#todo" class="form-control" id="#todo" placeholder="Ingrese una Contraseña">
-            </div>
-			<div class="form-group">
-            <label for="exampleInputFile">Subir un Archivo</label>
-            <div class="input-group">
-            <div class="custom-file">
-            <input type="file" class="custom-file-input" id="exampleInputFile">
-            <label class="custom-file-label" for="exampleInputFile">Elija un archivo</label>
-            </div>
-            <div class="input-group-append">
-            <span class="input-group-text" id="">Upload</span>
-            </div>
-            </div>	
-            </div>	
-			</div>
-			<div class="card-footer">
-            <button type="submit" class="btn btn-info">Confirmar</button>
-            <button type="submit" class="btn btn-default float-right">Cancelar</button>
-           	</div>		
-			</form>	
-			</div>
+			<div class="tab-pane" id="tab_4"><!-- formulario modificar perfil-->
+				<div class="card card-primary">
+				<div class="card-header"> 
+				<h3 class="card-title">Modificar Perfil</h3>
+				</div>
+				<form role="form">
+				<div class="card-body">
+				<div class="form-group">
+				<div class="row">
+				<div class="col-md-6">
+				<div class="form-group">
+				<label>Seleccionar Usuario</label>
+				<select class="form-control select2" style="width: 100%;">
+				<option selected="selected">Adminstrador</option>
+				<option>Adminstrador</option>
+				<option>Cajero</option>
+				<option>Mesero</option>
+				</select>
+				</div>
+				</div>
+				</div>		
+				<label for="exampleInputEmail1">Nombre Perfil Nuevo</label>
+				<input class="form-control" id="Modificar Perfil - Nombre Perfil" placeholder="Ingrese nombre de Perfil">
+				</div>
+				<div class="form-check">
+				<input type="checkbox" class="form-check-input" id="exampleCheck1">
+				<label class="form-check-label" for="exampleCheck1">Activo</label>
+				</div>			
+				</div>
+				<div class="card-footer">
+				<button type="submit" class="btn btn-info">Modificar</button>
+				<button type="reset" class="btn btn-default float-right">Cancelar</button>
+				</div>	
+				</form>	
+				</div>	
+			</div><!-- fin formulario modificar perfil-->
+			<div class="tab-pane" id="tab_5"> <!-- fomulario Generacion masiva de Usuarios-->
+				<div class="card card-primary">
+				<div class="card-header"> 
+				<h3 class="card-title">Generacion masiva de Usuarios</h3>
+				</div>
+				<form role="form">
+				<div class="card-body">	
+				<div class="form-group">
+				<label for="exampleInputEmail1">Contraseña Generica</label>
+				<input type="#todo" class="form-control" id="#todo" placeholder="Ingrese una Contraseña">
+				</div>
+				<div class="form-group">
+				<label for="exampleInputFile">Subir un Archivo</label>
+				<div class="input-group">
+				<div class="custom-file">
+				<input type="file" class="custom-file-input" id="exampleInputFile">
+				<label class="custom-file-label" for="exampleInputFile">Elija un archivo</label>
+				</div>
+				<div class="input-group-append">
+				<span class="input-group-text" id="">Upload</span>
+				</div>
+				</div>	
+				</div>	
+				</div>
+				<div class="card-footer">
+				<button type="submit" class="btn btn-info">Confirmar</button>
+				<button type="reset" class="btn btn-default float-right">Cancelar</button>
+				</div>		
+				</form>	
+				</div>
 			</div><!-- fin formulario Generacion masiva de Usuarios-->
 		</div><!-- fin contenedor de pestañas--> 
 		</div> 
