@@ -69,6 +69,23 @@ public abstract class UtilServices
     }
 
     /**
+     * Crea un detalle de bitacora para la modificacion de valores de un usuario
+     * @param usercreate usuario a modificar
+     * @param attr atributo modificado
+     * @param antes valor antes de la modificacion
+     * @param despues valor luego de la modificacion.
+     * @return Detalle de bitacora.
+     */
+    public DetalleBitacora recordDetailBinnacleUsersModifySucess(String usercreate, String attr, String antes, String despues)
+    {
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_inicio("Se cambia el [attr]:"+attr+", ["+antes+"]");
+        detail.setDetalle_valor_fin("Se cambia el [attr]:"+attr+", ["+despues+"] ");
+        detail.setDescripcion("Se modifica el usuario :[" + usercreate + "], satisfactoriamente");
+        return detail;
+    }
+
+    /**
      * Crea un detalle de bitacora de la creacion de usuarios masivos
      * para detallar que se agrega un usuario con el perfil por defecto
      *

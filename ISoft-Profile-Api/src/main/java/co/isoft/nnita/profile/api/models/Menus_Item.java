@@ -38,17 +38,17 @@ public class Menus_Item implements Serializable, BusinessClass
     private String menu_label;
 
     @ManyToOne
-    @JoinColumn(name = "ID_MENU_PADRE", nullable = true)
+    @JoinColumn(name = "ID_MENU_PADRE", nullable = false)
     private Menus menu_padre;
 
-    @Column(name = "ID_MENU_HIJO", nullable = true)
+    @Column(name = "ID_MENU_HIJO")
     private long menu_hijo;
 
-    @Column(name = "ORDEN", nullable = true)
+    @Column(name = "ORDEN")
     private int orden;
 
     @Size(max = 220)
-    @Column(name = "REF_SECURITY", nullable = true)
+    @Column(name = "REF_SECURITY")
     private String ref_security;
 
     @Column(name = "HABILITADO", nullable = false)
