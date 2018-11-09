@@ -77,6 +77,14 @@ public interface UsuariosService
     public void createUserIsoftProfile(Map<String,String> mapConfiguration,Usuarios usuario) throws ServiceException;
 
     /**
+     * Modifica los datos basicos de un usuario indicado
+     * @param mapConfiguration mapa de configuraciones de acceso
+     * @param usuario usuario a modificar
+     * @throws ServiceException Ocurre si falla la operacion
+     */
+    public void modifyUser(Map<String,String> mapConfiguration,Usuarios usuario) throws ServiceException;
+
+    /**
      * Crea usuarios de forma masiva
      * @param mapConfiguration mapa de configuracion
      * @param passord clave de todos los usuarios

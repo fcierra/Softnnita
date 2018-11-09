@@ -147,6 +147,12 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
+    public void modifyUser(Map<String, String> mapConfiguration, Usuarios usuario) throws ServiceException
+    {
+        getUsuariosService().modifyUser(mapConfiguration, usuario);
+    }
+
+    @Override
     public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration, String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
         return getUsuariosService().createUsersMassiveIsoftProfile(mapConfiguration, passord, listUsers);

@@ -25,11 +25,13 @@ import java.util.List;
 /**
  * Clase provider, para la consulta de usuarios del sistema
  * usada por spring para la seguridad del sistema
+ *
  * @author Yaher Carrillo
  * @Date 25/08/2018
  */
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
+
 {
 
     /**
@@ -57,6 +59,7 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
     /**
      * Servicio de seguridad que identifica a los usuarios que intentan acceder
      * a la aplicacion, de ser valido se le garantizan los permisos de accesos.
+     *
      * @param ssoId
      * @return
      * @throws UsernameNotFoundException
@@ -72,12 +75,12 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
         catch (ServiceException e)
         {
             co.isoft.nnita.logger.util.Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), ssoId, "Error Provider del Usuarios de sistema", e);
-            logger.error("Falla al tratar de autenticar al usuario [Usuario:"+ssoId+"]", e);
+            logger.error("Falla al tratar de autenticar al usuario [Usuario:" + ssoId + "]", e);
         }
 
         if (user == null)
         {
-            throw new UsernameNotFoundException("Username no existe ["+ssoId+"]");
+            throw new UsernameNotFoundException("Username no existe [" + ssoId + "]");
         }
         setLoginUser(ssoId.toUpperCase());
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getClave(), true, true, true, true, getGrantedAuthorities(user));
@@ -85,25 +88,33 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
 
     /**
      * Asignacion de permisos
+     *
      * @param user usuario a dar permisos
      * @return
      */
     private List<GrantedAuthority> getGrantedAuthorities(Usuarios user)
     {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        boolean isAdmin = user.getPerfilDefault().getAdministrador()==1?true:false;
-        if (isAdmin){
+        boolean isAdmin = user.getPerfilDefault().getAdministrador() == 1 ? true : false;
+        if (isAdmin)
+        {
             authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        }else{
-            List<Permisos> listaPermisos =findPermisionUserAuthenticated(user.getPerfilDefault());
+        }
+        else
+        {
+            List<Permisos> listaPermisos = findPermisionUserAuthenticated(user.getPerfilDefault());
 
-            if (listaPermisos!=null && !listaPermisos.isEmpty()){
-                for(Permisos permiso : listaPermisos){
-                    logger.info("Asignando permiso"+ permiso.getMenuItem().getRef_security());
+            if (listaPermisos != null && !listaPermisos.isEmpty())
+            {
+                for (Permisos permiso : listaPermisos)
+                {
+                    logger.info("Asignando permiso" + permiso.getMenuItem().getRef_security());
                     authorities.add(new SimpleGrantedAuthority(permiso.getMenuItem().getRef_security().toUpperCase()));
                 }
                 //authorities.add(new SimpleGrantedAuthority("ADMIN"));
-            }else{
+            }
+            else
+            {
                 authorities.add(new SimpleGrantedAuthority("GUEST"));
             }
         }
@@ -112,9 +123,11 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
 
     /**
      * Busca los permisos de usuario
+     *
      * @return
      */
-    public List<Permisos> findPermisionUserAuthenticated(Perfiles perfil){
+    public List<Permisos> findPermisionUserAuthenticated(Perfiles perfil)
+    {
         try
         {
             return permisosService.findGrantPermisions(perfil);

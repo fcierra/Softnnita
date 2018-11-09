@@ -255,6 +255,54 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
+    public void modifyUser(Map<String, String> mapConfiguration, Usuarios usuario) throws ServiceException
+    {
+        try
+        {
+            List<DetalleBitacora> listDetails = new ArrayList<>();
+            convertAtrrUppercase(usuario);
+            Usuarios userExisteLogin = usuariosDao.getUsuarioPorLogin(usuario.getLogin());
+            if (userExisteLogin == null)
+                throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
+            Usuarios userExisteEmail = usuariosDao.getUsuarioPorEmail(usuario.getEmail());
+            if (userExisteEmail!=null && !userExisteEmail.getId().equals(userExisteLogin.getId()))
+                throw new DaoException(EstatusGenericos.PROFILER_USER_EMAIL_EXIST.getCode());
+            convertAtrrUppercase(userExisteLogin);
+
+            //Se evaluan los registros para verificar si similitud de lo contrario se registra en bitacora el cambio
+            if (!usuario.getEmail().equals(userExisteLogin.getEmail())){
+                String antes = userExisteLogin.getEmail();
+                String despues = usuario.getEmail();
+                userExisteLogin.setEmail(usuario.getEmail());
+                listDetails.add(recordDetailBinnacleUsersModifySucess( usuario.getLogin(),"Email",antes,despues));
+            }
+            if (!usuario.getNombres().equals(userExisteLogin.getNombres())){
+                String antes = userExisteLogin.getNombres();
+                String despues = usuario.getNombres();
+                userExisteLogin.setNombres(usuario.getNombres());
+                listDetails.add(recordDetailBinnacleUsersModifySucess( usuario.getLogin(),"Nombres",antes,despues));
+            }
+            if (!usuario.getApellidos().equals(userExisteLogin.getApellidos())){
+                String antes = userExisteLogin.getApellidos();
+                String despues = usuario.getApellidos();
+                userExisteLogin.setApellidos(usuario.getApellidos());
+                listDetails.add(recordDetailBinnacleUsersModifySucess( usuario.getLogin(),"Apellidos",antes,despues));
+            }
+            //Modifica al usuario en bdd
+            usuariosDao.actualizar(userExisteLogin);
+            logger.info("Se actualiza al usuario [" + usuario.getLogin() + "]");
+            //Registro de bitacora.
+            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_ACTUALIZAR_USUARIO, mapConfiguration, listDetails);
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error al modificar al usuario [" + usuario.getLogin() + "]";
+            logger.error(mensaje, e);
+            throw new ServiceException(e.getMessage(), e, e.getCode());
+        }
+    }
+
+    @Override
     public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(Map<String, String> mapConfiguration, String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
     {
 
