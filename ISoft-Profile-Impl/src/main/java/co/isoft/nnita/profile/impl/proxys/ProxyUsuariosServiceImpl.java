@@ -177,12 +177,6 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public List<Perfiles> findProfilesSystem(Map<String,String> mapConfiguration) throws ServiceException
-    {
-        return getUsuariosService().findProfilesSystem(mapConfiguration);
-    }
-
-    @Override
     public List<PerfilesDeUsuario> findProfilesUsers(Map<String, String> mapConfiguration, String loginuser) throws ServiceException
     {
         return getUsuariosService().findProfilesUsers(mapConfiguration,loginuser);

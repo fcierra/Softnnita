@@ -4,8 +4,7 @@ import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Menus_Item;
-import co.isoft.nnita.profile.api.models.Permisos;
-import co.isoft.nnita.profile.api.services.PermisosService;
+import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 	@Autowired
-	private PermisosService permisosServices;
+	private PerfilesYPermisosService perfilesYPermisosServices;
 
 
 	@Autowired
@@ -51,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		try
 		{
-			listaPermisos = permisosServices.findNavigationSystem();
+			listaPermisos = perfilesYPermisosServices.findNavigationSystem();
 			if (listaPermisos!=null && !listaPermisos.isEmpty()){
 				for (Menus_Item permiso : listaPermisos){
 					http.authorizeRequests().

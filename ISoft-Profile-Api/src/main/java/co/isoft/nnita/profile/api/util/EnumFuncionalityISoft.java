@@ -15,7 +15,9 @@ public enum EnumFuncionalityISoft
     FUNCIONALIDAD_DESASOCIAR_PERFIL("desasociar.perfil", "Desasociar Perfiles"),
     FUNCIONALIDAD_CONSULTAR_PERFILES("consultar.perfiles", "Consulta de Perfiles"),
     FUNCIONALIDAD_CONSULTAR_PERFILES_USUARIO("consultar.perfiles.usuario", "Consulta de Perfiles de Usuario"),
-    FUNCIONALIDAD_ADMINISTRAR_STATUS_USUARIOS("administrar.status.usuarios", "Administracion de Estatus de Usuarios"),;
+    FUNCIONALIDAD_ADMINISTRAR_STATUS_USUARIOS("administrar.status.usuarios", "Administracion de Estatus de Usuarios"),
+    FUNCIONALIDAD_CREAR_PERFILES("crear.perfil", "Creacion de perfiles de sistema"),
+    FUNCIONALIDAD_MODIFICAR_PERFILES("modificar.perfil", "Modificacion de perfiles de sistema"),;
 
 
     private String codigo;

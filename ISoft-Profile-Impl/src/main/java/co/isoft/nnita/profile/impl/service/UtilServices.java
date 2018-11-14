@@ -69,6 +69,35 @@ public abstract class UtilServices
     }
 
     /**
+     * Crea un detalle de bitacora de la creacion de un perfil
+     * para detallar lo ocurrido en su creacion
+     *
+     * @return Detalle de bitacora
+     */
+    public DetalleBitacora recordDetailBinnacleCreateProfileSucess(String profile, Long habilitado)
+    {
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_fin("Se crea el perfil [" + profile + "] y se agrega [" + (habilitado.equals("1")?"habilitado":"deshabilitado") + "]");
+        detail.setDescripcion("Se agrega el elemento satisfactoriamente");
+        return detail;
+    }
+
+    /**
+     * Crea un detalle de bitacora de la creacion de un perfil
+     * para detallar lo ocurrido en su creacion
+     *
+     * @return Detalle de bitacora
+     */
+    public DetalleBitacora recordDetailBinnacleModifyProfileSucess(String profile_antes, Long habilitado_antes,String profile_despues, Long habilitado_despues)
+    {
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_inicio("Se cambia el [attr]:"+"nombre"+", ["+profile_antes+"], [attr]:habilitado ["+habilitado_antes+"] ");
+        detail.setDetalle_valor_fin("Se cambia el [attr]:"+"nombre"+", ["+profile_despues+"], [attr]:habilitado ["+habilitado_despues+"] ");
+        detail.setDescripcion("Se modifica el perfil :[" + profile_antes + "], satisfactoriamente");
+        return detail;
+    }
+
+    /**
      * Crea un detalle de bitacora para la modificacion de valores de un usuario
      * @param usercreate usuario a modificar
      * @param attr atributo modificado

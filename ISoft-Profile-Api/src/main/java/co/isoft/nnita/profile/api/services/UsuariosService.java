@@ -123,12 +123,6 @@ public interface UsuariosService
 
     /**
      * Busca los perfiles disponibles de sistema.
-     * @throws ServiceException Ocurre si falla la operacion.
-     */
-    public List<Perfiles> findProfilesSystem(Map<String,String> mapConfiguration) throws ServiceException;
-
-    /**
-     * Busca los perfiles disponibles de sistema.
      * @param loginuser usuario que se desea consultar.
      * @param mapConfiguration mapa de configuracion.
      * @throws ServiceException Ocurre si falla la operacion.

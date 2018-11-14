@@ -5,26 +5,15 @@ import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Menus_Item;
-import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
-import co.isoft.nnita.profile.api.services.PermisosService;
-import co.isoft.nnita.profile.api.services.UsuariosService;
+import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
 import co.isoft.nnita.profile.configuration.dom.ISesionActive;
-import co.isoft.nnita.profile.configuration.navigation.EnumNavigationConfig;
 import co.isoft.nnita.profile.util.ISoftProfilerBaseBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.List;
 
@@ -77,7 +66,7 @@ public class ProfileUserBean extends ISoftProfilerBaseBean implements Serializab
 
 
     @Autowired
-    private PermisosService permisosService;
+    private PerfilesYPermisosService perfilesYPermisosService;
 
     /**
      * Evento iniacl invocado por la vista profile_misdatos.xhtml para iniciar el bean
@@ -111,7 +100,7 @@ public class ProfileUserBean extends ISoftProfilerBaseBean implements Serializab
     public void loadNavigation(){
         try
         {
-            menus = permisosService.findMenusItemNavigation(iSesionActive.getDatosSesion().getUsuario().getPerfilDefault());
+            menus = perfilesYPermisosService.findMenusItemNavigation(iSesionActive.getDatosSesion().getUsuario().getPerfilDefault());
         }catch (ServiceException e){
             String code_error = e.getCode();
             String message = ISoftProfilerBaseBean.findMessageError(code_error);

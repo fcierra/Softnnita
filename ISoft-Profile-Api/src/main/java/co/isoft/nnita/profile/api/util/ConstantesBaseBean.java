@@ -40,6 +40,10 @@ public abstract class ConstantesBaseBean
      */
     public static String KEY_ERRORS_GENERIC = "login.error.";
     /**
+     * Llave unica para la busqueda de errores referentes al modulo de perfiles.
+     */
+    public static String KEY_ERRORS_PROFILER_GENERIC = "profile.error.";
+    /**
      * Formato de fechas
      */
     public static String FORMAT_DATES = "yyyy-MM-dd";

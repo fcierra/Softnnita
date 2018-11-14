@@ -1,13 +1,11 @@
 package co.isoft.nnita.profile.impl.configuration.hibernate;
 
-
 import co.isoft.nnita.profile.api.services.BitacoraService;
-import co.isoft.nnita.profile.api.services.PermisosService;
+import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
-import co.isoft.nnita.profile.impl.configuration.hibernate.ServicesReferencesMapping;
 import co.isoft.nnita.profile.impl.proxys.ProxyUsuariosServiceImpl;
 import co.isoft.nnita.profile.impl.service.BitacoraServiceImpl;
-import co.isoft.nnita.profile.impl.service.PermisosServiceImpl;
+import co.isoft.nnita.profile.impl.service.PerfilesYPermisosServiceImpl;
 import co.isoft.nnita.profile.impl.service.UsuariosServiceImpl;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +19,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
  * de diferenciarlos por su nombre y retornar segun sea necesario.
  * Para esto es importante la implementacion de proxys donde
  * a traves de un criterio, se implementen los requeridos.
+ *
  * @author Yaher Carrillo
  * @Date 10/07/2018
  */
@@ -41,6 +40,7 @@ public class BeanServicesConfig
 
     /**
      * Bean de configuracion de servicios del sistema de auditorias
+     *
      * @return
      */
     @Bean
@@ -62,16 +62,18 @@ public class BeanServicesConfig
 
     /**
      * Bean de configuracion de servicios del sistema
+     *
      * @return
      */
     @Bean
-    public PermisosService permisosServiceImpl()
+    public PerfilesYPermisosService perfilesYPermisosServiceImpl()
     {
-        return new PermisosServiceImpl();
+        return new PerfilesYPermisosServiceImpl(bitacoraServiceImpl());
     }
 
     @Bean
-    public MessageSource messageSource () {
+    public MessageSource messageSource()
+    {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
         return messageSource;
@@ -79,10 +81,12 @@ public class BeanServicesConfig
 
     /**
      * Bean con el listado de mapeo de los servicio de referencias de usuarios
+     *
      * @return
      */
     @Bean
-    public ServicesReferencesMapping beansUsersHandlers() {
+    public ServicesReferencesMapping beansUsersHandlers()
+    {
         return new ServicesReferencesMapping();
     }
 }

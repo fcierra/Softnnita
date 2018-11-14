@@ -576,23 +576,6 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<Perfiles> findProfilesSystem(Map<String, String> mapConfiguration) throws ServiceException
-    {
-        try
-        {
-            List<Perfiles> listProfiles = perfilesDao.findProfilesSystem(true);
-            bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CONSULTAR_PERFILES, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION));
-            return listProfiles;
-        }
-        catch (DaoException e)
-        {
-            String mensaje = "Error tratando de consultar los perfiles de sistema";
-            logger.error(mensaje, e);
-            throw new ServiceException(e.getMessage(), e, e.getCode());
-        }
-    }
-
-    @Override
     public List<PerfilesDeUsuario> findProfilesUsers(Map<String, String> mapConfiguration, String loginuser) throws ServiceException
     {
         try

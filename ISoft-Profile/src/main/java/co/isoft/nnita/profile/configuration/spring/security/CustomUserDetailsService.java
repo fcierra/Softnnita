@@ -5,7 +5,7 @@ import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.services.PermisosService;
+import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.service.UsuariosServiceImpl;
 import org.apache.commons.logging.Log;
@@ -54,7 +54,7 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
      * Servicio de permisologias del sistema
      */
     @Autowired
-    private PermisosService permisosService;
+    private PerfilesYPermisosService perfilesYPermisosService;
 
     /**
      * Servicio de seguridad que identifica a los usuarios que intentan acceder
@@ -130,7 +130,7 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
     {
         try
         {
-            return permisosService.findGrantPermisions(perfil);
+            return perfilesYPermisosService.findGrantPermisions(perfil);
         }
         catch (ServiceException e)
         {
