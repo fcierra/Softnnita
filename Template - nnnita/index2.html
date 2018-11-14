@@ -18,8 +18,6 @@
   <link rel="stylesheet" href="plugins/morris/morris.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
-  <!-- Select2 -->
-  <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
   <!-- Date Picker -->
   <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
   <!-- Daterange picker -->
@@ -28,6 +26,8 @@
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../plugins/select2/select2.min.css">	
 </head>
 <body class="hold-transition sidebar-mini">
 	<div class="wrapper"><!-- CONTENDOR PRINCIPAL -->
@@ -162,7 +162,7 @@
         <div class="card-header d-flex p-0"><!-- Panel de control crear/u, crear/p, permisos-->
         <h3 class="card-title p-3">Administrar</h3>
         <ul class="nav nav-pills ml-auto p-2">
-        <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Crear Usuario</a>
+        <li class="nav-item"><a class="nav-link" href="#tab_1" data-toggle="tab">Crear Usuario</a>
 		</li>
 		<li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Modificar Usuario</a>
 		</li>	
@@ -170,8 +170,10 @@
 		</li>
 		<li class="nav-item"><a class="nav-link" href="#tab_4" data-toggle="tab">Modificar Perfil</a>
 		</li>	
-        <li class="nav-item"><a class="nav-link" href="#tab_5" data-toggle="tab">Creacion masiva de Usuarios</a>
+        <li class="nav-item"><a class="nav-link" href="#tab_5" data-toggle="tab">Creacion Masiva de Usuarios</a>
 		</li>
+		<li class="nav-item"><a class="nav-link" href="#tab_6" data-toggle="tab">Permisos</a>
+		</li>	
         </ul>
         </div><!-- Fin panel de control -->
         <div class="card-body">
@@ -205,8 +207,8 @@
 				</div>
 				</div>
 				<div class="card-footer">
-				<button type="submit">Registrar</button>
-				<button type="reset">Cancelar</button>
+				<button type="submit" class="btn btn-info">Modificar</button>
+				<button type="reset" class="btn btn-default float-right">Cancelar</button>
 				</div>
 				</form>
 				</div>
@@ -276,7 +278,7 @@
 				</div>
 				<div class="form-group">
 				<label for="exampleInputEmail1">E-mail</label>
-				<input type="email" class="form-control" id="Crear Perfil - Email" placeholder="Ingrese un E-mail">
+				<input type="email" class="form-control" id="Crear Perfil - Email" placeholder="Ingrese su E-mail">
 				</div>
 				<div class="form-check">
 				<input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -301,7 +303,7 @@
 				<div class="row">
 				<div class="col-md-6">
 				<div class="form-group">
-				<label>Seleccionar Usuario</label>
+				<label>Seleccionar Perfil</label>
 				<select class="form-control select2" style="width: 100%;">
 				<option selected="selected">Adminstrador</option>
 				<option>Adminstrador</option>
@@ -321,7 +323,7 @@
 				</div>
 				<div class="card-footer">
 				<button type="submit" class="btn btn-info">Modificar</button>
-				<button type="reset" class="btn btn-default float-right">Cancelar</button>
+				<button type="rese t" class="btn btn-default float-right">Cancelar</button>
 				</div>	
 				</form>	
 				</div>	
@@ -357,6 +359,95 @@
 				</form>	
 				</div>
 			</div><!-- fin formulario Generacion masiva de Usuarios-->
+			<div class="tab-pane" id="tab_6"> <!--Formulario Permisos-->
+				<div class="card card-primary">
+				<div class="card-header"> 
+				<h3 class="card-title">Generar Permisos a Perfil</h3>
+				</div>
+				<form role="form">
+				<div class="card-body">
+				<div class="form-group">
+				<div class="row">
+				<div class="col-md-6">
+				<label>Seleccionar Perfil</label>
+				<select class="form-control select2" style="width: 100%;">
+				<option selected="selected">Adminstrador</option>
+				<option>Adminstrador</option>
+				<option>Cajero</option>
+				<option>Mesero</option>
+				</select>
+				</div>
+				</div>		
+				</div>
+			 	<div class="card">
+				<div class="card-header">
+				<h3 class="card-title">Permisos</h3>
+				</div>
+                <div class="card-body p-0">
+                <table class="table table-striped">
+                  <tr>
+                    <th style="width: 1px">#</th>
+                    <th>Modulo</th>
+                    <th>Estado</th>
+                  </tr>
+                  <tr>
+                    <td>1.</td>
+                    <td>Adminstrar
+					</td>
+                    <td>
+
+
+	
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2.</td>
+                    <td>Parametros</td>
+                    <td>
+					<div class="card-tools">
+					<div class="btn-group" id="Estado - Perfil" data-toggle="btn-toggle">
+					<button type="button" class="btn  btn-sm active" data-toggle="on">On</button>
+					<button type="button" class="btn btn-default btn-sm" data-toggle="off">Off</button>
+					</div>
+					</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>3.</td>
+                    <td>Mesas</td>
+                    <td>
+					<div class="card-tools">
+					<div class="btn-group" id="Estado - Perfil" data-toggle="btn-toggle">
+					<button type="button" class="btn  btn-sm active" data-toggle="on">On</button>
+					<button type="button" class="btn btn-default btn-sm" data-toggle="off">Off</button>
+					</div>
+					</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>4.</td>
+                    <td>Cajeros</td>
+                    <td>
+					<div class="card-tools">
+					<div class="btn-group" id="Estado - Perfil" data-toggle="btn-toggle">
+					<button type="button" class="btn  btn-sm active" data-toggle="on">On</button>
+					<button type="button" class="btn btn-default btn-sm" data-toggle="off">Off</button>
+					</div>
+					</div>	
+                    </td>
+                  </tr>
+                </table>
+                </div>
+				</div>	
+				</div>
+				<div class="card-footer">
+				<button type="submit" class="btn btn-info">Modificar</button>
+				<button type="rese t" class="btn btn-default float-right">Cancelar</button>
+				</div>	
+				</form>	
+				</div>	
+			</div> <!--Fin Formulario Permisos-->	
 		</div><!-- fin contenedor de pestañas--> 
 		</div> 
 		</div>
