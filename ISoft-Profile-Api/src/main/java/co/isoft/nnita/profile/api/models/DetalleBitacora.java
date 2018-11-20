@@ -25,11 +25,11 @@ public class DetalleBitacora implements Serializable, BusinessClass
     @Column(name = "ID_DETALLE_BITACORA", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_BITACORA", nullable = false)
     private Bitacora bitacora;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_EVENTO", nullable = false)
     private Eventos evento;
 

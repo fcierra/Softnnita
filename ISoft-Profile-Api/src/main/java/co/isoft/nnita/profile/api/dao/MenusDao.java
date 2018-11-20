@@ -48,11 +48,11 @@ public interface MenusDao extends HibernateDao<Menus, Long>
 
     /**
      * Busca los permisos a los que puede accceder el perfil indicado.
-     * @param perfil perfil a buscar
+     * @param codeperfil perfil a buscar
      * @return listado de permisos
      * @throws DaoException Ocurre si falla la operacion
      */
-    public List<Permisos> getPermisosUsuarios(Perfiles perfil) throws DaoException;
+    public List<Permisos> getPermisosUsuarios(String codeperfil) throws DaoException;
 
 
 }

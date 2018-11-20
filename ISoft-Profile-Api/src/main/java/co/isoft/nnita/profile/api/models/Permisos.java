@@ -13,9 +13,9 @@ import java.io.Serializable;
  * @author Yaher Carrillo
  * @Date 12/08/2018
  */
-@NamedQueries({
-        @NamedQuery(name = "buscarPermisosUsuario", query = "from Permisos permiso where permiso.perfil.id =:PARAM_PERFIL and permiso.perfil.habilitado = 1"),
+@NamedQueries({ @NamedQuery(name = "buscarPermisosUsuario", query = "from Permisos permiso where permiso.perfil.nombre_perfil =:PARAM_PERFIL and permiso.perfil.habilitado = 1"),
         @NamedQuery(name = "buscarItemsNavegacionDisponiblesPerfil", query = "Select permiso.menuItem from Permisos permiso INNER JOIN permiso.menuItem item where permiso.perfil.id =:PARAM_PERFIL and item.habilitado = 1 and item.menu_padre.id=:PARAM_MENU_PADRE"),
+        @NamedQuery(name = "buscarPermisosPerfil", query = "Select new co.isoft.nnita.profile.api.modelsweb.PermisosDTO(permiso.id,item.menu_label) from Permisos permiso INNER JOIN permiso.menuItem item INNER JOIN permiso.perfil perfil where perfil.nombre_perfil =:PARAM_PERFIL and permiso.habilitado = 1 and item.habilitado = 1"),
 })
 @Entity
 @SequenceGenerator(name = "permisos-gen", sequenceName = "ISOFT_PERMISOS_SEQ", initialValue = 1, allocationSize = 1)
@@ -28,13 +28,16 @@ public class Permisos implements Serializable, BusinessClass
     @Column(name = "ID_PERMISO", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_MENU_ITEM", nullable = false)
     private Menus_Item menuItem;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERFIL", nullable = false)
     private Perfiles perfil;
+
+    @Column(name = "HABILITADO", nullable = false)
+    private Long habilitado;
 
     public Long getId()
     {
@@ -64,6 +67,16 @@ public class Permisos implements Serializable, BusinessClass
     public void setPerfil(Perfiles perfil)
     {
         this.perfil = perfil;
+    }
+
+    public Long getHabilitado()
+    {
+        return habilitado;
+    }
+
+    public void setHabilitado(Long habilitado)
+    {
+        this.habilitado = habilitado;
     }
 
     @Override

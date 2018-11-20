@@ -27,97 +27,90 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter
+{
 
-	@Autowired
-	@Qualifier("customUserDetailsService")
-	private UserDetailsService userDetailsService;
+    @Autowired
+    @Qualifier("customUserDetailsService")
+    private UserDetailsService userDetailsService;
 
+    @Autowired
+    private PerfilesYPermisosService perfilesYPermisosServices;
 
-	@Autowired
-	private PerfilesYPermisosService perfilesYPermisosServices;
+    @Autowired
+    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception
+    {
+        auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(authenticationProvider());
+    }
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception
+    {
+        List<Menus_Item> listaPermisos;
 
-	@Autowired
-	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService);
-		auth.authenticationProvider(authenticationProvider());
-	}
+        try
+        {
+            listaPermisos = perfilesYPermisosServices.findNavigationSystem();
+            if (listaPermisos != null && !listaPermisos.isEmpty())
+            {
+                for (Menus_Item permiso : listaPermisos)
+                {
+                    String link = permiso.getMenu_link();
+                    String refseguridad = permiso.getRef_security().toUpperCase();
+                    http.authorizeRequests().antMatchers(link).hasAuthority(refseguridad);
+                }
+            }
+        }
+        catch (ServiceException ex)
+        {
+            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), "SecurityConfiguration", "Error configurando permisos", ex);
+        }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		List<Menus_Item> listaPermisos;
+        http.authorizeRequests().
+                and().formLogin().  //login configuration
+                loginPage("/index.xhtml").
+                loginProcessingUrl("/appLogin").
+                usernameParameter("app_username").
+                passwordParameter("app_password").
+                defaultSuccessUrl("/secure/init/login.xhtml").
+                and().exceptionHandling().accessDeniedPage("/secure/init/denied.xhtml").
+                and().logout().deleteCookies("JSESSIONID").    //logout configuration
+                logoutUrl("/appLogout").
+                invalidateHttpSession(true).
+                logoutSuccessUrl("/index.xhtml").
+                and().sessionManagement().sessionFixation().migrateSession().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).invalidSessionUrl("/index.xhtml").maximumSessions(1).expiredUrl("/index.xhtml");
+        ;
 
-		try
-		{
-			listaPermisos = perfilesYPermisosServices.findNavigationSystem();
-			if (listaPermisos!=null && !listaPermisos.isEmpty()){
-				for (Menus_Item permiso : listaPermisos){
-					http.authorizeRequests().
-							antMatchers(permiso.getMenu_link()+"*")
-							.access("hasAnyAuthority('"+permiso.getRef_security().toUpperCase()+"')");
-				}
-			}
-		}catch (ServiceException ex){
-			Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), "SecurityConfiguration", "Error configurando permisos", ex);
-		}
+        http.csrf().disable();
+    }
 
-		http.authorizeRequests().
-				antMatchers("/secure/profiler/profile_actividad.xhtml*",
-						"/secure/profiler/profile_misdatos.xhtml*",
-						"/secure/configuration/config_permisions.xhtml*",
-						"/secure/configuration/config_menus.xhtml*",
-						"/secure/gestion/usuarios/config_usuarios.xhtml*"
-						)
-				.access("hasAnyAuthority('ADMIN')");
+    @Bean
+    public PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
 
-		http.authorizeRequests().
-				and().formLogin().  //login configuration
-				loginPage("/index.xhtml").
-				loginProcessingUrl("/appLogin").
-				usernameParameter("app_username").
-				passwordParameter("app_password").
-				defaultSuccessUrl("/secure/init/login.xhtml").
-				and().exceptionHandling().accessDeniedPage("/secure/init/denied.xhtml").
-				and().logout().deleteCookies("JSESSIONID").    //logout configuration
-				logoutUrl("/appLogout").
-				invalidateHttpSession(true).
-				logoutSuccessUrl("/index.xhtml").
-				and()
-				.sessionManagement()
-				.sessionFixation().migrateSession()
-				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-				.invalidSessionUrl("/index.xhtml")
-				.maximumSessions(1)
-				.expiredUrl("/index.xhtml");
-		;
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider()
+    {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
 
-		http
-				.csrf().disable();
-	}
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception
+    {
+        return super.authenticationManagerBean();
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(userDetailsService);
-		authenticationProvider.setPasswordEncoder(passwordEncoder());
-		return authenticationProvider;
-	}
-
-	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
-
-	@Bean
-	public AuthenticationTrustResolver getAuthenticationTrustResolver() {
-		return new AuthenticationTrustResolverImpl();
-	}
+    @Bean
+    public AuthenticationTrustResolver getAuthenticationTrustResolver()
+    {
+        return new AuthenticationTrustResolverImpl();
+    }
 
 }

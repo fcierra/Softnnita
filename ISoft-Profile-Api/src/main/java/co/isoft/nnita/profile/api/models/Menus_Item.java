@@ -37,7 +37,7 @@ public class Menus_Item implements Serializable, BusinessClass
     @Column(name = "MENU_LABEL", nullable = false)
     private String menu_label;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_MENU_PADRE", nullable = false)
     private Menus menu_padre;
 

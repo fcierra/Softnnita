@@ -1,7 +1,6 @@
 package co.isoft.nnita.profile.api.dao;
 
 import co.isoft.nnita.profile.api.exceptions.DaoException;
-import co.isoft.nnita.profile.api.models.Bancos;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.UsuarioPerfil;
 import co.isoft.nnita.profile.api.models.Usuarios;

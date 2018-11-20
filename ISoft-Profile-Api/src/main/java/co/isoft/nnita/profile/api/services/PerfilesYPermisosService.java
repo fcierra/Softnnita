@@ -6,6 +6,7 @@ import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Menus_Item;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
+import co.isoft.nnita.profile.api.modelsweb.PermisosDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -32,11 +33,11 @@ public interface PerfilesYPermisosService
     /**
      * Busca los permisos del usuario con respecto al sistema
      *
-     * @param perfil perfil a buscar
+     * @param codeperfil perfil a buscar
      * @return Listado de permisos del perfil
      * @throws ServiceException ocurre si falla la operacion
      */
-    public List<Permisos> findGrantPermisions(Perfiles perfil) throws ServiceException;
+    public List<Permisos> findGrantPermisions(String codeperfil) throws ServiceException;
 
     /**
      * Busca los permisos a configurar dentro del sistema
@@ -72,5 +73,14 @@ public interface PerfilesYPermisosService
      * @throws ServiceException Ocurre si falla la operacion
      */
     public void modifyProfile(Map<String, String> mapConfiguration, RequestCreateProfile dto) throws ServiceException;
+
+    /**
+     * Busca los permisos de un perfil
+     * @param mapConfiguration mapa de configuracion de la licencia
+     * @param profile perfil a consultar
+     * @return Listado de permisos
+     * @throws ServiceException Ocurre si falla la operacion
+     */
+    public List<PermisosDTO> findPermissionProfile(Map<String, String> mapConfiguration, String profile) throws ServiceException;
 
 }

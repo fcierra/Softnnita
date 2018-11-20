@@ -30,11 +30,11 @@ public class UsuarioPerfil implements Serializable, BusinessClass
     @Column(name = "ID_USUARIO_PERFIL", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private Usuarios usuario;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERFIL", nullable = false)
     private Perfiles perfil;
 

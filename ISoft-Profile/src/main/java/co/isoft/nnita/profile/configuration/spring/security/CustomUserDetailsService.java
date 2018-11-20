@@ -95,29 +95,23 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
     private List<GrantedAuthority> getGrantedAuthorities(Usuarios user)
     {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        boolean isAdmin = user.getPerfilDefault().getAdministrador() == 1 ? true : false;
-        if (isAdmin)
+
+        List<Permisos> listaPermisos = findPermisionUserAuthenticated(user.getPerfilDefault().getNombre_perfil());
+
+        if (listaPermisos != null && !listaPermisos.isEmpty())
         {
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
+            for (Permisos permiso : listaPermisos)
+            {
+                logger.info("Asignando permiso" + permiso.getMenuItem().getRef_security());
+                authorities.add(new SimpleGrantedAuthority(permiso.getMenuItem().getRef_security().toUpperCase()));
+            }
+            //authorities.add(new SimpleGrantedAuthority("ADMIN"));
         }
         else
         {
-            List<Permisos> listaPermisos = findPermisionUserAuthenticated(user.getPerfilDefault());
-
-            if (listaPermisos != null && !listaPermisos.isEmpty())
-            {
-                for (Permisos permiso : listaPermisos)
-                {
-                    logger.info("Asignando permiso" + permiso.getMenuItem().getRef_security());
-                    authorities.add(new SimpleGrantedAuthority(permiso.getMenuItem().getRef_security().toUpperCase()));
-                }
-                //authorities.add(new SimpleGrantedAuthority("ADMIN"));
-            }
-            else
-            {
-                authorities.add(new SimpleGrantedAuthority("GUEST"));
-            }
+            authorities.add(new SimpleGrantedAuthority("GUEST"));
         }
+
         return authorities;
     }
 
@@ -126,15 +120,15 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
      *
      * @return
      */
-    public List<Permisos> findPermisionUserAuthenticated(Perfiles perfil)
+    public List<Permisos> findPermisionUserAuthenticated(String codeperfil)
     {
         try
         {
-            return perfilesYPermisosService.findGrantPermisions(perfil);
+            return perfilesYPermisosService.findGrantPermisions(codeperfil);
         }
         catch (ServiceException e)
         {
-            co.isoft.nnita.logger.util.Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), perfil.getNombre_perfil(), "Falla al tratar de buscar los permisos del perfil por defecto del usuario", e);
+            co.isoft.nnita.logger.util.Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), codeperfil, "Falla al tratar de buscar los permisos del perfil por defecto del usuario", e);
             logger.error("Falla al tratar de buscar los permisos del perfil por defecto del usuario", e);
         }
         return null;

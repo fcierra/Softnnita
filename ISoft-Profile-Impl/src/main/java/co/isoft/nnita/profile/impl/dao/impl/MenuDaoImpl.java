@@ -64,11 +64,11 @@ public class MenuDaoImpl extends HibernateDaoImpl<Integer,Menus> implements Menu
     }
 
     @Override
-    public List<Permisos> getPermisosUsuarios(Perfiles perfil) throws DaoException
+    public List<Permisos> getPermisosUsuarios(String codeperfil) throws DaoException
     {
         Session session = this.getSession();
         Query query = session.getNamedQuery("buscarPermisosUsuario");
-        query.setParameter("PARAM_PERFIL", perfil.getId());
+        query.setParameter("PARAM_PERFIL", codeperfil);
         List<Permisos> permisos = (List<Permisos>) query.list();
         return permisos;// OK
     }

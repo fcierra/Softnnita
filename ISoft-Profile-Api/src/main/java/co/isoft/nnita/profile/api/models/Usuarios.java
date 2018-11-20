@@ -15,16 +15,13 @@ import java.util.Date;
  * @author Yaher Carrillo
  * @Date 01/06/2018
  */
-@NamedQueries({
-        @NamedQuery(name = "buscarUsuarioPorLogin", query = "from Usuarios usuario where usuario.login =:PARAM_LOGIN"),
+@NamedQueries({ @NamedQuery(name = "buscarUsuarioPorLogin", query = "select new co.isoft.nnita.profile.api.models.Usuarios(usuario.id,usuario.login,usuario.clave,usuario.fecha_ultima_visita,perfil.nombre_perfil) from Usuarios usuario INNER JOIN usuario.perfilDefault perfil where usuario.login =:PARAM_LOGIN  and usuario.habilitado = 1"),
         @NamedQuery(name = "buscarUsuarioPorCorreo", query = "from Usuarios usuario where usuario.email =:PARAM_CORREO and usuario.habilitado = 1"),
         @NamedQuery(name = "buscarUsuarioUltimoMesActivo", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
         @NamedQuery(name = "buscarUsuarioActivosPorFecha", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
         @NamedQuery(name = "buscarUsuarioPorEstado", query = "from Usuarios usuario where usuario.habilitado =:PARAM_ESTADO"),
-        @NamedQuery(name = "buscarTodosLosUsuarios", query = "select new co.isoft.nnita.profile.api.modelsweb.UsuariosTodos("
-                + " usuario.login,usuario.nombres,usuario.apellidos,usuario.email,usuario.sexo,usuario.fecha_ultima_visita,usuario.habilitado"
-                + ")from Usuarios usuario")
-})
+        @NamedQuery(name = "buscarTodosLosUsuarios", query = "select new co.isoft.nnita.profile.api.modelsweb.UsuariosTodos(" + " usuario.login,usuario.nombres,usuario.apellidos,usuario.email,usuario.sexo,usuario.fecha_ultima_visita,usuario.habilitado"
+                + ")from Usuarios usuario") })
 @Entity
 @SequenceGenerator(name = "usuarios-gen", sequenceName = "ISOFT_USUARIOS_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "ISOFT_USUARIOS")
@@ -66,12 +63,40 @@ public class Usuarios implements Serializable, BusinessClass
     @Column(name = "FECHA_ULTIMA_VIS")
     private Date fecha_ultima_visita;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PERFIL_DEFAULT")
     private Perfiles perfilDefault;
 
     @Column(name = "HABILITADO", nullable = false)
     private Long habilitado;
+
+    /**
+     * Constructor por defecto
+     */
+    public Usuarios()
+    {
+    }
+
+    /**
+     * Constructor que inicializa los atributos del objeto
+     *
+     * @param id               identificador unico de usuario
+     * @param login               login de usuario
+     * @param clave               clave de acceso
+     * @param fecha_ultima_visita fecha de ultima visita
+     * @param codePerfil       codigo de perfil por defecto
+     */
+    public Usuarios(Long id,String login, String clave, Date fecha_ultima_visita, String codePerfil)
+    {
+        this.id = id;
+        this.login = login;
+        this.clave = clave;
+        this.fecha_ultima_visita = fecha_ultima_visita;
+
+        Perfiles perfil = new Perfiles();
+        perfil.setNombre_perfil(codePerfil);
+        this.perfilDefault = perfil;
+    }
 
     public Long getId()
     {
@@ -208,6 +233,6 @@ public class Usuarios implements Serializable, BusinessClass
     @Override
     public String toString()
     {
-        return "Usuario [id=" + id + ", " + "Nombres=" + nombres + ", " + "Apellidos=" + apellidos + ", " + "Habilitado=" + (habilitado == 1 ? "true" : "false") + "]";
+        return "Usuario [id=" + id + ", " + "Nombres=" + nombres + ", " + "Apellidos=" + apellidos + ", " + "Habilitado=" + ((habilitado != null ? habilitado : 1l) == 1 ? "true" : "false") + "]";
     }
 }

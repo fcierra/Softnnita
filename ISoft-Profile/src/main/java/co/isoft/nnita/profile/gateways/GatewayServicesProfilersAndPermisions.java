@@ -7,15 +7,12 @@ import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.gateways.models.CommonsResponse;
 import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestCreateProfile;
-import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUserISoftProfile;
 import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
 import co.isoft.nnita.profile.api.models.Perfiles;
+import co.isoft.nnita.profile.api.modelsweb.PermisosDTO;
 import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
-import co.isoft.nnita.profile.api.services.UsuariosService;
-import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import co.isoft.nnita.profile.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.KEY_ERRORS_GENERIC;
-import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.KEY_ERRORS_PROFILER_GENERIC;
-import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_USER_TRANSACTION;
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.*;
 
 /**
  * Gateway de microservicios de operaciones sobre
@@ -126,7 +121,7 @@ public class GatewayServicesProfilersAndPermisions
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/crearperfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse createprofile(@RequestParam String sharedkey,@RequestBody RequestCreateProfile request, HttpServletRequest requestTransaction)
+    public CommonsResponse createprofile(@RequestParam String sharedkey, @RequestBody RequestCreateProfile request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -134,8 +129,8 @@ public class GatewayServicesProfilersAndPermisions
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
             mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
-            GatewayBaseBean.validarParametrosGenericos(request.getNombreperfil(),request.getHabilitado().toString());
-            perfilesYPermisosService.createProfile(mapConfiguration,request.getNombreperfil(),request.getHabilitado());
+            GatewayBaseBean.validarParametrosGenericos(request.getNombreperfil(), request.getHabilitado().toString());
+            perfilesYPermisosService.createProfile(mapConfiguration, request.getNombreperfil(), request.getHabilitado());
         }
         catch (ParamsException ex)
         {
@@ -172,7 +167,7 @@ public class GatewayServicesProfilersAndPermisions
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/modificarperrfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse modificarperrfil(@RequestParam String sharedkey,@RequestBody RequestCreateProfile request, HttpServletRequest requestTransaction)
+    public CommonsResponse modificarperrfil(@RequestParam String sharedkey, @RequestBody RequestCreateProfile request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -180,8 +175,52 @@ public class GatewayServicesProfilersAndPermisions
         {
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
             mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
-            GatewayBaseBean.validarParametrosGenericos(request.getNombreperfil(),request.getHabilitado().toString());
-            perfilesYPermisosService.modifyProfile(mapConfiguration,request);
+            GatewayBaseBean.validarParametrosGenericos(request.getNombreperfil(), request.getHabilitado().toString());
+            perfilesYPermisosService.modifyProfile(mapConfiguration, request);
+        }
+        catch (ParamsException ex)
+        {
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            return response;
+        }
+        catch (LicenseException ex)
+        {
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
+            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
+            return response;
+        }
+        catch (ServiceException ex)
+        {
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_PROFILER_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "[crearperfil]", ex);
+            GatewayBaseBean.matchToResponses(response);
+            return response;
+        }
+        Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [crearperfil].");
+        return response.toOk();
+    }
+
+    @RequestMapping(value = "/consultarpermisosperfil", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public CommonsResponse consultarpermisosperfil(@RequestParam String sharedkey, @RequestParam String nombreperfil, HttpServletRequest requestTransaction)
+    {
+        CommonsResponse response = new CommonsResponse();
+        Map<String, String> mapConfiguration = null;
+        try
+        {
+            Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
+            GatewayBaseBean.validarParametrosGenericos(nombreperfil);
+            List<PermisosDTO> listaPermisos = perfilesYPermisosService.findPermissionProfile(mapConfiguration, nombreperfil);
+            if (listaPermisos == null || listaPermisos.isEmpty())
+                return response.toEmpty();
+            else
+                response.setResponse(listaPermisos);
         }
         catch (ParamsException ex)
         {
