@@ -7,8 +7,9 @@ import co.isoft.nnita.profile.api.dao.PermisosDao;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestCreateProfile;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
+import co.isoft.nnita.profile.api.gateways.models.request.users.RequestModifyPermissionProfile;
 import co.isoft.nnita.profile.api.models.*;
-import co.isoft.nnita.profile.api.modelsweb.PermisosDTO;
 import co.isoft.nnita.profile.api.services.BitacoraService;
 import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
 import co.isoft.nnita.profile.api.util.EnumCanalesISoft;
@@ -153,7 +154,7 @@ public class PerfilesYPermisosServiceImpl extends UtilServices implements Perfil
         }
         catch (DaoException e)
         {
-            String mensaje = "Error al obtener permisos sobre el perfil: [" +perfil + "]";
+            String mensaje = "Error al obtener permisos sobre el perfil: [" + perfil + "]";
             logger.error(mensaje, e);
             throw new ServiceException(mensaje, e);
         }
@@ -245,7 +246,7 @@ public class PerfilesYPermisosServiceImpl extends UtilServices implements Perfil
                 String nombreperfil_antes = perfil.getNombre_perfil();
                 Long habilitado_antes = perfil.getHabilitado();
 
-                String nombreperfil_despues = dto.getNombre_perfil_despues()!=null && !dto.getNombre_perfil_despues().trim().equals("")?dto.getNombre_perfil_despues():dto.getNombreperfil();
+                String nombreperfil_despues = dto.getNombre_perfil_despues() != null && !dto.getNombre_perfil_despues().trim().equals("") ? dto.getNombre_perfil_despues() : dto.getNombreperfil();
                 Long habilitado_despues = dto.getHabilitado();
 
                 perfil.setNombre_perfil(nombreperfil_despues);
@@ -275,6 +276,29 @@ public class PerfilesYPermisosServiceImpl extends UtilServices implements Perfil
         catch (DaoException e)
         {
             String mensaje = "Error tratando de consultar los permisos del perfil de sistema [" + profile + "] ";
+            logger.error(mensaje, e);
+            throw new ServiceException(e.getMessage(), e, e.getCode());
+        }
+    }
+
+    @Override
+    public void modifyPermissionProfile(Map<String, String> mapConfiguration, RequestModifyPermissionProfile permissions) throws ServiceException
+    {
+        try
+        {
+            for (PermisosDTO item : permissions.getPermisos())
+            {
+                Permisos permiso = permisosDao.buscarPorId(item.getId());
+                if (permiso!=null){
+                    permiso.setHabilitado(item.getHabilitado());
+                    permisosDao.actualizar(permiso);
+                }
+
+            }
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error tratando de modificar los permisos ";
             logger.error(mensaje, e);
             throw new ServiceException(e.getMessage(), e, e.getCode());
         }

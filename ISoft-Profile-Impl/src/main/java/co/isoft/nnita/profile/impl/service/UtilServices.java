@@ -2,7 +2,7 @@ package co.isoft.nnita.profile.impl.service;
 
 import co.isoft.nnita.profile.api.models.DetalleBitacora;
 import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
+import co.isoft.nnita.profile.api.gateways.models.request.users.UsuarioPerfilMassive;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

@@ -20,7 +20,7 @@ import java.util.Date;
         @NamedQuery(name = "buscarUsuarioUltimoMesActivo", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
         @NamedQuery(name = "buscarUsuarioActivosPorFecha", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
         @NamedQuery(name = "buscarUsuarioPorEstado", query = "from Usuarios usuario where usuario.habilitado =:PARAM_ESTADO"),
-        @NamedQuery(name = "buscarTodosLosUsuarios", query = "select new co.isoft.nnita.profile.api.modelsweb.UsuariosTodos(" + " usuario.login,usuario.nombres,usuario.apellidos,usuario.email,usuario.sexo,usuario.fecha_ultima_visita,usuario.habilitado"
+        @NamedQuery(name = "buscarTodosLosUsuarios", query = "select new co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos(" + " usuario.login,usuario.nombres,usuario.apellidos,usuario.email,usuario.sexo,usuario.fecha_ultima_visita,usuario.habilitado"
                 + ")from Usuarios usuario") })
 @Entity
 @SequenceGenerator(name = "usuarios-gen", sequenceName = "ISOFT_USUARIOS_SEQ", initialValue = 1, allocationSize = 1)

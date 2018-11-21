@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.modelsweb;
+package co.isoft.nnita.profile.api.gateways.models.request.users;
 
 /**
  * Modelo de datos para la transmision

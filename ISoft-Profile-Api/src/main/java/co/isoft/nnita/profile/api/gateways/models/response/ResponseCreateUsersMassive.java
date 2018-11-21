@@ -1,7 +1,7 @@
 package co.isoft.nnita.profile.api.gateways.models.response;
 
 import co.isoft.nnita.profile.api.gateways.models.CommonsResponse;
-import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
+import co.isoft.nnita.profile.api.gateways.models.request.users.UsuarioPerfilMassive;
 
 import java.util.List;
 

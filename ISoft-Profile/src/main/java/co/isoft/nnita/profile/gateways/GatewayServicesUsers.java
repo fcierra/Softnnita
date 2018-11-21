@@ -11,11 +11,10 @@ import co.isoft.nnita.profile.api.gateways.models.request.users.RequestAdminStat
 import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUserISoftProfile;
 import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUsersMassiveISoftProfile;
 import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
-import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
-import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
-import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PerfilesDeUsuario;
+import co.isoft.nnita.profile.api.gateways.models.request.users.UsuarioPerfilMassive;
+import co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import co.isoft.nnita.profile.util.WebUtils;

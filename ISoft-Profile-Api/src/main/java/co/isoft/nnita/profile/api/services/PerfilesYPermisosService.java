@@ -2,11 +2,12 @@ package co.isoft.nnita.profile.api.services;
 
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestCreateProfile;
+import co.isoft.nnita.profile.api.gateways.models.request.users.RequestModifyPermissionProfile;
 import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Menus_Item;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
-import co.isoft.nnita.profile.api.modelsweb.PermisosDTO;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -82,5 +83,14 @@ public interface PerfilesYPermisosService
      * @throws ServiceException Ocurre si falla la operacion
      */
     public List<PermisosDTO> findPermissionProfile(Map<String, String> mapConfiguration, String profile) throws ServiceException;
+
+    /**
+     * Modifica los permisos de un perfil
+     * @param mapConfiguration mapa de configuracion de la licencia
+     * @param dto listado de permisos
+     * @return Lista de respuesta
+     * @throws ServiceException
+     */
+    public void modifyPermissionProfile(Map<String, String> mapConfiguration, RequestModifyPermissionProfile dto) throws ServiceException;
 
 }

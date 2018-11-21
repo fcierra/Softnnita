@@ -2,9 +2,8 @@ package co.isoft.nnita.profile.api.dao;
 
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.models.Perfiles;
-import co.isoft.nnita.profile.api.models.UsuarioPerfil;
 import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PerfilesDeUsuario;
 
 import java.util.List;
 

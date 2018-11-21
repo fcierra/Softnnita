@@ -4,9 +4,9 @@ import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
-import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
-import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
-import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PerfilesDeUsuario;
+import co.isoft.nnita.profile.api.gateways.models.request.users.UsuarioPerfilMassive;
+import co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos;
 
 import java.util.List;
 import java.util.Map;

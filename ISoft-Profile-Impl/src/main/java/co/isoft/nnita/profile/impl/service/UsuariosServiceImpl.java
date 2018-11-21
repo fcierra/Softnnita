@@ -10,13 +10,12 @@ import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.UsuarioPerfil;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
-import co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario;
-import co.isoft.nnita.profile.api.modelsweb.UsuarioPerfilMassive;
-import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PerfilesDeUsuario;
+import co.isoft.nnita.profile.api.gateways.models.request.users.UsuarioPerfilMassive;
+import co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos;
 import co.isoft.nnita.profile.api.services.BitacoraService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.ConstantesBaseBean;
-import co.isoft.nnita.profile.api.util.EnumCanalesISoft;
 import co.isoft.nnita.profile.api.util.EnumFuncionalityISoft;
 import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import org.apache.commons.logging.Log;
@@ -31,7 +30,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_CANAL_TRANSACTION;
 import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_USER_TRANSACTION;
 
 /**

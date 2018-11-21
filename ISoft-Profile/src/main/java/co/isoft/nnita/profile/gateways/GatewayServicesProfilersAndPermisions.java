@@ -7,9 +7,10 @@ import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.gateways.models.CommonsResponse;
 import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestCreateProfile;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
+import co.isoft.nnita.profile.api.gateways.models.request.users.RequestModifyPermissionProfile;
 import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
 import co.isoft.nnita.profile.api.models.Perfiles;
-import co.isoft.nnita.profile.api.modelsweb.PermisosDTO;
 import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
 import co.isoft.nnita.profile.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -198,14 +199,22 @@ public class GatewayServicesProfilersAndPermisions
         }
         catch (Exception ex)
         {
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "[crearperfil]", ex);
+            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "[modificarperrfil]", ex);
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
-        Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [crearperfil].");
+        Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [modificarperrfil].");
         return response.toOk();
     }
 
+    /**
+     * Consulta los permisos asociados a un perfil
+     *
+     * @param sharedkey          llave de licencia
+     * @param nombreperfil       nombre de perfil a consultar
+     * @param requestTransaction request del ambito
+     * @return response comun
+     */
     @RequestMapping(value = "/consultarpermisosperfil", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse consultarpermisosperfil(@RequestParam String sharedkey, @RequestParam String nombreperfil, HttpServletRequest requestTransaction)
     {
@@ -247,6 +256,47 @@ public class GatewayServicesProfilersAndPermisions
             return response;
         }
         Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [crearperfil].");
+        return response.toOk();
+    }
+
+    /**
+     * Consulta los perfiles de un perfil determinado
+     *
+     * @param sharedkey          llave de acceso
+     * @param requestTransaction request del ambito
+     * @return Response comun.
+     */
+    @RequestMapping(value = "/modificarpermisosperfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public CommonsResponse modificarpermisosperfil(@RequestParam String sharedkey, @RequestBody RequestModifyPermissionProfile request, HttpServletRequest requestTransaction)
+    {
+        CommonsResponse response = new CommonsResponse();
+        Map<String, String> mapConfiguration = null;
+        try
+        {
+            Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
+
+            perfilesYPermisosService.modifyPermissionProfile(mapConfiguration, request);
+        }
+        catch (LicenseException ex)
+        {
+            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
+            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
+            return response;
+        }
+        catch (ServiceException ex)
+        {
+            String message = response.toParamsWarn(messageSource, KEY_ERRORS_PROFILER_GENERIC + ex.getCode());
+            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "[modificarpermisosperfil]", ex);
+            GatewayBaseBean.matchToResponses(response);
+            return response;
+        }
+        Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [modificarpermisosperfil].");
         return response.toOk();
     }
 }

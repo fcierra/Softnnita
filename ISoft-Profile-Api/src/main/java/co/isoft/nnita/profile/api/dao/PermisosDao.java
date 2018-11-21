@@ -2,7 +2,7 @@ package co.isoft.nnita.profile.api.dao;
 
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.models.Permisos;
-import co.isoft.nnita.profile.api.modelsweb.PermisosDTO;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
 
 import java.util.List;
 

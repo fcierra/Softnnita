@@ -16,7 +16,7 @@ import java.io.Serializable;
  */
 @NamedQueries({
         @NamedQuery(name = "buscarPerfilesUsuarios", query = "select usr.perfil from UsuarioPerfil usr where usr.usuario.id =:PARAM_USER"),
-        @NamedQuery(name = "findProfilesUsers", query = "select new co.isoft.nnita.profile.api.modelsweb.PerfilesDeUsuario(usr.perfil.nombre_perfil,usr.habilitado)from UsuarioPerfil usr where usr.usuario.id =:PARAM_USER")
+        @NamedQuery(name = "findProfilesUsers", query = "select new co.isoft.nnita.profile.api.gateways.models.request.users.PerfilesDeUsuario(usr.perfil.nombre_perfil,usr.habilitado)from UsuarioPerfil usr where usr.usuario.id =:PARAM_USER")
 })
 
 @Entity

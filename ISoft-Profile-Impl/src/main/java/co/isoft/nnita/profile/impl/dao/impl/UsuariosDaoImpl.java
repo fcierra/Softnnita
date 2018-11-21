@@ -2,11 +2,8 @@ package co.isoft.nnita.profile.impl.dao.impl;
 
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
-import co.isoft.nnita.profile.api.models.Menus;
-import co.isoft.nnita.profile.api.models.Perfiles;
-import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.modelsweb.UsuariosTodos;
+import co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos;
 import co.isoft.nnita.profile.impl.dao.HibernateDaoImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;

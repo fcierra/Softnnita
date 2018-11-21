@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 @NamedQueries({ @NamedQuery(name = "buscarPermisosUsuario", query = "from Permisos permiso where permiso.perfil.nombre_perfil =:PARAM_PERFIL and permiso.perfil.habilitado = 1"),
         @NamedQuery(name = "buscarItemsNavegacionDisponiblesPerfil", query = "Select permiso.menuItem from Permisos permiso INNER JOIN permiso.menuItem item where permiso.perfil.id =:PARAM_PERFIL and item.habilitado = 1 and item.menu_padre.id=:PARAM_MENU_PADRE"),
-        @NamedQuery(name = "buscarPermisosPerfil", query = "Select new co.isoft.nnita.profile.api.modelsweb.PermisosDTO(permiso.id,item.menu_label) from Permisos permiso INNER JOIN permiso.menuItem item INNER JOIN permiso.perfil perfil where perfil.nombre_perfil =:PARAM_PERFIL and permiso.habilitado = 1 and item.habilitado = 1"),
+        @NamedQuery(name = "buscarPermisosPerfil", query = "Select new co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO(permiso.id,item.menu_label) from Permisos permiso INNER JOIN permiso.menuItem item INNER JOIN permiso.perfil perfil where perfil.nombre_perfil =:PARAM_PERFIL and permiso.habilitado = 1 and item.habilitado = 1"),
 })
 @Entity
 @SequenceGenerator(name = "permisos-gen", sequenceName = "ISOFT_PERMISOS_SEQ", initialValue = 1, allocationSize = 1)
