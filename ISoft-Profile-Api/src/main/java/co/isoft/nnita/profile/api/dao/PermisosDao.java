@@ -2,7 +2,7 @@ package co.isoft.nnita.profile.api.dao;
 
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.models.Permisos;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
+import co.isoft.nnita.profile.api.dto.output.PermissionToProfileOutDTO;
 
 import java.util.List;
 
@@ -22,5 +22,5 @@ public interface PermisosDao extends HibernateDao<Permisos, Long>
      * @return Listado de permisos asociados
      * @throws DaoException Ocurre si falla la operacion.
      */
-    public List<PermisosDTO> buscarPermisosPerfil(String codeperfil) throws DaoException;
+    public List<PermissionToProfileOutDTO> buscarPermisosPerfil(String codeperfil) throws DaoException;
 }

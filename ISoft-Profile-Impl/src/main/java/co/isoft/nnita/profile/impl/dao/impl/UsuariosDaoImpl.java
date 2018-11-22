@@ -3,7 +3,7 @@ package co.isoft.nnita.profile.impl.dao.impl;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos;
+import co.isoft.nnita.profile.api.dto.output.UsersAllOutDTO;
 import co.isoft.nnita.profile.impl.dao.HibernateDaoImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -85,11 +85,11 @@ public class UsuariosDaoImpl extends HibernateDaoImpl<Integer, Usuarios> impleme
     }
 
     @Override
-    public List<UsuariosTodos> getTodosLosUsuarios() throws DaoException
+    public List<UsersAllOutDTO> getTodosLosUsuarios() throws DaoException
     {
         Session session = this.getSession();
         Query query = session.getNamedQuery("buscarTodosLosUsuarios");
-        List<UsuariosTodos> usuarios = (List<UsuariosTodos>) query.list();
+        List<UsersAllOutDTO> usuarios = (List<UsersAllOutDTO>) query.list();
         return usuarios;// OK
     }
 

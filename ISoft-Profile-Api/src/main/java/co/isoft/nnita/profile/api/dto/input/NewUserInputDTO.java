@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways.models.request.users;
+package co.isoft.nnita.profile.api.dto.input;
 
 /**
  * Modelo request, para la creacion de usuarios
@@ -7,7 +7,7 @@ package co.isoft.nnita.profile.api.gateways.models.request.users;
  * @author Yaher Carrillo
  * @date 09/09/2018
  */
-public class RequestNewUserISoftProfile
+public class NewUserInputDTO
 {
     /**
      * Login de usuario a crear

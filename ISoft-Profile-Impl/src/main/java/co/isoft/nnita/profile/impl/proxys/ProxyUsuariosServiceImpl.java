@@ -8,9 +8,9 @@ import co.isoft.nnita.profile.api.models.Parametros;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PerfilesDeUsuario;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuarioPerfilMassive;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos;
+import co.isoft.nnita.profile.api.dto.output.ProfilesToUserOutDTO;
+import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
+import co.isoft.nnita.profile.api.dto.output.UsersAllOutDTO;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ContextProvider;
 import co.isoft.nnita.profile.impl.configuration.hibernate.ServicesReferencesMapping;
@@ -117,7 +117,7 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public List<UsuariosTodos> findAllUsers() throws ServiceException
+    public List<UsersAllOutDTO> findAllUsers() throws ServiceException
     {
         return getUsuariosService().findAllUsers();
     }
@@ -153,7 +153,7 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration, String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsersMassiveOutDTO> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration, String passord, List<UsersMassiveOutDTO> listUsers) throws ServiceException
     {
         return getUsuariosService().createUsersMassiveIsoftProfile(mapConfiguration, passord, listUsers);
     }
@@ -165,19 +165,19 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public List<UsuarioPerfilMassive> addProfilesUser(Map<String,String> mapConfiguration,String loginname, List<String> perfiles) throws ServiceException
+    public List<UsersMassiveOutDTO> addProfilesUser(Map<String,String> mapConfiguration,String loginname, List<String> perfiles) throws ServiceException
     {
         return getUsuariosService().addProfilesUser(mapConfiguration,loginname, perfiles);
     }
 
     @Override
-    public List<UsuarioPerfilMassive> unAddProfilesUser(Map<String, String> mapConfiguration, String loginuser, List<String> perfiles) throws ServiceException
+    public List<UsersMassiveOutDTO> unAddProfilesUser(Map<String, String> mapConfiguration, String loginuser, List<String> perfiles) throws ServiceException
     {
         return getUsuariosService().unAddProfilesUser(mapConfiguration,loginuser, perfiles);
     }
 
     @Override
-    public List<PerfilesDeUsuario> findProfilesUsers(Map<String, String> mapConfiguration, String loginuser) throws ServiceException
+    public List<ProfilesToUserOutDTO> findProfilesUsers(Map<String, String> mapConfiguration, String loginuser) throws ServiceException
     {
         return getUsuariosService().findProfilesUsers(mapConfiguration,loginuser);
     }

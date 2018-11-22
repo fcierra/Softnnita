@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways.models.request.users;
+package co.isoft.nnita.profile.api.dto.output;
 
 import java.util.Date;
 
@@ -10,7 +10,7 @@ import java.util.Date;
  * @author Yaher Carrillo
  * @since 26/10/2018
  */
-public class UsuariosTodos
+public class UsersAllOutDTO
 {
     /**
      * login de acceso de usaurio
@@ -50,7 +50,7 @@ public class UsuariosTodos
     /**
      * Constructor por defecto
      */
-    public UsuariosTodos()
+    public UsersAllOutDTO()
     {
     }
 
@@ -65,7 +65,7 @@ public class UsuariosTodos
      * @param fecha_ultima_visita fecha de ultima visita del usuario
      * @param habilitado          status del usuario
      */
-    public UsuariosTodos(String loginname, String nombres, String apellidos, String email, String sexo, Date fecha_ultima_visita, Long habilitado)
+    public UsersAllOutDTO(String loginname, String nombres, String apellidos, String email, String sexo, Date fecha_ultima_visita, Long habilitado)
     {
         this.loginname = loginname;
         this.nombres = nombres;

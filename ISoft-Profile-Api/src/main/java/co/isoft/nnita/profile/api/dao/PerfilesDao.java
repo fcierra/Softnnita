@@ -3,7 +3,7 @@ package co.isoft.nnita.profile.api.dao;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PerfilesDeUsuario;
+import co.isoft.nnita.profile.api.dto.output.ProfilesToUserOutDTO;
 
 import java.util.List;
 
@@ -29,5 +29,5 @@ public interface PerfilesDao extends HibernateDao<Perfiles, Long>
      * @return Listado de perfiles
      * @throws DaoException Ocurre si falla la operacion.
      */
-    public List<PerfilesDeUsuario> findProfilesUsers(Usuarios usuario) throws DaoException;
+    public List<ProfilesToUserOutDTO> findProfilesUsers(Usuarios usuario) throws DaoException;
 }

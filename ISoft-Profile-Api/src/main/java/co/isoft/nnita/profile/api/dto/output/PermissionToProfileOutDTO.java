@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways.models.request.users;
+package co.isoft.nnita.profile.api.dto.output;
 
 /**
  * DTO para el tralado de informacion
@@ -7,7 +7,7 @@ package co.isoft.nnita.profile.api.gateways.models.request.users;
  * @author Yaher Carrillo
  * @date 19/11/2018
  */
-public class PermisosDTO
+public class PermissionToProfileOutDTO
 {
     /**
      * Identificador del permiso
@@ -26,7 +26,7 @@ public class PermisosDTO
     /**
      * Contructor por defecto
      */
-    public PermisosDTO()
+    public PermissionToProfileOutDTO()
     {
     }
 
@@ -36,7 +36,7 @@ public class PermisosDTO
      * @param id      identificaoor del permiso
      * @param permiso permiso asignado
      */
-    public PermisosDTO(Long id, String permiso)
+    public PermissionToProfileOutDTO(Long id, String permiso)
     {
         this.id = id;
         this.permiso = permiso;

@@ -1,4 +1,6 @@
-package co.isoft.nnita.profile.api.gateways.models.request.users;
+package co.isoft.nnita.profile.api.dto.input;
+
+import co.isoft.nnita.profile.api.dto.output.PermissionToProfileOutDTO;
 
 import java.util.List;
 
@@ -9,19 +11,19 @@ import java.util.List;
  * @author Yaher Carrillo
  * @date 11/10/2018
  */
-public class RequestModifyPermissionProfile
+public class ModifyPermissionProfileInputDTO
 {
     /**
      * Nombres de usuario
      */
-    private List<PermisosDTO> permisos;
+    private List<PermissionToProfileOutDTO> permisos;
 
     /**
      * Obtiene el listado de permisos
      *
      * @return listado de permisos
      */
-    public List<PermisosDTO> getPermisos()
+    public List<PermissionToProfileOutDTO> getPermisos()
     {
         return permisos;
     }
@@ -31,7 +33,7 @@ public class RequestModifyPermissionProfile
      *
      * @param permisos valor a asignar
      */
-    public void setPermisos(List<PermisosDTO> permisos)
+    public void setPermisos(List<PermissionToProfileOutDTO> permisos)
     {
         this.permisos = permisos;
     }

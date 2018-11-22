@@ -3,7 +3,7 @@ package co.isoft.nnita.profile.impl.dao.impl;
 import co.isoft.nnita.profile.api.dao.PermisosDao;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.models.Permisos;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
+import co.isoft.nnita.profile.api.dto.output.PermissionToProfileOutDTO;
 import co.isoft.nnita.profile.impl.dao.HibernateDaoImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -22,12 +22,12 @@ public class PermisosDaoImpl extends HibernateDaoImpl<Integer,Permisos> implemen
 {
 
     @Override
-    public List<PermisosDTO> buscarPermisosPerfil(String codeperfil) throws DaoException
+    public List<PermissionToProfileOutDTO> buscarPermisosPerfil(String codeperfil) throws DaoException
     {
         Session session = this.getSession();
         Query query = session.getNamedQuery("buscarPermisosPerfil");
         query.setParameter("PARAM_PERFIL", codeperfil);
-        List<PermisosDTO> permisos = query.list();
+        List<PermissionToProfileOutDTO> permisos = query.list();
         return permisos;// OK
     }
 }

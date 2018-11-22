@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways.models.request.users;
+package co.isoft.nnita.profile.api.dto.output;
 
 /**
  * Clase util para el manejo de usuarios y perfiles
@@ -7,7 +7,7 @@ package co.isoft.nnita.profile.api.gateways.models.request.users;
  * @author Yaher Carrillo
  * @date 11/10/2018
  */
-public class UsuarioPerfilMassive
+public class UsersMassiveOutDTO
 {
     /**
      * Login del usuario masivo a crear
@@ -37,7 +37,7 @@ public class UsuarioPerfilMassive
     /**
      * Constructor por defecto
      */
-    public UsuarioPerfilMassive()
+    public UsersMassiveOutDTO()
     {
     }
 
@@ -45,7 +45,7 @@ public class UsuarioPerfilMassive
      * Constructor que inicializa el valor del login de usuario
      * @param loginname login de usuario
      */
-    public UsuarioPerfilMassive(String loginname)
+    public UsersMassiveOutDTO(String loginname)
     {
         this.loginname = loginname;
     }

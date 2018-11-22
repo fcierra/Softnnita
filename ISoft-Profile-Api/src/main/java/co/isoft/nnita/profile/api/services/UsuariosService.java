@@ -4,9 +4,9 @@ import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PerfilesDeUsuario;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuarioPerfilMassive;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos;
+import co.isoft.nnita.profile.api.dto.output.ProfilesToUserOutDTO;
+import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
+import co.isoft.nnita.profile.api.dto.output.UsersAllOutDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +41,7 @@ public interface UsuariosService
      * @return Listado de usuarios
      * @throws ServiceException Excepcion que ocurre si falla la operacion
      */
-    public List<UsuariosTodos> findAllUsers() throws ServiceException;
+    public List<UsersAllOutDTO> findAllUsers() throws ServiceException;
 
     /**
      * Valida la clave actual del usuario
@@ -91,7 +91,7 @@ public interface UsuariosService
      * @param listUsers usuarios y perfiles a crear
      * @throws ServiceException
      */
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration,String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException;
+    public List<UsersMassiveOutDTO> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration,String passord, List<UsersMassiveOutDTO> listUsers) throws ServiceException;
 
     /**
      * Metodo que administra la disponibilidad o estatus de un usuario
@@ -110,7 +110,7 @@ public interface UsuariosService
      * @param perfiles listado de perfiles
      * @throws ServiceException Ocurre si falla la operacion.
      */
-    public List<UsuarioPerfilMassive> addProfilesUser(Map<String,String> mapConfiguration,String loginuser, List<String> perfiles) throws ServiceException;
+    public List<UsersMassiveOutDTO> addProfilesUser(Map<String,String> mapConfiguration,String loginuser, List<String> perfiles) throws ServiceException;
 
     /**
      * Desasociar perfiles de un determinado usuario.
@@ -119,7 +119,7 @@ public interface UsuariosService
      * @param perfiles perfiles a desasociar.
      * @throws ServiceException Ocurre si falla la operacion.
      */
-    public List<UsuarioPerfilMassive> unAddProfilesUser(Map<String,String> mapConfiguration,String loginuser, List<String> perfiles) throws ServiceException;
+    public List<UsersMassiveOutDTO> unAddProfilesUser(Map<String,String> mapConfiguration,String loginuser, List<String> perfiles) throws ServiceException;
 
     /**
      * Busca los perfiles disponibles de sistema.
@@ -127,6 +127,6 @@ public interface UsuariosService
      * @param mapConfiguration mapa de configuracion.
      * @throws ServiceException Ocurre si falla la operacion.
      */
-    public List<PerfilesDeUsuario> findProfilesUsers(Map<String,String> mapConfiguration,String loginuser) throws ServiceException;
+    public List<ProfilesToUserOutDTO> findProfilesUsers(Map<String,String> mapConfiguration,String loginuser) throws ServiceException;
 
 }

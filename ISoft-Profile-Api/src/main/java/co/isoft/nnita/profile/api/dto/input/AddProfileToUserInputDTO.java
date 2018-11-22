@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways.models.request.profile;
+package co.isoft.nnita.profile.api.dto.input;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * @author Yaher Carrillo
  * @date 09/10/2018
  */
-public class RequestAddProfileUser
+public class AddProfileToUserInputDTO
 {
     /**
      * Login de usuario a crear

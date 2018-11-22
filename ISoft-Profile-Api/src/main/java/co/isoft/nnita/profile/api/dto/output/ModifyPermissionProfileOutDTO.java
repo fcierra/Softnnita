@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways.models.request.users;
+package co.isoft.nnita.profile.api.dto.output;
 
 /**
  * Modelo de salida de respuesta de las modificaciones
@@ -6,7 +6,7 @@ package co.isoft.nnita.profile.api.gateways.models.request.users;
  * @author Yaher Carrillo
  * @date 21/11/2018
  */
-public class PermissionGrants
+public class ModifyPermissionProfileOutDTO
 {
     /**
      * Item alterado o modificado
@@ -28,7 +28,7 @@ public class PermissionGrants
     /**
      * Constructor por defecto
      */
-    public PermissionGrants()
+    public ModifyPermissionProfileOutDTO()
     {
     }
 
@@ -40,7 +40,7 @@ public class PermissionGrants
      * @param status      status de la transaccion
      * @param description descripcion de la transaccion
      */
-    public PermissionGrants(String item, String code, String status, String description)
+    public ModifyPermissionProfileOutDTO(String item, String code, String status, String description)
     {
         this.item = item;
         this.code = code;

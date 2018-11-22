@@ -1,18 +1,14 @@
-package co.isoft.nnita.profile.api.gateways.util;
+package co.isoft.nnita.profile.api.util;
 
 import co.isoft.nnita.profile.api.dao.JwtDao;
 import co.isoft.nnita.profile.api.exceptions.JwtException;
 import co.isoft.nnita.profile.api.exceptions.LicenseException;
 import co.isoft.nnita.profile.api.exceptions.ParamsException;
-import co.isoft.nnita.profile.api.gateways.models.CommonsResponse;
-import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUserISoftProfile;
-import co.isoft.nnita.profile.api.gateways.models.response.ResponseFindProfiles;
-import co.isoft.nnita.profile.api.gateways.models.response.ResponseFindProfilesUsers;
+import co.isoft.nnita.profile.api.dto.input.NewUserInputDTO;
+import co.isoft.nnita.profile.api.dto.output.ProfileToSystemOutDTO;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosLicencia;
-import co.isoft.nnita.profile.api.util.EstatusGenericos;
-import co.isoft.nnita.profile.api.util.JSonUtil;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import java.io.UnsupportedEncodingException;
@@ -176,7 +172,7 @@ public abstract class GatewayBaseBean
      * @param request objeto con informacon
      * @return objeto usuario con la clonacion de datos
      */
-    public static Usuarios clonUsersRequest(RequestNewUserISoftProfile request)
+    public static Usuarios clonUsersRequest(NewUserInputDTO request)
     {
         Usuarios user = new Usuarios();
         user.setLogin(request.getLoginname());
@@ -196,12 +192,12 @@ public abstract class GatewayBaseBean
      * @param list objeto con informacon
      * @return objeto listado de perfiles de respuestas clonados
      */
-    public static List<ResponseFindProfiles> clonProfileResponse(List<Perfiles> list)
+    public static List<ProfileToSystemOutDTO> clonProfileResponse(List<Perfiles> list)
     {
-        List<ResponseFindProfiles> listClone = new ArrayList<>();
+        List<ProfileToSystemOutDTO> listClone = new ArrayList<>();
         if (list!=null && !list.isEmpty()){
             for (Perfiles perfil: list){
-                ResponseFindProfiles item = new ResponseFindProfiles();
+                ProfileToSystemOutDTO item = new ProfileToSystemOutDTO();
                 item.setId(perfil.getId().toString());
                 item.setNombre(perfil.getNombre_perfil());
                 listClone.add(item);
@@ -210,28 +206,6 @@ public abstract class GatewayBaseBean
         return listClone;
     }
 
-    /**
-     * Clona la informacion de entrada respecto a perfiles
-     * para trabajar con las instacias de la aplicacion basados
-     * en la consulta de perfiles de usuarios
-     *
-     * @param list objeto con informacion
-     * @return objeto listado de perfiles de respuestas clonados
-     */
-    public static List<ResponseFindProfiles> clonProfileUsersResponse(List<Perfiles> list)
-    {
-        List<ResponseFindProfiles> listClone = new ArrayList<>();
-        if (list!=null && !list.isEmpty()){
-            for (Perfiles perfil: list){
-                ResponseFindProfilesUsers item = new ResponseFindProfilesUsers();
-                item.setId(perfil.getId().toString());
-                item.setNombre(perfil.getNombre_perfil());
-                item.setHabilitado(perfil.getHabilitado());
-                listClone.add(item);
-            }
-        }
-        return listClone;
-    }
 
     /**
      * Metodo que compara una fecha entre rangos

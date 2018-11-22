@@ -2,7 +2,7 @@ package co.isoft.nnita.profile.api.dao;
 
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos;
+import co.isoft.nnita.profile.api.dto.output.UsersAllOutDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -62,6 +62,6 @@ public interface UsuariosDao extends HibernateDao<Usuarios, Long>
      * @return Listado de usuarios
      * @throws DaoException Ocurre si falla la excepcion.
      */
-    public List<UsuariosTodos> getTodosLosUsuarios() throws DaoException;
+    public List<UsersAllOutDTO> getTodosLosUsuarios() throws DaoException;
 
 }

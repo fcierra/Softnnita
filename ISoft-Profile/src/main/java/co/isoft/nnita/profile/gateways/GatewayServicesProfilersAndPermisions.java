@@ -2,15 +2,15 @@ package co.isoft.nnita.profile.gateways;
 
 import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
+import co.isoft.nnita.profile.api.dto.input.ModifyPermissionProfileInputDTO;
+import co.isoft.nnita.profile.api.dto.input.NewProfileInputDTO;
+import co.isoft.nnita.profile.api.dto.output.ModifyPermissionProfileOutDTO;
+import co.isoft.nnita.profile.api.dto.output.PermissionToProfileOutDTO;
 import co.isoft.nnita.profile.api.exceptions.LicenseException;
 import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
-import co.isoft.nnita.profile.api.gateways.models.CommonsResponse;
-import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestCreateProfile;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PermissionGrants;
-import co.isoft.nnita.profile.api.gateways.models.request.users.RequestModifyPermissionProfile;
-import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
+import co.isoft.nnita.profile.api.util.CommonsResponse;
+import co.isoft.nnita.profile.api.util.GatewayBaseBean;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
 import co.isoft.nnita.profile.util.WebUtils;
@@ -123,7 +123,7 @@ public class GatewayServicesProfilersAndPermisions
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/crearperfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse createprofile(@RequestParam String sharedkey, @RequestBody RequestCreateProfile request, HttpServletRequest requestTransaction)
+    public CommonsResponse createprofile(@RequestParam String sharedkey, @RequestBody NewProfileInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -169,7 +169,7 @@ public class GatewayServicesProfilersAndPermisions
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/modificarperrfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse modificarperrfil(@RequestParam String sharedkey, @RequestBody RequestCreateProfile request, HttpServletRequest requestTransaction)
+    public CommonsResponse modificarperrfil(@RequestParam String sharedkey, @RequestBody NewProfileInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -226,7 +226,7 @@ public class GatewayServicesProfilersAndPermisions
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
             mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
             GatewayBaseBean.validarParametrosGenericos(nombreperfil);
-            List<PermisosDTO> listaPermisos = perfilesYPermisosService.findPermissionProfile(mapConfiguration, nombreperfil);
+            List<PermissionToProfileOutDTO> listaPermisos = perfilesYPermisosService.findPermissionProfile(mapConfiguration, nombreperfil);
             if (listaPermisos == null || listaPermisos.isEmpty())
                 return response.toEmpty();
             else
@@ -261,14 +261,14 @@ public class GatewayServicesProfilersAndPermisions
     }
 
     /**
-     * Consulta los perfiles de un perfil determinado
+     * Modifica los permisos de un determinado perfil
      *
      * @param sharedkey          llave de acceso
      * @param requestTransaction request del ambito
      * @return Response comun.
      */
     @RequestMapping(value = "/modificarpermisosperfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse modificarpermisosperfil(@RequestParam String sharedkey, @RequestBody RequestModifyPermissionProfile request, HttpServletRequest requestTransaction)
+    public CommonsResponse modificarpermisosperfil(@RequestParam String sharedkey, @RequestBody ModifyPermissionProfileInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -277,7 +277,7 @@ public class GatewayServicesProfilersAndPermisions
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
             mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
-            List<PermissionGrants> listDetailsOut = perfilesYPermisosService.modifyPermissionProfile(mapConfiguration, request);
+            List<ModifyPermissionProfileOutDTO> listDetailsOut = perfilesYPermisosService.modifyPermissionProfile(mapConfiguration, request);
             response.setResponse(listDetailsOut);
         }
         catch (LicenseException ex)

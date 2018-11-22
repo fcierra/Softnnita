@@ -10,9 +10,9 @@ import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.UsuarioPerfil;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PerfilesDeUsuario;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuarioPerfilMassive;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos;
+import co.isoft.nnita.profile.api.dto.output.ProfilesToUserOutDTO;
+import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
+import co.isoft.nnita.profile.api.dto.output.UsersAllOutDTO;
 import co.isoft.nnita.profile.api.services.BitacoraService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.ConstantesBaseBean;
@@ -135,7 +135,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<UsuariosTodos> findAllUsers() throws ServiceException
+    public List<UsersAllOutDTO> findAllUsers() throws ServiceException
     {
         try
         {
@@ -301,19 +301,19 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<UsuarioPerfilMassive> createUsersMassiveIsoftProfile(Map<String, String> mapConfiguration, String passord, List<UsuarioPerfilMassive> listUsers) throws ServiceException
+    public List<UsersMassiveOutDTO> createUsersMassiveIsoftProfile(Map<String, String> mapConfiguration, String passord, List<UsersMassiveOutDTO> listUsers) throws ServiceException
     {
 
-        List<UsuarioPerfilMassive> listResponse = new ArrayList<>();
+        List<UsersMassiveOutDTO> listResponse = new ArrayList<>();
         List<DetalleBitacora> listDetails = new ArrayList<>();
         try
         {
-            for (UsuarioPerfilMassive item : listUsers)
+            for (UsersMassiveOutDTO item : listUsers)
             {
                 Usuarios userExist = usuariosDao.getUsuarioPorLogin(item.getLoginname().toUpperCase());
 
                 //Se crea la respuesta de la lista response
-                UsuarioPerfilMassive usersCreate = new UsuarioPerfilMassive();
+                UsersMassiveOutDTO usersCreate = new UsersMassiveOutDTO();
                 usersCreate.setLoginname(item.getLoginname());
 
                 if (userExist == null)
@@ -449,9 +449,9 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<UsuarioPerfilMassive> addProfilesUser(Map<String, String> mapConfiguration, String loginname, List<String> perfiles) throws ServiceException
+    public List<UsersMassiveOutDTO> addProfilesUser(Map<String, String> mapConfiguration, String loginname, List<String> perfiles) throws ServiceException
     {
-        List<UsuarioPerfilMassive> listResponse = new ArrayList<>();
+        List<UsersMassiveOutDTO> listResponse = new ArrayList<>();
         List<DetalleBitacora> listDetails = new ArrayList<>();
         try
         {
@@ -509,9 +509,9 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<UsuarioPerfilMassive> unAddProfilesUser(Map<String, String> mapConfiguration, String loginuser, List<String> perfiles) throws ServiceException
+    public List<UsersMassiveOutDTO> unAddProfilesUser(Map<String, String> mapConfiguration, String loginuser, List<String> perfiles) throws ServiceException
     {
-        List<UsuarioPerfilMassive> listResponse = new ArrayList<>();
+        List<UsersMassiveOutDTO> listResponse = new ArrayList<>();
         List<DetalleBitacora> listDetails = new ArrayList<>();
         try
         {
@@ -574,7 +574,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public List<PerfilesDeUsuario> findProfilesUsers(Map<String, String> mapConfiguration, String loginuser) throws ServiceException
+    public List<ProfilesToUserOutDTO> findProfilesUsers(Map<String, String> mapConfiguration, String loginuser) throws ServiceException
     {
         try
         {
@@ -583,8 +583,8 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             if (usuario == null)
                 throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
 
-            List<PerfilesDeUsuario> listProfiles = perfilesDao.findProfilesUsers(usuario);
-            for (PerfilesDeUsuario perfil : listProfiles){
+            List<ProfilesToUserOutDTO> listProfiles = perfilesDao.findProfilesUsers(usuario);
+            for (ProfilesToUserOutDTO perfil : listProfiles){
                 //Se lista el detalle de la transaccion
                 listDetails.add(recordDetailBinnacleUsersFindProfileOk(usuario.getLogin(), perfil.getNombre_perfil()));
             }

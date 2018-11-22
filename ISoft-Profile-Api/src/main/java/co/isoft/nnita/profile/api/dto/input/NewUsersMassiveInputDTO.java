@@ -1,4 +1,6 @@
-package co.isoft.nnita.profile.api.gateways.models.request.users;
+package co.isoft.nnita.profile.api.dto.input;
+
+import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
  * @author Yaher Carrillo
  * @date 11/10/2018
  */
-public class RequestNewUsersMassiveISoftProfile
+public class NewUsersMassiveInputDTO
 {
     /**
      * Claves de usuarios
@@ -18,7 +20,7 @@ public class RequestNewUsersMassiveISoftProfile
     /**
      * Nombres de usuario
      */
-    private List<UsuarioPerfilMassive> usuariosYPerfil;
+    private List<UsersMassiveOutDTO> usuariosYPerfil;
 
     /**
      * Obtiene la clave a asignar a todos los usuarios
@@ -47,7 +49,7 @@ public class RequestNewUsersMassiveISoftProfile
      *
      * @return listado de usuarios a crear
      */
-    public List<UsuarioPerfilMassive> getUsuariosYPerfil()
+    public List<UsersMassiveOutDTO> getUsuariosYPerfil()
     {
         return usuariosYPerfil;
     }
@@ -57,7 +59,7 @@ public class RequestNewUsersMassiveISoftProfile
      *
      * @param usuariosYPerfil valor a asignar
      */
-    public void setUsuariosYPerfil(List<UsuarioPerfilMassive> usuariosYPerfil)
+    public void setUsuariosYPerfil(List<UsersMassiveOutDTO> usuariosYPerfil)
     {
         this.usuariosYPerfil = usuariosYPerfil;
     }

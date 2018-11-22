@@ -1,7 +1,5 @@
-package co.isoft.nnita.profile.api.gateways.models;
+package co.isoft.nnita.profile.api.util;
 
-import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
-import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import org.springframework.context.MessageSource;
 
 import java.util.Locale;

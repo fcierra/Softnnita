@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways.models.request.profile;
+package co.isoft.nnita.profile.api.dto.input;
 
 /**
  * Modelo para la creacion de perfiles
@@ -6,7 +6,7 @@ package co.isoft.nnita.profile.api.gateways.models.request.profile;
  * @author Yaher Carrillo
  * @date 13/11/2018
  */
-public class RequestCreateProfile
+public class NewProfileInputDTO
 {
     /**
      * Nombre del perfil a ser modificado
@@ -25,7 +25,7 @@ public class RequestCreateProfile
     /**
      * Constructor por defecto del objeto
      */
-    public RequestCreateProfile()
+    public NewProfileInputDTO()
     {
     }
 
@@ -36,7 +36,7 @@ public class RequestCreateProfile
      * @param nombre_perfil_despues nombre del perfil a ser modificado
      * @param habilitado            status del perfil
      */
-    public RequestCreateProfile(String nombreperfil, String nombre_perfil_despues, Long habilitado)
+    public NewProfileInputDTO(String nombreperfil, String nombre_perfil_despues, Long habilitado)
     {
         this.nombreperfil = nombreperfil;
         this.nombre_perfil_despues = nombre_perfil_despues;

@@ -1,14 +1,14 @@
 package co.isoft.nnita.profile.api.services;
 
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
-import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestCreateProfile;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PermissionGrants;
-import co.isoft.nnita.profile.api.gateways.models.request.users.RequestModifyPermissionProfile;
+import co.isoft.nnita.profile.api.dto.input.NewProfileInputDTO;
+import co.isoft.nnita.profile.api.dto.output.ModifyPermissionProfileOutDTO;
+import co.isoft.nnita.profile.api.dto.input.ModifyPermissionProfileInputDTO;
 import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Menus_Item;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
+import co.isoft.nnita.profile.api.dto.output.PermissionToProfileOutDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -74,7 +74,7 @@ public interface PerfilesYPermisosService
      * @param dto     objeto a modificar
      * @throws ServiceException Ocurre si falla la operacion
      */
-    public void modifyProfile(Map<String, String> mapConfiguration, RequestCreateProfile dto) throws ServiceException;
+    public void modifyProfile(Map<String, String> mapConfiguration, NewProfileInputDTO dto) throws ServiceException;
 
     /**
      * Busca los permisos de un perfil
@@ -83,7 +83,7 @@ public interface PerfilesYPermisosService
      * @return Listado de permisos
      * @throws ServiceException Ocurre si falla la operacion
      */
-    public List<PermisosDTO> findPermissionProfile(Map<String, String> mapConfiguration, String profile) throws ServiceException;
+    public List<PermissionToProfileOutDTO> findPermissionProfile(Map<String, String> mapConfiguration, String profile) throws ServiceException;
 
     /**
      * Modifica los permisos de un perfil
@@ -92,6 +92,6 @@ public interface PerfilesYPermisosService
      * @return Lista de respuesta
      * @throws ServiceException
      */
-    public  List<PermissionGrants> modifyPermissionProfile(Map<String, String> mapConfiguration, RequestModifyPermissionProfile dto) throws ServiceException;
+    public  List<ModifyPermissionProfileOutDTO> modifyPermissionProfile(Map<String, String> mapConfiguration, ModifyPermissionProfileInputDTO dto) throws ServiceException;
 
 }

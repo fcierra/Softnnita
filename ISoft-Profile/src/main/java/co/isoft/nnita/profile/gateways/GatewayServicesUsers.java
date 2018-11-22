@@ -5,16 +5,16 @@ import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.exceptions.LicenseException;
 import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
-import co.isoft.nnita.profile.api.gateways.models.CommonsResponse;
-import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestAddProfileUser;
-import co.isoft.nnita.profile.api.gateways.models.request.users.RequestAdminStatusUsers;
-import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUserISoftProfile;
-import co.isoft.nnita.profile.api.gateways.models.request.users.RequestNewUsersMassiveISoftProfile;
-import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
+import co.isoft.nnita.profile.api.util.CommonsResponse;
+import co.isoft.nnita.profile.api.dto.input.AddProfileToUserInputDTO;
+import co.isoft.nnita.profile.api.dto.input.AdminStatusUsersInputDTO;
+import co.isoft.nnita.profile.api.dto.input.NewUserInputDTO;
+import co.isoft.nnita.profile.api.dto.input.NewUsersMassiveInputDTO;
+import co.isoft.nnita.profile.api.util.GatewayBaseBean;
 import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PerfilesDeUsuario;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuarioPerfilMassive;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuariosTodos;
+import co.isoft.nnita.profile.api.dto.output.ProfilesToUserOutDTO;
+import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
+import co.isoft.nnita.profile.api.dto.output.UsersAllOutDTO;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.EstatusGenericos;
 import co.isoft.nnita.profile.util.WebUtils;
@@ -162,7 +162,7 @@ public class GatewayServicesUsers
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), "GET", "Se valida la licencia si puede consumir los procesos.");
             mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(request));
 
-            List<UsuariosTodos> usuarios = userServices.findAllUsers();
+            List<UsersAllOutDTO> usuarios = userServices.findAllUsers();
             if (usuarios != null && !usuarios.isEmpty())
                 response.setResponse(usuarios);
             else
@@ -198,7 +198,7 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/crearusuarioisoft", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse createuser(@RequestParam String sharedkey, @RequestBody RequestNewUserISoftProfile request, HttpServletRequest requestTransaction)
+    public CommonsResponse createuser(@RequestParam String sharedkey, @RequestBody NewUserInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -250,7 +250,7 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de respuesta
      */
     @RequestMapping(value = "/crearusuariosisoftmasivo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse createusersmassive(@RequestParam String sharedkey, @RequestBody RequestNewUsersMassiveISoftProfile request, HttpServletRequest requestTransaction)
+    public CommonsResponse createusersmassive(@RequestParam String sharedkey, @RequestBody NewUsersMassiveInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -262,7 +262,7 @@ public class GatewayServicesUsers
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getPassword());
 
-            List<UsuarioPerfilMassive> list = userServices.createUsersMassiveIsoftProfile(mapConfiguration, request.getPassword(), request.getUsuariosYPerfil());
+            List<UsersMassiveOutDTO> list = userServices.createUsersMassiveIsoftProfile(mapConfiguration, request.getPassword(), request.getUsuariosYPerfil());
             response.setResponse(list);
         }
         catch (ParamsException ex)
@@ -302,7 +302,7 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/modificarusuarioisoft", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse modifyuser(@RequestParam String sharedkey, @RequestBody RequestNewUserISoftProfile request, HttpServletRequest requestTransaction)
+    public CommonsResponse modifyuser(@RequestParam String sharedkey, @RequestBody NewUserInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -355,7 +355,7 @@ public class GatewayServicesUsers
      * @return Response comun
      */
     @RequestMapping(value = "/asociarperfilusuario", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse addprofileuser(@RequestParam String sharedkey, @RequestBody RequestAddProfileUser request, HttpServletRequest requestTransaction)
+    public CommonsResponse addprofileuser(@RequestParam String sharedkey, @RequestBody AddProfileToUserInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -369,7 +369,7 @@ public class GatewayServicesUsers
             GatewayBaseBean.validarParametrosGenericos(request.getCodesProfiles());
 
             //Crea un usuario sin perfil, no puedra ingresar
-            List<UsuarioPerfilMassive> list = userServices.addProfilesUser(mapConfiguration, request.getLoginname(), request.getCodesProfiles());
+            List<UsersMassiveOutDTO> list = userServices.addProfilesUser(mapConfiguration, request.getLoginname(), request.getCodesProfiles());
             response.setResponse(list);
         }
         catch (ParamsException ex)
@@ -408,7 +408,7 @@ public class GatewayServicesUsers
      * @return Response comun
      */
     @RequestMapping(value = "/desasociarperfilusuario", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse unaddprofileuser(@RequestParam String sharedkey, @RequestBody RequestAddProfileUser request, HttpServletRequest requestTransaction)
+    public CommonsResponse unaddprofileuser(@RequestParam String sharedkey, @RequestBody AddProfileToUserInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -422,7 +422,7 @@ public class GatewayServicesUsers
             GatewayBaseBean.validarParametrosGenericos(request.getCodesProfiles());
 
             //Crea un usuario sin perfil, no puedra ingresar
-            List<UsuarioPerfilMassive> list = userServices.unAddProfilesUser(mapConfiguration, request.getLoginname(), request.getCodesProfiles());
+            List<UsersMassiveOutDTO> list = userServices.unAddProfilesUser(mapConfiguration, request.getLoginname(), request.getCodesProfiles());
             response.setResponse(list);
         }
         catch (ParamsException ex)
@@ -461,7 +461,7 @@ public class GatewayServicesUsers
      * @return Response comun
      */
     @RequestMapping(value = "/adminstatususuarios", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse managedstatususuarios(@RequestParam String sharedkey, @RequestBody RequestAdminStatusUsers request, HttpServletRequest requestTransaction)
+    public CommonsResponse managedstatususuarios(@RequestParam String sharedkey, @RequestBody AdminStatusUsersInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
@@ -520,7 +520,7 @@ public class GatewayServicesUsers
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
             mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
-            List<PerfilesDeUsuario> list = userServices.findProfilesUsers(mapConfiguration, loginuser);
+            List<ProfilesToUserOutDTO> list = userServices.findProfilesUsers(mapConfiguration, loginuser);
             if (list == null || list.isEmpty())
                 return response.toEmpty();
             response.setResponse(list);

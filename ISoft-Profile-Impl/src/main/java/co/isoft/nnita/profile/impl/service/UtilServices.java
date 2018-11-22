@@ -2,7 +2,7 @@ package co.isoft.nnita.profile.impl.service;
 
 import co.isoft.nnita.profile.api.models.DetalleBitacora;
 import co.isoft.nnita.profile.api.models.Usuarios;
-import co.isoft.nnita.profile.api.gateways.models.request.users.UsuarioPerfilMassive;
+import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -195,8 +195,8 @@ public abstract class UtilServices
      * @param codeprofile codigo del perfil.
      * @return Objeto usuario.
      */
-    public UsuarioPerfilMassive construcObjectResponseAddProfileOk (Usuarios user, String codeprofile){
-        UsuarioPerfilMassive usersCreate = new UsuarioPerfilMassive();
+    public UsersMassiveOutDTO construcObjectResponseAddProfileOk (Usuarios user, String codeprofile){
+        UsersMassiveOutDTO usersCreate = new UsersMassiveOutDTO();
         usersCreate.setLoginname(user.getLogin());
         usersCreate.setNames(user.getNombres());
         usersCreate.setLastname(user.getApellidos());
@@ -213,8 +213,8 @@ public abstract class UtilServices
      * @param codeprofile codigo del perfil.
      * @return Objeto usuario.
      */
-    public UsuarioPerfilMassive construcObjectResponseUnAddProfileOk (Usuarios user, String codeprofile){
-        UsuarioPerfilMassive usersCreate = new UsuarioPerfilMassive();
+    public UsersMassiveOutDTO construcObjectResponseUnAddProfileOk (Usuarios user, String codeprofile){
+        UsersMassiveOutDTO usersCreate = new UsersMassiveOutDTO();
         usersCreate.setNames(user.getNombres());
         usersCreate.setLoginname(user.getLogin());
         usersCreate.setLastname(user.getApellidos());
@@ -231,8 +231,8 @@ public abstract class UtilServices
      * @param codeprofile codigo del perfil.
      * @return Objeto usuario.
      */
-    public UsuarioPerfilMassive construcObjectResponseAddProfileFail (Usuarios user, String codeprofile){
-        UsuarioPerfilMassive usersCreate = construcObjectResponseAddProfileOk(user,codeprofile);
+    public UsersMassiveOutDTO construcObjectResponseAddProfileFail (Usuarios user, String codeprofile){
+        UsersMassiveOutDTO usersCreate = construcObjectResponseAddProfileOk(user,codeprofile);
         usersCreate.setDescription("No se registra la operacion, el perfil indicado no existe.");
         usersCreate.setCodetransaction("404");
         return usersCreate;
@@ -245,8 +245,8 @@ public abstract class UtilServices
      * @param codeprofile codigo del perfil.
      * @return objeto de respuesta
      */
-    public UsuarioPerfilMassive construcObjectResponseUnAddProfileFail (Usuarios user, String codeprofile){
-        UsuarioPerfilMassive usersCreate = construcObjectResponseAddProfileOk(user,codeprofile);
+    public UsersMassiveOutDTO construcObjectResponseUnAddProfileFail (Usuarios user, String codeprofile){
+        UsersMassiveOutDTO usersCreate = construcObjectResponseAddProfileOk(user,codeprofile);
         usersCreate.setDescription("No se registra la operacion, el perfil indicado no existe o no esta asociado al usuario.");
         usersCreate.setCodetransaction("404");
         return usersCreate;

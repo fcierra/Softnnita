@@ -6,7 +6,7 @@ import co.isoft.nnita.logger.commons.EmailAppender;
 import co.isoft.nnita.logger.commons.FileAppender;
 import co.isoft.nnita.logger.util.Log;
 import co.isoft.nnita.logger.util.ModulesIsoft;
-import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
+import co.isoft.nnita.profile.api.util.GatewayBaseBean;
 import co.isoft.nnita.profile.impl.dao.impl.JwtImpl;
 import co.isoft.nnita.profile.util.ServletJsfSpringUtil;
 

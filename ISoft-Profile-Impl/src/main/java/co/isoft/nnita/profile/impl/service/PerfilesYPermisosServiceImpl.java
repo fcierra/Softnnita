@@ -6,10 +6,10 @@ import co.isoft.nnita.profile.api.dao.PerfilesDao;
 import co.isoft.nnita.profile.api.dao.PermisosDao;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
-import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestCreateProfile;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
-import co.isoft.nnita.profile.api.gateways.models.request.users.PermissionGrants;
-import co.isoft.nnita.profile.api.gateways.models.request.users.RequestModifyPermissionProfile;
+import co.isoft.nnita.profile.api.dto.input.NewProfileInputDTO;
+import co.isoft.nnita.profile.api.dto.output.PermissionToProfileOutDTO;
+import co.isoft.nnita.profile.api.dto.output.ModifyPermissionProfileOutDTO;
+import co.isoft.nnita.profile.api.dto.input.ModifyPermissionProfileInputDTO;
 import co.isoft.nnita.profile.api.models.*;
 import co.isoft.nnita.profile.api.services.BitacoraService;
 import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.KEY_ERRORS_GENERIC;
 import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_CANAL_TRANSACTION;
 import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_USER_TRANSACTION;
 
@@ -226,7 +225,7 @@ public class PerfilesYPermisosServiceImpl extends UtilServices implements Perfil
     }
 
     @Override
-    public void modifyProfile(Map<String, String> mapConfiguration, RequestCreateProfile dto) throws ServiceException
+    public void modifyProfile(Map<String, String> mapConfiguration, NewProfileInputDTO dto) throws ServiceException
     {
         try
         {
@@ -269,7 +268,7 @@ public class PerfilesYPermisosServiceImpl extends UtilServices implements Perfil
     }
 
     @Override
-    public List<PermisosDTO> findPermissionProfile(Map<String, String> mapConfiguration, String profile) throws ServiceException
+    public List<PermissionToProfileOutDTO> findPermissionProfile(Map<String, String> mapConfiguration, String profile) throws ServiceException
     {
         try
         {
@@ -284,16 +283,16 @@ public class PerfilesYPermisosServiceImpl extends UtilServices implements Perfil
     }
 
     @Override
-    public  List<PermissionGrants> modifyPermissionProfile(Map<String, String> mapConfiguration, RequestModifyPermissionProfile permissions) throws ServiceException
+    public  List<ModifyPermissionProfileOutDTO> modifyPermissionProfile(Map<String, String> mapConfiguration, ModifyPermissionProfileInputDTO permissions) throws ServiceException
     {
-        List<PermissionGrants> listDetailsOut = new ArrayList<>();
+        List<ModifyPermissionProfileOutDTO> listDetailsOut = new ArrayList<>();
         try
         {
             List<DetalleBitacora> listDetails = new ArrayList<>();
 
-            for (PermisosDTO item : permissions.getPermisos())
+            for (PermissionToProfileOutDTO item : permissions.getPermisos())
             {
-                PermissionGrants grant = new PermissionGrants();
+                ModifyPermissionProfileOutDTO grant = new ModifyPermissionProfileOutDTO();
                 Permisos permiso = permisosDao.buscarPorId(item.getId());
                 if (permiso != null)
                 {

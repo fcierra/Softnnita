@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways.models.request.users;
+package co.isoft.nnita.profile.api.dto.output;
 
 /**
  * Modelo de datos para la transmision
@@ -9,7 +9,7 @@ package co.isoft.nnita.profile.api.gateways.models.request.users;
  * @author Yaher Carrillo.
  * @since 25/10/2018
  */
-public class PerfilesDeUsuario
+public class ProfilesToUserOutDTO
 {
     /**
      * Id del registro
@@ -27,7 +27,7 @@ public class PerfilesDeUsuario
     /**
      * Constructor por defecto
      */
-    public PerfilesDeUsuario()
+    public ProfilesToUserOutDTO()
     {
     }
 
@@ -38,7 +38,7 @@ public class PerfilesDeUsuario
      * @param nombre_perfil nombre del perfil
      * @param habilitado    indica si el registro esta habilitado
      */
-    public PerfilesDeUsuario(String nombre_perfil, Long habilitado)
+    public ProfilesToUserOutDTO(String nombre_perfil, Long habilitado)
     {
         this.nombre_perfil = nombre_perfil;
         this.habilitado = habilitado;

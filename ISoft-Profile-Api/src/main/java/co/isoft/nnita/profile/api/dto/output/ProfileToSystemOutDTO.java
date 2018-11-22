@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways.models.response;
+package co.isoft.nnita.profile.api.dto.output;
 
 /**
  * Lista todos los perfiles del sistema
@@ -6,7 +6,7 @@ package co.isoft.nnita.profile.api.gateways.models.response;
  * por id  y codigo.
  * Response del metodo : asociarperfilusuario
  */
-public class ResponseFindProfiles
+public class ProfileToSystemOutDTO
 {
     /**
      * ID del perfil

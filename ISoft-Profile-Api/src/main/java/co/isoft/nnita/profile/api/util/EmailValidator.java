@@ -1,4 +1,4 @@
-package co.isoft.nnita.profile.api.gateways.util;
+package co.isoft.nnita.profile.api.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
