@@ -8,6 +8,7 @@ import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.gateways.models.CommonsResponse;
 import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestCreateProfile;
 import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PermissionGrants;
 import co.isoft.nnita.profile.api.gateways.models.request.users.RequestModifyPermissionProfile;
 import co.isoft.nnita.profile.api.gateways.util.GatewayBaseBean;
 import co.isoft.nnita.profile.api.models.Perfiles;
@@ -276,7 +277,8 @@ public class GatewayServicesProfilersAndPermisions
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
             mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
-            perfilesYPermisosService.modifyPermissionProfile(mapConfiguration, request);
+            List<PermissionGrants> listDetailsOut = perfilesYPermisosService.modifyPermissionProfile(mapConfiguration, request);
+            response.setResponse(listDetailsOut);
         }
         catch (LicenseException ex)
         {

@@ -8,6 +8,7 @@ import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestCreateProfile;
 import co.isoft.nnita.profile.api.gateways.models.request.users.PermisosDTO;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PermissionGrants;
 import co.isoft.nnita.profile.api.gateways.models.request.users.RequestModifyPermissionProfile;
 import co.isoft.nnita.profile.api.models.*;
 import co.isoft.nnita.profile.api.services.BitacoraService;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.KEY_ERRORS_GENERIC;
 import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_CANAL_TRANSACTION;
 import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_USER_TRANSACTION;
 
@@ -282,17 +284,46 @@ public class PerfilesYPermisosServiceImpl extends UtilServices implements Perfil
     }
 
     @Override
-    public void modifyPermissionProfile(Map<String, String> mapConfiguration, RequestModifyPermissionProfile permissions) throws ServiceException
+    public  List<PermissionGrants> modifyPermissionProfile(Map<String, String> mapConfiguration, RequestModifyPermissionProfile permissions) throws ServiceException
     {
+        List<PermissionGrants> listDetailsOut = new ArrayList<>();
         try
         {
+            List<DetalleBitacora> listDetails = new ArrayList<>();
+
             for (PermisosDTO item : permissions.getPermisos())
             {
+                PermissionGrants grant = new PermissionGrants();
                 Permisos permiso = permisosDao.buscarPorId(item.getId());
-                if (permiso!=null){
+                if (permiso != null)
+                {
+
+                    // Registro de bitacora
+                    Long habilitadoAntes = permiso.getHabilitado();
+                    Long habilitadoDespues = item.getHabilitado();
+
                     permiso.setHabilitado(item.getHabilitado());
                     permisosDao.actualizar(permiso);
+
+                    listDetails.add(recordDetailBinnacleModifyPermissionProfileSucess(item.getId().toString(), habilitadoAntes, habilitadoDespues));
+
+                    //Registro de respuesta
+                    grant.setItem(permiso.getId().toString());
+                    grant.setDescription("Se agrega el elemento");
+                    grant.setCode(EstatusGenericos.INFO.getDescription());
+                    grant.setStatus(EstatusGenericos.INFO.getCode());
                 }
+                else
+                {
+                    listDetails.add(recordDetailBinnacleModifyPermissionProfileDontExist(item.getId().toString()));
+                    grant.setItem(permiso.getId().toString());
+                    grant.setDescription("El elemento no existe");
+                    grant.setCode(EstatusGenericos.WARN.getDescription());
+                    grant.setStatus(EstatusGenericos.WARN.getCode());
+                }
+                //Registro de biacora
+                bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_MODIFICAR_PERMISOS_PERFIL, EnumCanalesISoft.valueOf(Integer.parseInt(mapConfiguration.get(MAP_CANAL_TRANSACTION))), mapConfiguration.get(MAP_USER_TRANSACTION), listDetails);
+                listDetailsOut.add(grant);
 
             }
         }
@@ -302,6 +333,7 @@ public class PerfilesYPermisosServiceImpl extends UtilServices implements Perfil
             logger.error(mensaje, e);
             throw new ServiceException(e.getMessage(), e, e.getCode());
         }
+        return listDetailsOut;
     }
 
 }

@@ -279,4 +279,32 @@ public abstract class UtilServices
         detail.setDescripcion("Se administrar el estado satisfactoriamente.");
         return detail;
     }
+
+    /**
+     * Crea un detalle de bitacora de la modificacion de un perfil
+     * para detallar lo ocurrido en su creacion
+     *
+     * @return Detalle de bitacora
+     */
+    public DetalleBitacora recordDetailBinnacleModifyPermissionProfileSucess(String permiso, Long habilitado_antes,Long habilitado_despues)
+    {
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_inicio("Antes, Se cambia el [attr]:"+"permiso"+", ["+permiso+"], [attr]:habilitado ["+(habilitado_antes.equals(1l)?"true":"false")+"] ");
+        detail.setDetalle_valor_fin("Despues, Se cambia el [attr]:"+"permiso"+", ["+permiso+"], [attr]:habilitado ["+(habilitado_despues.equals(1l)?"true":"false")+"] ");
+        detail.setDescripcion("Se modifica el permiso :[" + permiso + "], satisfactoriamente");
+        return detail;
+    }
+
+    /**
+     * Crea un detalle de bitacora abocado a la modificacion no exiostente de permisos
+     * @param permiso permiso a intentar modificar
+     * @return Detalle de bitacora
+     */
+    public DetalleBitacora recordDetailBinnacleModifyPermissionProfileDontExist(String permiso)
+    {
+        DetalleBitacora detail = new DetalleBitacora();
+        detail.setDetalle_valor_inicio("El permiso no existe attr["+permiso+"] ");
+        detail.setDescripcion("No se realiza, satisfactoriamente");
+        return detail;
+    }
 }

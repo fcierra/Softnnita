@@ -2,6 +2,7 @@ package co.isoft.nnita.profile.api.services;
 
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.gateways.models.request.profile.RequestCreateProfile;
+import co.isoft.nnita.profile.api.gateways.models.request.users.PermissionGrants;
 import co.isoft.nnita.profile.api.gateways.models.request.users.RequestModifyPermissionProfile;
 import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Menus_Item;
@@ -91,6 +92,6 @@ public interface PerfilesYPermisosService
      * @return Lista de respuesta
      * @throws ServiceException
      */
-    public void modifyPermissionProfile(Map<String, String> mapConfiguration, RequestModifyPermissionProfile dto) throws ServiceException;
+    public  List<PermissionGrants> modifyPermissionProfile(Map<String, String> mapConfiguration, RequestModifyPermissionProfile dto) throws ServiceException;
 
 }
