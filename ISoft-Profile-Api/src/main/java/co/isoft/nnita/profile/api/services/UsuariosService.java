@@ -1,5 +1,7 @@
 package co.isoft.nnita.profile.api.services;
 
+import co.isoft.nnita.profile.api.dto.output.UserDTO;
+import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
@@ -34,7 +36,16 @@ public interface UsuariosService
      * @return Objeto usuarios
      * @throws ServiceException Sucede si falla la operacion.
      */
-    public Usuarios findUser(String login) throws ServiceException;
+    public UserDTO findUser(String login) throws ServiceException,ParamsException;
+
+    /**
+     * Buscar un usuario para autenticar
+     * @param login login de usuario
+     * @return
+     * @throws ServiceException Ocurre si falla la operacion
+     * @throws ParamsException Ocurre si faltan parametros
+     */
+    public Usuarios findUserToAuthenticated(String login) throws ServiceException,ParamsException;
 
     /**
      * Obtiene todos los usuarios del sistema

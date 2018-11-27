@@ -3,7 +3,9 @@ package co.isoft.nnita.profile.impl.service;
 import co.isoft.nnita.profile.api.dao.PerfilesDao;
 import co.isoft.nnita.profile.api.dao.UsuarioPerfilDao;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
+import co.isoft.nnita.profile.api.dto.output.UserDTO;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
+import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.DetalleBitacora;
 import co.isoft.nnita.profile.api.models.Perfiles;
@@ -18,6 +20,7 @@ import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.api.util.ConstantesBaseBean;
 import co.isoft.nnita.profile.api.util.EnumFuncionalityISoft;
 import co.isoft.nnita.profile.api.util.EstatusGenericos;
+import co.isoft.nnita.profile.impl.util.ValidationsBasicModelUsuarios;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,14 +119,19 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public Usuarios findUser(String loginUsuario) throws ServiceException
+    public UserDTO findUser(String loginUsuario) throws ServiceException,ParamsException
     {
         try
         {
-            Usuarios usuario = usuariosDao.getUsuarioPorLogin(loginUsuario.toUpperCase());
+            logger.debug("Validando parametros");
+            ValidationsBasicModelUsuarios.validarLoginUsuarios(loginUsuario);
+
+            logger.debug("Inicia la busqueda del usuario");
+            Usuarios usuario = this.findUserToAuthenticated(loginUsuario);
             if (usuario != null)
             {
-                return usuario;
+                logger.info("Se encuentra el usuario efectivamente ["+loginUsuario+"]");
+                return cloneUser(usuario);
             }
             throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
         }
@@ -131,6 +139,40 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         {
             String mensaje = "Error al validar el usuario [" + loginUsuario + "]";
             throw new ServiceException(mensaje, e, e.getCode());
+        }
+        catch (ParamsException e)
+        {
+            String mensaje = "Error al validar parametros";
+            throw new ParamsException(mensaje, e.getCode(),e.getDescripcion());
+        }
+    }
+
+    @Override
+    public Usuarios findUserToAuthenticated(String login) throws ServiceException, ParamsException
+    {
+        try
+        {
+            logger.debug("Validando parametros");
+            validarParametrosGenericos(login);
+
+            logger.debug("Inicia la busqueda del usuario");
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(login.toUpperCase());
+            if (usuario != null)
+            {
+                logger.info("Se encuentra el usuario efectivamente ["+login+"]");
+                return usuario;
+            }
+            throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
+        }
+        catch (DaoException e)
+        {
+            String mensaje = "Error al validar el usuario [" + login + "]";
+            throw new ServiceException(mensaje, e, e.getCode());
+        }
+        catch (ParamsException e)
+        {
+            String mensaje = "Error al validar parametros";
+            throw new ParamsException(mensaje, e.getCode(),e.getDescripcion());
         }
     }
 

@@ -1,12 +1,15 @@
 package co.isoft.nnita.profile.configuration.spring.security;
 
 import co.isoft.nnita.logger.util.ModulesIsoft;
+import co.isoft.nnita.profile.api.dto.output.UserDTO;
+import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
+import co.isoft.nnita.profile.gateways.GatewayServicesUsers;
 import co.isoft.nnita.profile.impl.service.UsuariosServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +40,7 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
     /**
      * Objeto utilizado para el log
      */
-    private static final Log logger = LogFactory.getLog(UsuariosServiceImpl.class);
+    private static final org.apache.commons.logging.Log logger = LogFactory.getLog(CustomUserDetailsService.class);
     /**
      * Login de Usuario
      */
@@ -70,12 +73,16 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
         Usuarios user = null;
         try
         {
-            user = userService.findUser(ssoId.toUpperCase());
+            user = userService.findUserToAuthenticated(ssoId.toUpperCase());
         }
         catch (ServiceException e)
         {
-            co.isoft.nnita.logger.util.Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), ssoId, "Error Provider del Usuarios de sistema", e);
-            logger.error("Falla al tratar de autenticar al usuario [Usuario:" + ssoId + "]", e);
+
+            logger.warn("ERROR, Error Provider del Usuarios de sistema", e);
+        }
+        catch (ParamsException e)
+        {
+            logger.warn("ADVERTENCIA, falla en la validacion de parametros de entrada", e);
         }
 
         if (user == null)

@@ -15,7 +15,7 @@ import java.util.Date;
  * @author Yaher Carrillo
  * @Date 01/06/2018
  */
-@NamedQueries({ @NamedQuery(name = "buscarUsuarioPorLogin", query = "select new co.isoft.nnita.profile.api.models.Usuarios(usuario.id,usuario.login,usuario.clave,usuario.fecha_ultima_visita,perfil.nombre_perfil) from Usuarios usuario INNER JOIN usuario.perfilDefault perfil where usuario.login =:PARAM_LOGIN  and usuario.habilitado = 1"),
+@NamedQueries({ @NamedQuery(name = "buscarUsuarioPorLogin", query = "select new co.isoft.nnita.profile.api.models.Usuarios(usuario.id,usuario.login,usuario.clave,usuario.nombres,usuario.apellidos,usuario.habilitado,usuario.fecha_ultima_visita,perfil.nombre_perfil) from Usuarios usuario INNER JOIN usuario.perfilDefault perfil where usuario.login =:PARAM_LOGIN  and usuario.habilitado = 1"),
         @NamedQuery(name = "buscarUsuarioPorCorreo", query = "from Usuarios usuario where usuario.email =:PARAM_CORREO and usuario.habilitado = 1"),
         @NamedQuery(name = "buscarUsuarioUltimoMesActivo", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
         @NamedQuery(name = "buscarUsuarioActivosPorFecha", query = "from Usuarios usuario where usuario.fecha_ultima_visita between :PARAM_FINICIO and :PARAM_FFIN"),
@@ -33,7 +33,7 @@ public class Usuarios implements Serializable, BusinessClass
     @Column(name = "ID_USUARIO", nullable = false)
     private Long id;
 
-    @Size(max = 30)
+    @Size(max = 60)
     @Column(name = "LOGIN", nullable = false)
     private String login;
 
@@ -41,15 +41,15 @@ public class Usuarios implements Serializable, BusinessClass
     @Column(name = "CLAVE", nullable = false)
     private String clave;
 
-    @Size(max = 50)
+    @Size(max = 60)
     @Column(name = "NOMBRE_USUARIO", nullable = false)
     private String nombres;
 
-    @Size(max = 50)
+    @Size(max = 60)
     @Column(name = "APELLIDO_USUARIO", nullable = false)
     private String apellidos;
 
-    @Size(max = 30)
+    @Size(max = 60)
     @Column(name = "EMAIL")
     private String email;
 
@@ -64,7 +64,7 @@ public class Usuarios implements Serializable, BusinessClass
     private Date fecha_ultima_visita;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PERFIL_DEFAULT")
+    @JoinColumn(name = "PERFIL_DEFAULT", nullable = false)
     private Perfiles perfilDefault;
 
     @Column(name = "HABILITADO", nullable = false)
@@ -86,11 +86,14 @@ public class Usuarios implements Serializable, BusinessClass
      * @param fecha_ultima_visita fecha de ultima visita
      * @param codePerfil       codigo de perfil por defecto
      */
-    public Usuarios(Long id,String login, String clave, Date fecha_ultima_visita, String codePerfil)
+    public Usuarios(Long id,String login, String clave,String nombres, String apellidos,Long habilitado, Date fecha_ultima_visita, String codePerfil)
     {
         this.id = id;
         this.login = login;
         this.clave = clave;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.habilitado = habilitado;
         this.fecha_ultima_visita = fecha_ultima_visita;
 
         Perfiles perfil = new Perfiles();

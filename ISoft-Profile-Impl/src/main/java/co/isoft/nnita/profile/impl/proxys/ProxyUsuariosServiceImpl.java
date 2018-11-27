@@ -2,7 +2,9 @@ package co.isoft.nnita.profile.impl.proxys;
 
 import co.isoft.nnita.profile.api.dao.ParametrosDao;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
+import co.isoft.nnita.profile.api.dto.output.UserDTO;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
+import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Parametros;
 import co.isoft.nnita.profile.api.models.Perfiles;
@@ -111,9 +113,15 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public Usuarios findUser(String login) throws ServiceException
+    public UserDTO findUser(String login) throws ServiceException,ParamsException
     {
         return getUsuariosService().findUser(login);
+    }
+
+    @Override
+    public Usuarios findUserToAuthenticated(String login) throws ServiceException, ParamsException
+    {
+        return getUsuariosService().findUserToAuthenticated(login);
     }
 
     @Override

@@ -19,11 +19,11 @@ public class CommonsResponse
     /**
      * Codigo resultante de la operacion
      */
-    private String codeTrasacction;
+    private String codigo;
     /**
      * Descripcion de la transaccion
      */
-    private String descriptionTransacction;
+    private String descripcion;
     /**
      * Objeto de la respuesta del servicio
      */
@@ -38,9 +38,9 @@ public class CommonsResponse
      * para responses efectivos
      */
     public CommonsResponse toOk(){
-        this.setCodeTrasacction(EstatusGenericos.INFO.getDescription());
+        this.setCodigo(EstatusGenericos.INFO.getDescription());
         this.setStatus(EstatusGenericos.INFO.getCode());
-        this.setDescriptionTransacction(EstatusGenericos.INFO.getRefbundle());
+        this.setDescripcion(EstatusGenericos.INFO.getRefbundle());
         return this;
     }
 
@@ -50,9 +50,9 @@ public class CommonsResponse
      * @return
      */
     public CommonsResponse toEmpty(){
-        this.setCodeTrasacction(EstatusGenericos.INFO_EMPTY.getDescription());
+        this.setCodigo(EstatusGenericos.INFO_EMPTY.getDescription());
         this.setStatus(EstatusGenericos.INFO_EMPTY.getCode());
-        this.setDescriptionTransacction(EstatusGenericos.INFO_EMPTY.getRefbundle());
+        this.setDescripcion(EstatusGenericos.INFO_EMPTY.getRefbundle());
         return this;
     }
 
@@ -105,19 +105,19 @@ public class CommonsResponse
      *
      * @return codigo de la transaccion
      */
-    public String getCodeTrasacction()
+    public String getCodigo()
     {
-        return codeTrasacction;
+        return codigo;
     }
 
     /**
      * Asigna un valor al codigo de la transaccion
      *
-     * @param codeTrasacction valor a asignar
+     * @param codigo valor a asignar
      */
-    public void setCodeTrasacction(String codeTrasacction)
+    public void setCodigo(String codigo)
     {
-        this.codeTrasacction = codeTrasacction;
+        this.codigo = codigo;
     }
 
     /**
@@ -125,19 +125,19 @@ public class CommonsResponse
      *
      * @return descripcion de la transaccion
      */
-    public String getDescriptionTransacction()
+    public String getDescripcion()
     {
-        return descriptionTransacction;
+        return descripcion;
     }
 
     /**
      * Asigna un valor a la descripcion de la transaccion
      *
-     * @param descriptionTransacction valor a asignar
+     * @param descripcion valor a asignar
      */
-    public void setDescriptionTransacction(String descriptionTransacction)
+    public void setDescripcion(String descripcion)
     {
-        this.descriptionTransacction = descriptionTransacction;
+        this.descripcion = descripcion;
     }
 
     /**

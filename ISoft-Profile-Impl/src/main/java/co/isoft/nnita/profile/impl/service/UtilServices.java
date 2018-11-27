@@ -1,5 +1,7 @@
 package co.isoft.nnita.profile.impl.service;
 
+import co.isoft.nnita.profile.api.dto.output.UserDTO;
+import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.models.DetalleBitacora;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
@@ -7,6 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.Field;
+
+import static co.isoft.nnita.profile.api.util.EstatusGenericos.PROFILER_GENERIC_ERROR_PARAMS;
 
 /**
  * Implementacion Original de consulta de usuarios Isoftnnita
@@ -306,5 +310,38 @@ public abstract class UtilServices
         detail.setDetalle_valor_inicio("El permiso no existe attr["+permiso+"] ");
         detail.setDescripcion("No se realiza, satisfactoriamente");
         return detail;
+    }
+
+    /**
+     * Clona los datos del modelo de usuarios a un DTO
+     * @param usuario usuario a clonar
+     * @return Usuario DTO
+     */
+    public UserDTO cloneUser(Usuarios usuario)
+    {
+        UserDTO user = new UserDTO();
+        user.setNombres(usuario.getNombres());
+        user.setApellidos(usuario.getApellidos());
+        user.setCorreo(usuario.getEmail());
+        user.setEstado(usuario.getHabilitado().toString().equalsIgnoreCase("true")?true:false);
+        user.setNombre_perfil_defecto(usuario.getPerfilDefault().getNombre_perfil());
+        return user;
+    }
+
+
+    /**
+     * Validacions base a parametros de entrada, comparacion
+     * distintas a nulls, espacios vacios y caracteres especiales
+     * de SOAP.
+     *
+     * @param params listado de parametros de entrada
+     */
+    public static void validarParametrosGenericos(String... params) throws ParamsException
+    {
+        for (String parametro : params)
+        {
+            if (parametro == null || parametro.trim().equals("") || parametro.trim().equals("?"))
+                throw (new ParamsException(PROFILER_GENERIC_ERROR_PARAMS.getDescription(), PROFILER_GENERIC_ERROR_PARAMS.getCode(), PROFILER_GENERIC_ERROR_PARAMS.getRefbundle()));
+        }
     }
 }
