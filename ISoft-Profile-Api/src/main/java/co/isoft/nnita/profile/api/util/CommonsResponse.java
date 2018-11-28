@@ -15,7 +15,7 @@ public class CommonsResponse
     /**
      * Estatus de la operacion
      */
-    private String status;
+    private String estatus;
     /**
      * Codigo resultante de la operacion
      */
@@ -39,7 +39,7 @@ public class CommonsResponse
      */
     public CommonsResponse toOk(){
         this.setCodigo(EstatusGenericos.INFO.getDescription());
-        this.setStatus(EstatusGenericos.INFO.getCode());
+        this.setEstatus(EstatusGenericos.INFO.getCode());
         this.setDescripcion(EstatusGenericos.INFO.getRefbundle());
         return this;
     }
@@ -51,7 +51,7 @@ public class CommonsResponse
      */
     public CommonsResponse toEmpty(){
         this.setCodigo(EstatusGenericos.INFO_EMPTY.getDescription());
-        this.setStatus(EstatusGenericos.INFO_EMPTY.getCode());
+        this.setEstatus(EstatusGenericos.INFO_EMPTY.getCode());
         this.setDescripcion(EstatusGenericos.INFO_EMPTY.getRefbundle());
         return this;
     }
@@ -85,19 +85,19 @@ public class CommonsResponse
      *
      * @return estatus de la operacion
      */
-    public String getStatus()
+    public String getEstatus()
     {
-        return status;
+        return estatus;
     }
 
     /**
      * Asigna un valor al estatus de la operacion
      *
-     * @param status valor a asignar
+     * @param estatus valor a asignar
      */
-    public void setStatus(String status)
+    public void setEstatus(String estatus)
     {
-        this.status = status;
+        this.estatus = estatus;
     }
 
     /**

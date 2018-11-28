@@ -136,7 +136,7 @@ public abstract class GatewayBaseBean
     public static void matchToOk(CommonsResponse response)
     {
         response.setCodigo(PROFILER_GENERIC_ERROR_PARAMS.INFO.getCode());
-        response.setStatus(PROFILER_GENERIC_ERROR_PARAMS.INFO.getCode());
+        response.setEstatus(PROFILER_GENERIC_ERROR_PARAMS.INFO.getCode());
         response.setDescripcion(PROFILER_GENERIC_ERROR_PARAMS.INFO.getDescription());
     }
 
@@ -148,7 +148,7 @@ public abstract class GatewayBaseBean
     public static void matchToResponses(CommonsResponse response)
     {
         response.setCodigo(EstatusGenericos.PROFILER_GENERIC_ERROR.getCode());
-        response.setStatus(PROFILER_GENERIC_ERROR_PARAMS.ERROR.getCode());
+        response.setEstatus(PROFILER_GENERIC_ERROR_PARAMS.ERROR.getCode());
         response.setDescripcion(PROFILER_GENERIC_ERROR_PARAMS.ERROR.getDescription());
     }
 
@@ -162,7 +162,7 @@ public abstract class GatewayBaseBean
     {
         response.setCodigo(codError);
         response.setDescripcion(descripcion);
-        response.setStatus(status);
+        response.setEstatus(status);
     }
 
     /**

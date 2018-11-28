@@ -7,7 +7,6 @@ import co.isoft.nnita.profile.api.dto.input.AdminStatusUsersInputDTO;
 import co.isoft.nnita.profile.api.dto.input.NewUserInputDTO;
 import co.isoft.nnita.profile.api.dto.input.NewUsersMassiveInputDTO;
 import co.isoft.nnita.profile.api.dto.output.ProfilesToUserOutDTO;
-import co.isoft.nnita.profile.api.dto.output.UserDTO;
 import co.isoft.nnita.profile.api.dto.output.UsersAllOutDTO;
 import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
 import co.isoft.nnita.profile.api.exceptions.LicenseException;
@@ -95,7 +94,7 @@ public class GatewayServicesUsers
     {
         CommonsResponse response = new CommonsResponse();
         response.setCodigo(EstatusGenericos.INFO.getCode());
-        response.setStatus(EstatusGenericos.INFO.getCode());
+        response.setEstatus(EstatusGenericos.INFO.getCode());
         response.setDescripcion(EstatusGenericos.INFO.getDescription());
         return response;
     }

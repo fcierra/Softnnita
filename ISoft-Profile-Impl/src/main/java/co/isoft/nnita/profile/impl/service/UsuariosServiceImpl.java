@@ -121,6 +121,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     @Override
     public UserDTO findUser(String loginUsuario) throws ServiceException,ParamsException
     {
+        loginUsuario = loginUsuario.toUpperCase();
         try
         {
             logger.debug("Validando parametros");
