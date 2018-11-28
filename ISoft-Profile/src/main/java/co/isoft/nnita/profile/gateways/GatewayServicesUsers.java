@@ -119,24 +119,24 @@ public class GatewayServicesUsers
         catch (ParamsException ex)
         {
             response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            logger.warn("ADVERTENCIA, Parametros faltantes  WS [consultarusuario].", ex);
+            logger.error("Parametros  de Licencia Errados  WS [consultarusuario], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (LicenseException ex)
         {
             response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), llave_seguridad);
-            logger.error("ERROR, Parametros  de Licencia Errados  WS [consultarusuario].", ex);
+            logger.error("Parametros  de Licencia Errados  WS [consultarusuario].", ex);
             return response;
         }
         catch (ServiceException ex)
         {
             response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            logger.warn("ADVERTENCIA, Error de Servicio  WS [consultarusuario].", ex);
+            logger.warn("Error de Servicio  WS [consultarusuario].", ex);
             return response;
         }
         catch (Exception ex)
         {
-            logger.warn("ERROR, Error Generico en  WS [consultarusuario].", ex);
+            logger.warn("Error Generico en  WS [consultarusuario].", ex);
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
@@ -147,18 +147,18 @@ public class GatewayServicesUsers
     /**
      * Consulta todos los usuarios del sistema
      *
-     * @param sharedkey Licencia de consumo
+     * @param llave_seguridad Licencia de consumo
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/consultarusuariossistema", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse findallusers(@RequestParam String sharedkey, HttpServletRequest request)
+    public CommonsResponse findallusers(@RequestParam String llave_seguridad, HttpServletRequest request)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
-            Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), "GET", "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(request));
+            logger.debug("Se valida la licencia si puede consumir los procesos.");
+            GatewayBaseBean.validateLicenceToWS(llave_seguridad, webUtils.getClientIp(request));
 
             List<UsersAllOutDTO> usuarios = userServices.findAllUsers();
             if (usuarios != null && !usuarios.isEmpty())
@@ -168,23 +168,23 @@ public class GatewayServicesUsers
         }
         catch (LicenseException ex)
         {
-            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
+            response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), llave_seguridad);
+            logger.error("Parametros  de Licencia Errados  WS [consultarusuariossistema], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            logger.warn("Error de Servicio  WS [consultarusuariossistema].", ex);
             return response;
         }
         catch (Exception ex)
         {
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "[consultarusuariossistema].", ex);
+            logger.warn("Error Generico en  WS [consultarusuariossistema].", ex);
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
-        Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [consultarusuariossistema].");
+        logger.info("Se retorna respuesta efectiva del WS [consultarusuariossistema].");
         return response.toOk();
     }
 

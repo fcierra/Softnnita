@@ -177,14 +177,6 @@
             <version>2.2.10</version>
         </dependency>
 
-
-        <!-- LOGGER ISOFTNNITA-->
-        <dependency>
-            <groupId>co.isoft.nnita</groupId>
-            <artifactId>ISoft-Logger</artifactId>
-            <version>0.1</version>
-        </dependency>
-
         <!-- API ISOFTNNITA-->
         <dependency>
             <groupId>co.isoft.nnita</groupId>

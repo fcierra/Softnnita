@@ -39,7 +39,6 @@ public class ProfilerContextListener implements ServletContextListener
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        initConfProfiler();
         // Define de forma global el contexto
         ServletJsfSpringUtil.setServletContext(sce.getServletContext());
         GatewayBaseBean.setJwtDao(new JwtImpl());
@@ -48,15 +47,6 @@ public class ProfilerContextListener implements ServletContextListener
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         //mute
-    }
-
-    /**
-     * Metodo que da inicio a las configuracion de subida
-     * de IsoftProfiles
-     */
-    public void initConfProfiler(){
-        this.log4jProperties = loadConfigLog("conf/log4j.properties");
-        initLog();
     }
 
     /**

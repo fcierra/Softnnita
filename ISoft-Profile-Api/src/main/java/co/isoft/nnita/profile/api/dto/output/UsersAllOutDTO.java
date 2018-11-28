@@ -15,7 +15,7 @@ public class UsersAllOutDTO
     /**
      * login de acceso de usaurio
      */
-    private String loginname;
+    private String usuario;
 
     /**
      * Nombres del usuario
@@ -30,7 +30,7 @@ public class UsersAllOutDTO
     /**
      * Correo del usuario
      */
-    private String email;
+    private String correo;
 
     /**
      * Sexo del usuario
@@ -45,7 +45,7 @@ public class UsersAllOutDTO
     /**
      * Indica el status del usuario
      */
-    private Long habilitado;
+    private boolean estado;
 
     /**
      * Constructor por defecto
@@ -57,23 +57,23 @@ public class UsersAllOutDTO
     /**
      * Constructor que inicializa los valores del objeto
      *
-     * @param loginname           login del usuario
+     * @param usuario           login del usuario
      * @param nombres             nombres del usuario
      * @param apellidos           apellidos del usuario
-     * @param email               correo del usuario
+     * @param correo               correo del usuario
      * @param sexo                sexo del usuario
      * @param fecha_ultima_visita fecha de ultima visita del usuario
      * @param habilitado          status del usuario
      */
-    public UsersAllOutDTO(String loginname, String nombres, String apellidos, String email, String sexo, Date fecha_ultima_visita, Long habilitado)
+    public UsersAllOutDTO(String usuario, String nombres, String apellidos, String correo, String sexo, Date fecha_ultima_visita, Long habilitado)
     {
-        this.loginname = loginname;
+        this.usuario = usuario;
         this.nombres = nombres;
         this.apellidos = apellidos;
-        this.email = email;
+        this.correo = correo;
         this.sexo = sexo;
         this.fecha_ultima_visita = fecha_ultima_visita;
-        this.habilitado = habilitado;
+        this.estado = habilitado.equals(1l)?true:false;
     }
 
     /**
@@ -81,19 +81,19 @@ public class UsersAllOutDTO
      *
      * @return login del usuario
      */
-    public String getLoginname()
+    public String getUsuario()
     {
-        return loginname;
+        return usuario;
     }
 
     /**
      * Asigna un valor al login de usuario
      *
-     * @param loginname valor a asignar
+     * @param usuario valor a asignar
      */
-    public void setLoginname(String loginname)
+    public void setUsuario(String usuario)
     {
-        this.loginname = loginname;
+        this.usuario = usuario;
     }
 
     /**
@@ -141,19 +141,19 @@ public class UsersAllOutDTO
      *
      * @return
      */
-    public String getEmail()
+    public String getCorreo()
     {
-        return email;
+        return correo;
     }
 
     /**
      * Asigna un valor al correo del usuario
      *
-     * @param email valor a asignar
+     * @param correo valor a asignar
      */
-    public void setEmail(String email)
+    public void setCorreo(String correo)
     {
-        this.email = email;
+        this.correo = correo;
     }
 
     /**
@@ -201,18 +201,18 @@ public class UsersAllOutDTO
      *
      * @return estatus
      */
-    public Long getHabilitado()
+    public boolean getEstado()
     {
-        return habilitado;
+        return estado;
     }
 
     /**
      * Asigna un valor al estatus del usuario
      *
-     * @param habilitado valor a asignar
+     * @param estado valor a asignar
      */
-    public void setHabilitado(Long habilitado)
+    public void setEstado(boolean estado)
     {
-        this.habilitado = habilitado;
+        this.estado = estado;
     }
 }

@@ -156,7 +156,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             logger.debug("Validando parametros");
             validarParametrosGenericos(login.trim());
 
-            logger.debug("Inicia la busqueda del usuario");
+            logger.debug("Inicia la busqueda de todos los usuarios");
             Usuarios usuario = usuariosDao.getUsuarioPorLogin(login.trim().toUpperCase());
             if (usuario != null)
             {
@@ -182,6 +182,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     {
         try
         {
+            logger.debug("Inicia la busqueda de todos los usuarios");
             return usuariosDao.getTodosLosUsuarios();
         }
         catch (DaoException e)
