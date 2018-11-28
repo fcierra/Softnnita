@@ -153,10 +153,10 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         try
         {
             logger.debug("Validando parametros");
-            validarParametrosGenericos(login);
+            validarParametrosGenericos(login.trim());
 
             logger.debug("Inicia la busqueda del usuario");
-            Usuarios usuario = usuariosDao.getUsuarioPorLogin(login.toUpperCase());
+            Usuarios usuario = usuariosDao.getUsuarioPorLogin(login.trim().toUpperCase());
             if (usuario != null)
             {
                 logger.info("Se encuentra el usuario efectivamente ["+login+"]");
