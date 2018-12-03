@@ -1,5 +1,6 @@
 package co.isoft.nnita.profile.api.util;
 
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.MessageSource;
 
 import java.util.Locale;
@@ -12,6 +13,10 @@ import java.util.Locale;
  */
 public class CommonsResponse
 {
+    /**
+     * Objeto utilizado para el log
+     */
+    private static final org.apache.commons.logging.Log logger = LogFactory.getLog(CommonsResponse.class);
     /**
      * Estatus de la operacion
      */
@@ -73,10 +78,25 @@ public class CommonsResponse
      * o sin datos
      * @return
      */
-    public String toParamsWarn(MessageSource messageSource ,String codeerror){
-        String message = messageSource.getMessage(codeerror, new Object[] { "App" }, Locale.getDefault());
-        GatewayBaseBean.matchToResponses(this,codeerror, message, EstatusGenericos.WARN.getCode());
-        return message;
+    public String toParamsWarn(MessageSource messageSource, String codeerror)
+    {
+        String message = "";
+        try
+        {
+            message = messageSource.getMessage(codeerror, new Object[] { "App" }, Locale.getDefault());
+        }
+        catch (Exception ex)
+        {
+            logger.error("Ha ocurrido un error buscando los recursos de mensaje", ex);
+            Locale locale = new Locale("es", "CO");
+            message = messageSource.getMessage(codeerror, new Object[] { "App" }, locale);
+        }
+        finally
+        {
+            message = message.equals("") ? "Ha ocurrido un error con los recursos de textos" : message;
+            GatewayBaseBean.matchToResponses(this, codeerror, message, EstatusGenericos.WARN.getCode());
+            return message;
+        }
     }
 
 

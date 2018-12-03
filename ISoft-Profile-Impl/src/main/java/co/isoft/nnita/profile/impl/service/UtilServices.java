@@ -1,5 +1,6 @@
 package co.isoft.nnita.profile.impl.service;
 
+import co.isoft.nnita.profile.api.dto.input.NewUserInputDTO;
 import co.isoft.nnita.profile.api.dto.output.UserDTO;
 import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.models.DetalleBitacora;
@@ -9,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 
 import static co.isoft.nnita.profile.api.util.EstatusGenericos.PROFILER_GENERIC_ERROR_PARAMS;
 
@@ -33,7 +35,7 @@ public abstract class UtilServices
      *
      * @param obj clase a usar
      */
-    public void convertAtrrUppercase(Object obj)
+    public static void convertAtrrUppercase(Object obj)
     {
         for (Field f : obj.getClass().getDeclaredFields())
         {
@@ -317,7 +319,7 @@ public abstract class UtilServices
      * @param usuario usuario a clonar
      * @return Usuario DTO
      */
-    public UserDTO cloneUser(Usuarios usuario)
+    public UserDTO cloneUserToDto(Usuarios usuario)
     {
         UserDTO user = new UserDTO();
         user.setNombres(usuario.getNombres());
@@ -343,5 +345,27 @@ public abstract class UtilServices
             if (parametro == null || parametro.trim().equals("") || parametro.trim().equals("?"))
                 throw (new ParamsException(PROFILER_GENERIC_ERROR_PARAMS.getDescription(), PROFILER_GENERIC_ERROR_PARAMS.getCode(), PROFILER_GENERIC_ERROR_PARAMS.getRefbundle()));
         }
+    }
+
+    /**
+     * clona la informacion de entrada respecto a usuarios
+     * para trabajar con las instacias de la aplicacion.
+     *
+     * @param request objeto con informacon
+     * @return objeto usuario con la clonacion de datos
+     */
+    public static Usuarios clonDtoToUser(NewUserInputDTO request)
+    {
+        Usuarios user = new Usuarios();
+        user.setLogin(request.getUsuario());
+        user.setNombres(request.getNombres());
+        user.setApellidos(request.getApellidos());
+        user.setEmail(request.getCorreo());
+        user.setClave(request.getClave());
+        user.setHabilitado(new Long("1"));
+        user.setFecha_registro(new Date());
+        //Transformar todos los string en mayusculas
+        convertAtrrUppercase(request);
+        return user;
     }
 }

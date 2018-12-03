@@ -205,7 +205,7 @@ public class PerfilesYPermisosServiceImpl extends UtilServices implements Perfil
 
             if (perfil != null)
             {
-                throw new DaoException(EstatusGenericos.PROFILER_PROXILE_EXIST.getCode());
+                throw new DaoException(EstatusGenericos.PROFILER_USER_PROFILE_EXIST.getCode());
             }
             perfil = new Perfiles();
             perfil.setNombre_perfil(nombrePerfil);
@@ -235,11 +235,11 @@ public class PerfilesYPermisosServiceImpl extends UtilServices implements Perfil
             List<Perfiles> list = perfilesDao.buscar(perfil);
             if (list == null)
             {
-                throw new DaoException(EstatusGenericos.PROFILER_PROXILE_DONT_EXIST.getCode());
+                throw new DaoException(EstatusGenericos.PROFILER_USER_DONT_EXIST.getCode());
             }
             else if (list.size() > 1)
             {
-                throw new DaoException(EstatusGenericos.PROFILER_PROXILE_EXIST.getCode());
+                throw new DaoException(EstatusGenericos.PROFILER_USER_PROFILE_EXIST.getCode());
             }
             else
             {

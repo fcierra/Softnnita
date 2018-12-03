@@ -1,5 +1,6 @@
 package co.isoft.nnita.profile.api.services;
 
+import co.isoft.nnita.profile.api.dto.input.NewUserInputDTO;
 import co.isoft.nnita.profile.api.dto.output.UserDTO;
 import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
@@ -77,7 +78,7 @@ public interface UsuariosService
      * @param perfiles perfiles a asociar
      * @throws ServiceException Ocurre si falla la operacion
      */
-    public void createUserIsoftProfile(Usuarios usuario,Map<String ,Perfiles> perfiles) throws ServiceException;
+    public void createUser(Usuarios usuario,Map<String ,Perfiles> perfiles) throws ServiceException;
 
     /**
      * Crea un usuario sin perfil
@@ -85,7 +86,7 @@ public interface UsuariosService
      * @param usuario usuario a crear
      * @throws ServiceException
      */
-    public void createUserIsoftProfile(Map<String,String> mapConfiguration,Usuarios usuario) throws ServiceException;
+    public void createUser(Map<String,String> mapConfiguration,NewUserInputDTO usuario) throws ServiceException,ParamsException;
 
     /**
      * Modifica los datos basicos de un usuario indicado

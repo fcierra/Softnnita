@@ -3,6 +3,7 @@ package co.isoft.nnita.profile.impl.service;
 import co.isoft.nnita.profile.api.dao.PerfilesDao;
 import co.isoft.nnita.profile.api.dao.UsuarioPerfilDao;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
+import co.isoft.nnita.profile.api.dto.input.NewUserInputDTO;
 import co.isoft.nnita.profile.api.dto.output.UserDTO;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.exceptions.ParamsException;
@@ -125,14 +126,14 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
         try
         {
             logger.debug("Validando parametros");
-            ValidationsBasicModelUsuarios.validarLoginUsuarios(loginUsuario);
+            ValidationsBasicModelUsuarios.validateLoginUsers(loginUsuario);
 
             logger.debug("Inicia la busqueda del usuario");
             Usuarios usuario = this.findUserToAuthenticated(loginUsuario);
             if (usuario != null)
             {
                 logger.info("Se encuentra el usuario efectivamente ["+loginUsuario+"]");
-                return cloneUser(usuario);
+                return cloneUserToDto(usuario);
             }
             throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
         }
@@ -235,7 +236,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public void createUserIsoftProfile(Usuarios usuario, Map<String, Perfiles> perfiles) throws ServiceException
+    public void createUser(Usuarios usuario, Map<String, Perfiles> perfiles) throws ServiceException
     {
         try
         {
@@ -263,34 +264,33 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     }
 
     @Override
-    public void createUserIsoftProfile(Map<String, String> mapConfiguration, Usuarios usuario) throws ServiceException
+    public void createUser(Map<String, String> mapConfiguration, NewUserInputDTO usuarioDto) throws ServiceException,ParamsException
     {
         try
         {
+            logger.debug("Validando parametros");
+            ValidationsBasicModelUsuarios.validateIntegriyObjectUsers(usuarioDto);
+
             List<DetalleBitacora> listDetails = new ArrayList<>();
-            convertAtrrUppercase(usuario);
-            Usuarios userExisteLogin = usuariosDao.getUsuarioPorLogin(usuario.getLogin());
+            convertAtrrUppercase(usuarioDto);
+            Usuarios userExisteLogin = usuariosDao.getUsuarioPorLogin(usuarioDto.getUsuario());
             if (userExisteLogin != null)
                 throw new DaoException(EstatusGenericos.PROFILER_USER_EXIST.getCode());
-            Usuarios userExisteEmail = usuariosDao.getUsuarioPorEmail(usuario.getEmail());
+            Usuarios userExisteEmail = usuariosDao.getUsuarioPorEmail(usuarioDto.getCorreo());
             if (userExisteEmail != null)
                 throw new DaoException(EstatusGenericos.PROFILER_USER_EMAIL_EXIST.getCode());
 
-            String pass = passwordEncoder.encode(usuario.getClave());
-            usuario.setClave(pass);
-            usuario.setFecha_registro(new Date());
-            //Transformar todos los string en mayusculas
-            convertAtrrUppercase(usuario);
-            //Agrega al usuario en bdd
+            usuarioDto.setClave(passwordEncoder.encode(usuarioDto.getClave()));
+            Usuarios usuario = clonDtoToUser(usuarioDto);
             usuariosDao.agregar(usuario);
-            logger.info("Se agrega al usuario [" + usuario.getLogin() + "]");
-            //Se realiza la auditoria de la operacion
+            logger.info("Se agrega el usuario [" + usuario.getLogin() + "]");
             listDetails.add(recordDetailBinnacleUsersMassiveSucess("", usuario.getLogin()));
             bitacoraService.registrarBitacora(EnumFuncionalityISoft.FUNCIONALIDAD_CREAR_USUARIO, mapConfiguration, listDetails);
+            logger.info("Se registra la auditoria");
         }
         catch (DaoException e)
         {
-            String mensaje = "Error al crear usuario [" + usuario.getLogin() + "]";
+            String mensaje = "Error al crear usuario [" + usuarioDto.getUsuario() + "]";
             logger.error(mensaje, e);
             throw new ServiceException(e.getMessage(), e, e.getCode());
         }

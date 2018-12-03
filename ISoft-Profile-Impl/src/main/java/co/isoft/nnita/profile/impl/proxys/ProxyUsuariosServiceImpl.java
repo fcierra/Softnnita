@@ -2,6 +2,7 @@ package co.isoft.nnita.profile.impl.proxys;
 
 import co.isoft.nnita.profile.api.dao.ParametrosDao;
 import co.isoft.nnita.profile.api.dao.UsuariosDao;
+import co.isoft.nnita.profile.api.dto.input.NewUserInputDTO;
 import co.isoft.nnita.profile.api.dto.output.UserDTO;
 import co.isoft.nnita.profile.api.exceptions.DaoException;
 import co.isoft.nnita.profile.api.exceptions.ParamsException;
@@ -143,15 +144,15 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public void createUserIsoftProfile(Usuarios usuario, Map<String, Perfiles> perfiles) throws ServiceException
+    public void createUser(Usuarios usuario, Map<String, Perfiles> perfiles) throws ServiceException
     {
-        getUsuariosService().createUserIsoftProfile(usuario, perfiles);
+        getUsuariosService().createUser(usuario, perfiles);
     }
 
     @Override
-    public void createUserIsoftProfile(Map<String,String> mapConfiguration, Usuarios usuario) throws ServiceException
+    public void createUser(Map<String,String> mapConfiguration, NewUserInputDTO usuario) throws ServiceException,ParamsException
     {
-        getUsuariosService().createUserIsoftProfile(mapConfiguration, usuario);
+        getUsuariosService().createUser(mapConfiguration, usuario);
     }
 
     @Override

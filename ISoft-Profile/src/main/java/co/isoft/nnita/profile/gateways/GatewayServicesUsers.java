@@ -191,11 +191,11 @@ public class GatewayServicesUsers
     /**
      * Crea un usuario en el sistema ISoftProfile
      *
-     * @param sharedkey Licencia de consumo
+     * @param llave_seguridad Licencia de consumo
      * @param request   Datos de entrada de elementos de usuario
      * @return Response comun con los datos de servicio
      */
-    @RequestMapping(value = "/crearusuarioisoft", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/crearusuario", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse createuser(@RequestParam String llave_seguridad, @RequestBody NewUserInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
@@ -205,23 +205,18 @@ public class GatewayServicesUsers
             logger.debug("Se valida la licencia si puede consumir los procesos.");
             mapConfiguration = GatewayBaseBean.validateLicenceToWS(llave_seguridad, webUtils.getClientIp(requestTransaction));
 
-
-            GatewayBaseBean.validarParametrosGenericos(request.getLoginname(), request.getNombres(), request.getClave());
-            GatewayBaseBean.validarEmail(request.getEmail());
-            Usuarios user = GatewayBaseBean.clonUsersRequest(request);
-
-            userServices.createUserIsoftProfile(mapConfiguration, user);
+            userServices.createUser(mapConfiguration, request);
         }
         catch (ParamsException ex)
         {
-            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            logger.error("Parametros  de Licencia Errados  WS [crearusuarioisoft], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (LicenseException ex)
         {
-            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), llave_seguridad);
-            logger.error("Parametros  de Licencia Errados  WS [crearusuarioisoft], key["+llave_seguridad+"].", ex);
+            response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), llave_seguridad);
+            logger.error("Parametros  de Licencia Errados  WS [consultarusuariossistema], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (ServiceException ex)
@@ -236,7 +231,7 @@ public class GatewayServicesUsers
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
-        Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [crearusuarioisoft].");
+        logger.info("Se retorna respuesta efectiva del WS [crearusuario].");
         return response.toOk();
     }
 
@@ -309,18 +304,12 @@ public class GatewayServicesUsers
             Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
             mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
 
-            Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
-            GatewayBaseBean.validarParametrosGenericos(request.getLoginname(), request.getNombres());
-            GatewayBaseBean.validarEmail(request.getEmail());
-            Usuarios user = GatewayBaseBean.clonUsersRequest(request);
+            /*Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
+            GatewayBaseBean.validarParametrosGenericos(request.getUsuario(), request.getNombres());
+            GatewayBaseBean.validarEmail(request.getCorreo());
+            Usuarios user = GatewayBaseBean.clonUsersRequest(request);*/
 
-            userServices.modifyUser(mapConfiguration, user);
-        }
-        catch (ParamsException ex)
-        {
-            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
-            return response;
+            userServices.modifyUser(mapConfiguration, new Usuarios());
         }
         catch (LicenseException ex)
         {

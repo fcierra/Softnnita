@@ -26,10 +26,15 @@ public enum EstatusGenericos
     PROFILER_USER_CREATE_FAIL("008", "Falla Creacion usuario", "login.error.008"),
     PROFILER_USER_EXIST("009", "El usuario ya existe", "login.error.009"),
     PROFILER_USER_PROFILE_GUEST_NOT_DONT_EXIST("010", "El perfil por defecto no existe", "login.error.010"),
-    PROFILER_USER_EMAIL_EXIST("011", "El correo ya existe", "login.error.011"),
 
-    PROFILER_PROXILE_EXIST("101", "El perfil ya existe", "profile.error.101"),
-    PROFILER_PROXILE_DONT_EXIST("102", "El perfil indicado no existe", "profile.error.102"),
+
+    PROFILER_USER_PROFILE_EXIST("101", "El perfil ya existe", "profile.ws.usuarios.error.101"),
+    PROFILER_USER_DONT_EXIST("102", "El perfil indicado no existe", "profile.ws.usuarios.error.102"),
+    PROFILER_USER_NICKNAME_MAX_LENGTH("103", "El nombre de usuario no cumple con las especificaciones", "profile.ws.usuarios.error.103"),
+    PROFILER_USER_NAMES_MAX_LENGTH("104", "Los nombres de usuario no cumple con las especificaciones", "profile.ws.usuarios.error.104"),
+    PROFILER_USER_EMAIL_MAX_LENGTH("105", "El correo de usuario no cumple con las especificaciones", "profile.ws.usuarios.error.105"),
+    PROFILER_USER_PASS_MAX_LENGTH("106", "La clave de usuario no cumple con las especificaciones", "profile.ws.usuarios.error.106"),
+    PROFILER_USER_EMAIL_EXIST("107", "El correo ya existe", "profile.ws.usuarios.error.107"),
 
 
     PROFILER_GENERIC_ERROR_FIELD_REQUIRED("091", "Error generico, campo requerido", "login.error.091"),

@@ -38,11 +38,11 @@ public abstract class ConstantesBaseBean
     /**
      * Llave para unica para la busqueda de errores.
      */
-    public static String KEY_ERRORS_GENERIC = "login.error.";
+    public static String KEY_ERRORS_GENERIC = "profile.ws.usuarios.error.";
     /**
      * Llave unica para la busqueda de errores referentes al modulo de perfiles.
      */
-    public static String KEY_ERRORS_PROFILER_GENERIC = "profile.error.";
+    public static String KEY_ERRORS_PROFILER_GENERIC = "profile.ws.usuarios.error.";
     /**
      * Formato de fechas
      */

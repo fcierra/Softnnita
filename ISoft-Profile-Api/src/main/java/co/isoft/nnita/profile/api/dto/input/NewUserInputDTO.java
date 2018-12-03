@@ -12,7 +12,7 @@ public class NewUserInputDTO
     /**
      * Login de usuario a crear
      */
-    private String loginname;
+    private String usuario;
     /**
      * Nombres de usuario
      */
@@ -24,7 +24,7 @@ public class NewUserInputDTO
     /**
      * Correo electronico del usuario
      */
-    private String email;
+    private String correo;
     /**
      * Clave de acceso de usuario
      */
@@ -35,19 +35,19 @@ public class NewUserInputDTO
      *
      * @return login de usuario a crear
      */
-    public String getLoginname()
+    public String getUsuario()
     {
-        return loginname;
+        return usuario;
     }
 
     /**
      * Asigna un valor al login de usuario
      *
-     * @param loginname valor a asignar
+     * @param usuario valor a asignar
      */
-    public void setLoginname(String loginname)
+    public void setUsuario(String usuario)
     {
-        this.loginname = loginname;
+        this.usuario = usuario;
     }
 
     /**
@@ -92,23 +92,23 @@ public class NewUserInputDTO
     }
 
     /**
-     * Obtiene el email del usuario a crear
+     * Obtiene el correo del usuario a crear
      *
-     * @return email del usuario a crear
+     * @return correo del usuario a crear
      */
-    public String getEmail()
+    public String getCorreo()
     {
-        return email;
+        return correo;
     }
 
     /**
-     * Asigna un valor al email del usuario a crear
+     * Asigna un valor al correo del usuario a crear
      *
-     * @param email valor a asignar
+     * @param correo valor a asignar
      */
-    public void setEmail(String email)
+    public void setCorreo(String correo)
     {
-        this.email = email;
+        this.correo = correo;
     }
 
     /**

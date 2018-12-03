@@ -26,10 +26,6 @@ public abstract class GatewayBaseBean
      * Servicios JWT
      */
     private static JwtDao jwtDao;
-    /**
-     * Validador de emails
-     */
-    private static EmailValidator emailValidator = new EmailValidator();
 
     /**
      * Validacions base a parametros de entrada, comparacion
@@ -45,18 +41,6 @@ public abstract class GatewayBaseBean
             if (parametro == null || parametro.trim().equals("") || parametro.trim().equals("?"))
                 throw (new ParamsException(PROFILER_GENERIC_ERROR_PARAMS.getDescription(), PROFILER_GENERIC_ERROR_PARAMS.getCode(), PROFILER_GENERIC_ERROR_PARAMS.getRefbundle()));
         }
-    }
-
-    /**
-     * Valida el formato de emails
-     * @param param email a validar
-     * @throws ParamsException
-     */
-    public static void validarEmail(String param) throws ParamsException
-    {
-        if (param!=null && !param.trim().equals(""))
-            if (!emailValidator.validateEmail(param))
-                throw (new ParamsException(PROFILER_GENERIC_ERROR_PARAMS_EMAIL.getDescription(), PROFILER_GENERIC_ERROR_PARAMS_EMAIL.getCode(), PROFILER_GENERIC_ERROR_PARAMS.getRefbundle()));
     }
 
     /**
@@ -163,26 +147,6 @@ public abstract class GatewayBaseBean
         response.setCodigo(codError);
         response.setDescripcion(descripcion);
         response.setEstatus(status);
-    }
-
-    /**
-     * clona la informacion de entrada respecto a usuarios
-     * para trabajar con las instacias de la aplicacion.
-     *
-     * @param request objeto con informacon
-     * @return objeto usuario con la clonacion de datos
-     */
-    public static Usuarios clonUsersRequest(NewUserInputDTO request)
-    {
-        Usuarios user = new Usuarios();
-        user.setLogin(request.getLoginname());
-        user.setNombres(request.getNombres());
-        user.setApellidos(request.getApellidos());
-        user.setEmail(request.getEmail());
-        user.setClave(request.getClave());
-        user.setHabilitado(new Long("1"));
-        user.setFecha_registro(new Date());
-        return user;
     }
 
     /**
