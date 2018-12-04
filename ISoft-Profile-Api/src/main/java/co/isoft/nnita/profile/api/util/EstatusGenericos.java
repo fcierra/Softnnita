@@ -16,7 +16,6 @@ public enum EstatusGenericos
     WARN("WARN", "202","PROCESO Efectivo de la operacion con advertencias"),
     ERROR("ERROR","500", "PROCESO Fallido de la operacion"),
 
-    PROFILER_USER_DOES_NOT_EXIST("001", "El usuario no existe", "login.error.001"),
     PROFILER_USER_WRONG_KEY("002", "Clave Errada de usuario.", "login.error.002"),
     PROFILER_USER_WITHOUT_PROFILES("003", "Usuario sin perfiles.","login.error.003"),
     PROFILER_USER_CURRENT_PASS("004", "Clave Actual Errada.","login.error.004"),
@@ -24,8 +23,9 @@ public enum EstatusGenericos
     PROFILER_USER_OR_PASS_DOES_NOT_EXIST("001", "El usuario no existe", "login.error.006"),
     PROFILER_USER_PROFILE_DONT_PERMISION("007", "Perfil sin permisos", "login.error.007"),
     PROFILER_USER_CREATE_FAIL("008", "Falla Creacion usuario", "login.error.008"),
-    PROFILER_USER_EXIST("009", "El usuario ya existe", "login.error.009"),
+
     PROFILER_USER_PROFILE_GUEST_NOT_DONT_EXIST("010", "El perfil por defecto no existe", "login.error.010"),
+
 
 
     PROFILER_USER_PROFILE_EXIST("101", "El perfil ya existe", "profile.ws.usuarios.error.101"),
@@ -35,6 +35,9 @@ public enum EstatusGenericos
     PROFILER_USER_EMAIL_MAX_LENGTH("105", "El correo de usuario no cumple con las especificaciones", "profile.ws.usuarios.error.105"),
     PROFILER_USER_PASS_MAX_LENGTH("106", "La clave de usuario no cumple con las especificaciones", "profile.ws.usuarios.error.106"),
     PROFILER_USER_EMAIL_EXIST("107", "El correo ya existe", "profile.ws.usuarios.error.107"),
+    PROFILER_USER_EXIST("108", "El usuario ya existe", "profile.ws.usuarios.error.108"),
+    PROFILER_USER_DOES_NOT_EXIST("109", "El usuario ya existe", "profile.ws.usuarios.error.109"),
+
 
 
     PROFILER_GENERIC_ERROR_FIELD_REQUIRED("091", "Error generico, campo requerido", "login.error.091"),
