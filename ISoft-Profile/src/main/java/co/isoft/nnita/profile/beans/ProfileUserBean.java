@@ -1,7 +1,6 @@
 package co.isoft.nnita.profile.beans;
 
-import co.isoft.nnita.logger.util.Log;
-import co.isoft.nnita.logger.util.ModulesIsoft;
+
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Menus;
 import co.isoft.nnita.profile.api.models.Menus_Item;
@@ -105,7 +104,7 @@ public class ProfileUserBean extends ISoftProfilerBaseBean implements Serializab
             String code_error = e.getCode();
             String message = ISoftProfilerBaseBean.findMessageError(code_error);
             addErrorMessage(message);
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), loginUser, "Error consultando los menus de usuario", e);
+
         }
     }
 

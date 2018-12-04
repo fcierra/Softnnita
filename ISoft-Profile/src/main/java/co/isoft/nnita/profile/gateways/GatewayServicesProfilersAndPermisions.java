@@ -1,31 +1,15 @@
 package co.isoft.nnita.profile.gateways;
 
-import co.isoft.nnita.logger.util.Log;
-import co.isoft.nnita.logger.util.ModulesIsoft;
-import co.isoft.nnita.profile.api.dto.input.ModifyPermissionProfileInputDTO;
-import co.isoft.nnita.profile.api.dto.input.NewProfileInputDTO;
-import co.isoft.nnita.profile.api.dto.output.ModifyPermissionProfileOutDTO;
-import co.isoft.nnita.profile.api.dto.output.PermissionToProfileOutDTO;
-import co.isoft.nnita.profile.api.exceptions.LicenseException;
-import co.isoft.nnita.profile.api.exceptions.ParamsException;
-import co.isoft.nnita.profile.api.exceptions.ServiceException;
-import co.isoft.nnita.profile.api.util.CommonsResponse;
-import co.isoft.nnita.profile.api.util.GatewayBaseBean;
-import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
 import co.isoft.nnita.profile.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Map;
-
-import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.*;
 
 /**
  * Gateway de microservicios de operaciones sobre
@@ -79,7 +63,7 @@ public class GatewayServicesProfilersAndPermisions
      * @param sharedkey Llave de licenciamiento
      * @return Response comun con los datos de servicio
      */
-    @RequestMapping(value = "/consultarperfiles", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@RequestMapping(value = "/consultarperfiles", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse findprofiles(@RequestParam String sharedkey, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
@@ -114,7 +98,7 @@ public class GatewayServicesProfilersAndPermisions
         }
         Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [consultarperfiles].");
         return response.toOk();
-    }
+    }*/
 
     /**
      * Crea un perfil en el sistema
@@ -122,7 +106,7 @@ public class GatewayServicesProfilersAndPermisions
      * @param sharedkey Llave de licenciamiento
      * @return Response comun con los datos de servicio
      */
-    @RequestMapping(value = "/crearperfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@RequestMapping(value = "/crearperfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse createprofile(@RequestParam String sharedkey, @RequestBody NewProfileInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
@@ -160,7 +144,7 @@ public class GatewayServicesProfilersAndPermisions
         }
         Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [crearperfil].");
         return response.toOk();
-    }
+    }/*
 
     /**
      * Crea un perfil en el sistema
@@ -168,7 +152,7 @@ public class GatewayServicesProfilersAndPermisions
      * @param sharedkey Llave de licenciamiento
      * @return Response comun con los datos de servicio
      */
-    @RequestMapping(value = "/modificarperrfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@RequestMapping(value = "/modificarperrfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse modificarperrfil(@RequestParam String sharedkey, @RequestBody NewProfileInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
@@ -206,7 +190,7 @@ public class GatewayServicesProfilersAndPermisions
         }
         Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [modificarperrfil].");
         return response.toOk();
-    }
+    }*/
 
     /**
      * Consulta los permisos asociados a un perfil
@@ -216,7 +200,7 @@ public class GatewayServicesProfilersAndPermisions
      * @param requestTransaction request del ambito
      * @return response comun
      */
-    @RequestMapping(value = "/consultarpermisosperfil", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@RequestMapping(value = "/consultarpermisosperfil", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse consultarpermisosperfil(@RequestParam String sharedkey, @RequestParam String nombreperfil, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
@@ -258,7 +242,7 @@ public class GatewayServicesProfilersAndPermisions
         }
         Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [crearperfil].");
         return response.toOk();
-    }
+    }*/
 
     /**
      * Modifica los permisos de un determinado perfil
@@ -267,7 +251,7 @@ public class GatewayServicesProfilersAndPermisions
      * @param requestTransaction request del ambito
      * @return Response comun.
      */
-    @RequestMapping(value = "/modificarpermisosperfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@RequestMapping(value = "/modificarpermisosperfil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse modificarpermisosperfil(@RequestParam String sharedkey, @RequestBody ModifyPermissionProfileInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
@@ -300,5 +284,5 @@ public class GatewayServicesProfilersAndPermisions
         }
         Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [modificarpermisosperfil].");
         return response.toOk();
-    }
+    }*/
 }

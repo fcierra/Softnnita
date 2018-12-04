@@ -1,7 +1,6 @@
 package co.isoft.nnita.profile.beans;
 
-import co.isoft.nnita.logger.util.Log;
-import co.isoft.nnita.logger.util.ModulesIsoft;
+
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.modelsweb.DatosSesionUsuario;
@@ -129,11 +128,11 @@ public class LoginBean extends ISoftProfilerBaseBean implements Serializable
             String code_error = e.getCode();
             String message = ISoftProfilerBaseBean.findMessageError(code_error);
             addErrorMessage(message);
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), username, "Error consultando usuario", e);
+
         }
         catch (Exception e)
         {
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), ISoftProfilerBaseBean.USER_GUEST_LOG, "Error GENERICO consultando usuario", e);
+
         }
         return EnumNavigationConfig.DONT_ACCESS.getName();
     }

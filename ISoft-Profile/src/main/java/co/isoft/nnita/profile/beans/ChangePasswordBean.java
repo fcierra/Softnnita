@@ -1,7 +1,5 @@
 package co.isoft.nnita.profile.beans;
 
-import co.isoft.nnita.logger.util.Log;
-import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.services.UsuariosService;
 import co.isoft.nnita.profile.configuration.dom.ISesionActive;
@@ -74,7 +72,7 @@ public class ChangePasswordBean extends ISoftProfilerBaseBean implements Seriali
             String code_error = ex.getCode();
             String message = ISoftProfilerBaseBean.findMessageError(code_error);
             addErrorMessage(message);
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), username, "Error cambiando la clave de usuario", ex);
+
         }
         return EnumNavigationConfig.DONT_ACCESS.getName();
     }

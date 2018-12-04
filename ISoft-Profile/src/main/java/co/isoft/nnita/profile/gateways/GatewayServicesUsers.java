@@ -1,12 +1,8 @@
 package co.isoft.nnita.profile.gateways;
 
-import co.isoft.nnita.logger.util.Log;
-import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.dto.input.AddProfileToUserInputDTO;
-import co.isoft.nnita.profile.api.dto.input.AdminStatusUsersInputDTO;
 import co.isoft.nnita.profile.api.dto.input.NewUserInputDTO;
 import co.isoft.nnita.profile.api.dto.input.NewUsersMassiveInputDTO;
-import co.isoft.nnita.profile.api.dto.output.ProfilesToUserOutDTO;
 import co.isoft.nnita.profile.api.dto.output.UsersAllOutDTO;
 import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
 import co.isoft.nnita.profile.api.exceptions.LicenseException;
@@ -32,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.KEY_ERRORS_GENERIC;
-import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_USER_TRANSACTION;
 
 /**
  * Gateway de microservicios de operaciones sobre usuarios ISoftProfiler
@@ -243,16 +238,16 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de respuesta
      */
     @RequestMapping(value = "/crearusuariosisoftmasivo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse createusersmassive(@RequestParam String sharedkey, @RequestBody NewUsersMassiveInputDTO request, HttpServletRequest requestTransaction)
+    public CommonsResponse createusersmassive(@RequestParam String llave_seguridad, @RequestBody NewUsersMassiveInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
-            Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
+            logger.debug("Se valida la licencia si puede consumir los procesos.");
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(llave_seguridad, webUtils.getClientIp(requestTransaction));
 
-            Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
+            logger.debug("Se valida los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getPassword());
 
             List<UsersMassiveOutDTO> list = userServices.createUsersMassiveIsoftProfile(mapConfiguration, request.getPassword(), request.getUsuariosYPerfil());
@@ -260,29 +255,29 @@ public class GatewayServicesUsers
         }
         catch (ParamsException ex)
         {
-            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            logger.error("Parametros  de Licencia Errados  WS [crearusuariosisoftmasivo], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (LicenseException ex)
         {
-            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
+            response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), llave_seguridad);
+            logger.error("Parametros  de Licencia Errados  WS [consultarusuariossistema], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            logger.warn("Error de Servicio  WS [consultarusuariossistema].", ex);
             return response;
         }
         catch (Exception ex)
         {
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "[crearusuariosisoftmasivo]", ex);
+            logger.warn("Error Generico en  WS [consultarusuariossistema].", ex);
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
-        Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [crearusuariosisoftmasivo].");
+        logger.info("Se retorna respuesta efectiva del WS [consultarusuariossistema].");
         response.toOk();
         return response;
     }
@@ -295,14 +290,14 @@ public class GatewayServicesUsers
      * @return Response comun con los datos de servicio
      */
     @RequestMapping(value = "/modificarusuarioisoft", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse modifyuser(@RequestParam String sharedkey, @RequestBody NewUserInputDTO request, HttpServletRequest requestTransaction)
+    public CommonsResponse modifyuser(@RequestParam String llave_seguridad, @RequestBody NewUserInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
-            Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
+            logger.debug("Se valida la licencia si puede consumir los procesos.");
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(llave_seguridad, webUtils.getClientIp(requestTransaction));
 
             /*Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getUsuario(), request.getNombres());
@@ -313,23 +308,23 @@ public class GatewayServicesUsers
         }
         catch (LicenseException ex)
         {
-            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
+            response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), llave_seguridad);
+            logger.error("Parametros  de Licencia Errados  WS [modificarusuarioisoft], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            logger.warn("Error de Servicio  WS [modificarusuarioisoft].", ex);
             return response;
         }
         catch (Exception ex)
         {
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "[crearusuarioisoft]", ex);
+            logger.warn("Error Generico en  WS [modificarusuarioisoft].", ex);
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
-        Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [crearusuarioisoft].");
+        logger.info("Se retorna respuesta efectiva del WS [modificarusuarioisoft].");
         return response.toOk();
     }
 
@@ -342,16 +337,16 @@ public class GatewayServicesUsers
      * @return Response comun
      */
     @RequestMapping(value = "/asociarperfilusuario", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommonsResponse addprofileuser(@RequestParam String sharedkey, @RequestBody AddProfileToUserInputDTO request, HttpServletRequest requestTransaction)
+    public CommonsResponse addprofileuser(@RequestParam String llave_seguridad, @RequestBody AddProfileToUserInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
         Map<String, String> mapConfiguration = null;
         try
         {
-            Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, "Se valida la licencia si puede consumir los procesos.");
-            mapConfiguration = GatewayBaseBean.validateLicenceToWS(sharedkey, webUtils.getClientIp(requestTransaction));
+            logger.debug("Se valida la licencia si puede consumir los procesos.");
+            mapConfiguration = GatewayBaseBean.validateLicenceToWS(llave_seguridad, webUtils.getClientIp(requestTransaction));
 
-            Log.getInstance().debug(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se validan los parametros de entrada.");
+            logger.debug("Se valida los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getLoginname());
             GatewayBaseBean.validarParametrosGenericos(request.getCodesProfiles());
 
@@ -361,29 +356,29 @@ public class GatewayServicesUsers
         }
         catch (ParamsException ex)
         {
-            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            logger.error("Parametros  de Licencia Errados  WS [asociarperfilusuario], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (LicenseException ex)
         {
-            String message = response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), sharedkey);
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), sharedkey, message, ex);
+            response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), llave_seguridad);
+            logger.error("Parametros  de Licencia Errados  WS [asociarperfilusuario], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (ServiceException ex)
         {
-            String message = response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            Log.getInstance().warn(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), message, ex);
+            response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
+            logger.warn("Error de Servicio  WS [asociarperfilusuario].", ex);
             return response;
         }
         catch (Exception ex)
         {
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "[asociarperfilusuario]", ex);
+            logger.warn("Error Generico en  WS [asociarperfilusuario].", ex);
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
-        Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [asociarperfilusuario].");
+        logger.info("Se retorna respuesta efectiva del WS [asociarperfilusuario].");
         return response.toOk();
     }
 
@@ -394,7 +389,7 @@ public class GatewayServicesUsers
      * @param request   Cuerpo de Respuesto
      * @return Response comun
      */
-    @RequestMapping(value = "/desasociarperfilusuario", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@RequestMapping(value = "/desasociarperfilusuario", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse unaddprofileuser(@RequestParam String sharedkey, @RequestBody AddProfileToUserInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
@@ -438,7 +433,7 @@ public class GatewayServicesUsers
         }
         Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [desasociarperfilusuario].");
         return response.toOk();
-    }
+    }*/
 
     /**
      * Servicio que administra el estatus de un usuario
@@ -447,7 +442,7 @@ public class GatewayServicesUsers
      * @param request   Cuerpo de Entrada
      * @return Response comun
      */
-    @RequestMapping(value = "/adminstatususuarios", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@RequestMapping(value = "/adminstatususuarios", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse managedstatususuarios(@RequestParam String sharedkey, @RequestBody AdminStatusUsersInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
@@ -489,7 +484,7 @@ public class GatewayServicesUsers
         }
         Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [adminstatususuarios].");
         return response.toOk();
-    }
+    }*/
 
     /**
      * Servicio que consulta los perfiles de un determinado usuario
@@ -497,7 +492,7 @@ public class GatewayServicesUsers
      * @param loginuser Usuario a CONSULTAR
      * @return Response comun con los datos de servicio
      */
-    @RequestMapping(value = "/consultarperfilesusuario", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@RequestMapping(value = "/consultarperfilesusuario", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse findprofilesusers(@RequestParam String loginuser, @RequestParam String sharedkey, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
@@ -532,5 +527,5 @@ public class GatewayServicesUsers
         }
         Log.getInstance().info(ModulesIsoft.ISOFT_PROFILE.getCodigo(), mapConfiguration.get(MAP_USER_TRANSACTION), "Se retorna respuesta efectiva del WS [consultarperfilesusuario].");
         return response.toOk();
-    }
+    }*/
 }

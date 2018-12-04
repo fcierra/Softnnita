@@ -1,17 +1,11 @@
 package co.isoft.nnita.profile.configuration.spring.security;
 
-import co.isoft.nnita.logger.util.ModulesIsoft;
-import co.isoft.nnita.profile.api.dto.output.UserDTO;
 import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
-import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Permisos;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
 import co.isoft.nnita.profile.api.services.UsuariosService;
-import co.isoft.nnita.profile.gateways.GatewayServicesUsers;
-import co.isoft.nnita.profile.impl.service.UsuariosServiceImpl;
-import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -135,7 +129,7 @@ public class CustomUserDetailsService implements UserDetailsServiceCustomLogin
         }
         catch (ServiceException e)
         {
-            co.isoft.nnita.logger.util.Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), codeperfil, "Falla al tratar de buscar los permisos del perfil por defecto del usuario", e);
+
             logger.error("Falla al tratar de buscar los permisos del perfil por defecto del usuario", e);
         }
         return null;

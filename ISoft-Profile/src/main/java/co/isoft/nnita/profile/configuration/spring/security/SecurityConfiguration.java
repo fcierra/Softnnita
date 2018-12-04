@@ -1,7 +1,5 @@
 package co.isoft.nnita.profile.configuration.spring.security;
 
-import co.isoft.nnita.logger.util.Log;
-import co.isoft.nnita.logger.util.ModulesIsoft;
 import co.isoft.nnita.profile.api.exceptions.ServiceException;
 import co.isoft.nnita.profile.api.models.Menus_Item;
 import co.isoft.nnita.profile.api.services.PerfilesYPermisosService;
@@ -64,7 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
         }
         catch (ServiceException ex)
         {
-            Log.getInstance().error(ModulesIsoft.ISOFT_PROFILE.getCodigo(), "SecurityConfiguration", "Error configurando permisos", ex);
+
         }
 
         http.authorizeRequests().
