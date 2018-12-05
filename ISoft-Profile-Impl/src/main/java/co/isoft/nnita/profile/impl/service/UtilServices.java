@@ -4,8 +4,10 @@ import co.isoft.nnita.profile.api.dto.input.NewUserInputDTO;
 import co.isoft.nnita.profile.api.dto.output.UserDTO;
 import co.isoft.nnita.profile.api.exceptions.ParamsException;
 import co.isoft.nnita.profile.api.models.DetalleBitacora;
+import co.isoft.nnita.profile.api.models.Perfiles;
 import co.isoft.nnita.profile.api.models.Usuarios;
 import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
+import co.isoft.nnita.profile.api.util.ConstantesBaseBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

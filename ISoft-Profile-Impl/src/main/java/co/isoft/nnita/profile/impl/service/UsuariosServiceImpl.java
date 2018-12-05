@@ -283,6 +283,13 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
 
             usuarioDto.setClave(passwordEncoder.encode(usuarioDto.getClave()));
             Usuarios usuario = clonDtoToUser(usuarioDto);
+
+            //Se agrega el perfil por defecto
+            Perfiles perfil = new Perfiles();
+            perfil.setNombre_perfil(ConstantesBaseBean.GUEST);
+            perfil.setHabilitado(1l);
+            perfil = perfilesDao.buscarObjetoUnico(perfil);
+            usuario.setPerfilDefault(perfil);
             usuariosDao.agregar(usuario);
             logger.info("Se agrega el usuario [" + usuario.getLogin() + "]");
             listDetails.add(recordDetailBinnacleUsersMassiveSucess("", usuario.getLogin()));
