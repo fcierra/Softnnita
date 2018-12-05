@@ -103,7 +103,7 @@ public interface UsuariosService
      * @param listUsers usuarios y perfiles a crear
      * @throws ServiceException
      */
-    public List<UsersMassiveOutDTO> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration,String passord, List<UsersMassiveOutDTO> listUsers) throws ServiceException;
+    public List<UsersMassiveOutDTO> createUsersMassive(Map<String,String> mapConfiguration,String passord, List<UsersMassiveOutDTO> listUsers) throws ServiceException, ParamsException;
 
     /**
      * Metodo que administra la disponibilidad o estatus de un usuario

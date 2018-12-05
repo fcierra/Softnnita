@@ -71,6 +71,10 @@ public class BeanServicesConfig
         return new PerfilesYPermisosServiceImpl(bitacoraServiceImpl());
     }
 
+    /**
+     * Recursos de texto del sistema
+     * @return
+     */
     @Bean
     public MessageSource messageSource()
     {

@@ -162,9 +162,9 @@ public class ProxyUsuariosServiceImpl implements UsuariosService
     }
 
     @Override
-    public List<UsersMassiveOutDTO> createUsersMassiveIsoftProfile(Map<String,String> mapConfiguration, String passord, List<UsersMassiveOutDTO> listUsers) throws ServiceException
+    public List<UsersMassiveOutDTO> createUsersMassive(Map<String,String> mapConfiguration, String passord, List<UsersMassiveOutDTO> listUsers) throws ServiceException, ParamsException
     {
-        return getUsuariosService().createUsersMassiveIsoftProfile(mapConfiguration, passord, listUsers);
+        return getUsuariosService().createUsersMassive(mapConfiguration, passord, listUsers);
     }
 
     @Override

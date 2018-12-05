@@ -12,27 +12,31 @@ public class UsersMassiveOutDTO
     /**
      * Login del usuario masivo a crear
      */
-    private String loginname;
+    private String usuario;
     /**
      * Nombres de usuario
      */
-    private String names;
+    private String nombres;
     /**
      * Apellidos de usuario
      */
-    private String lastname;
+    private String apellidos;
     /**
      * Perfil del usuario masivo a crear
      */
     private String codeperfil;
     /**
-     * Descripcion de las respuesta de response
+     * Estatus de la transaccion de la creacion del usuario
      */
-    private String description;
+    private String estatus;
     /**
      * Codigo de la transaccion
      */
-    private String codetransaction;
+    private String codigo;
+    /**
+     * Descripcion de las respuesta de response
+     */
+    private String descripcion;
 
     /**
      * Constructor por defecto
@@ -43,31 +47,32 @@ public class UsersMassiveOutDTO
 
     /**
      * Constructor que inicializa el valor del login de usuario
-     * @param loginname login de usuario
+     *
+     * @param usuario login de usuario
      */
-    public UsersMassiveOutDTO(String loginname)
+    public UsersMassiveOutDTO(String usuario)
     {
-        this.loginname = loginname;
+        this.usuario = usuario;
     }
 
     /**
-     * Obtienen el loginname del usuario masivo a crear
+     * Obtienen el usuario del usuario masivo a crear
      *
-     * @return loginname
+     * @return usuario
      */
-    public String getLoginname()
+    public String getUsuario()
     {
-        return loginname;
+        return usuario;
     }
 
     /**
-     * Asigna un loginname del usuario masivo a crear
+     * Asigna un usuario del usuario masivo a crear
      *
-     * @param loginname valor a asignar
+     * @param usuario valor a asignar
      */
-    public void setLoginname(String loginname)
+    public void setUsuario(String usuario)
     {
-        this.loginname = loginname;
+        this.usuario = usuario;
     }
 
     /**
@@ -97,19 +102,19 @@ public class UsersMassiveOutDTO
      *
      * @return
      */
-    public String getNames()
+    public String getNombres()
     {
-        return names;
+        return nombres;
     }
 
     /**
      * Asigna un valor a los nombres al item
      *
-     * @param names valor a asignar
+     * @param nombres valor a asignar
      */
-    public void setNames(String names)
+    public void setNombres(String nombres)
     {
-        this.names = names;
+        this.nombres = nombres;
     }
 
     /**
@@ -117,19 +122,19 @@ public class UsersMassiveOutDTO
      *
      * @return apellido a usar
      */
-    public String getLastname()
+    public String getApellidos()
     {
-        return lastname;
+        return apellidos;
     }
 
     /**
      * Asigna un valor a los apellidos del usuario
      *
-     * @param lastname valor a asignar
+     * @param apellidos valor a asignar
      */
-    public void setLastname(String lastname)
+    public void setApellidos(String apellidos)
     {
-        this.lastname = lastname;
+        this.apellidos = apellidos;
     }
 
     /**
@@ -138,19 +143,19 @@ public class UsersMassiveOutDTO
      *
      * @return descripcion de las respuestas
      */
-    public String getDescription()
+    public String getDescripcion()
     {
-        return description;
+        return descripcion;
     }
 
     /**
      * Asigna un valor a la descripcion
      *
-     * @param description valor a asignar.
+     * @param descripcion valor a asignar.
      */
-    public void setDescription(String description)
+    public void setDescripcion(String descripcion)
     {
-        this.description = description;
+        this.descripcion = descripcion;
     }
 
     /**
@@ -158,18 +163,38 @@ public class UsersMassiveOutDTO
      *
      * @return valor de la transaccion
      */
-    public String getCodetransaction()
+    public String getCodigo()
     {
-        return codetransaction;
+        return codigo;
     }
 
     /**
      * Asigna un valor al codigo de la transaccion
      *
-     * @param codetransaction valor a asignar
+     * @param codigo valor a asignar
      */
-    public void setCodetransaction(String codetransaction)
+    public void setCodigo(String codigo)
     {
-        this.codetransaction = codetransaction;
+        this.codigo = codigo;
+    }
+
+    /**
+     * Obtiene el estatus de la transaccion
+     *
+     * @return
+     */
+    public String getEstatus()
+    {
+        return estatus;
+    }
+
+    /**
+     * Asigna un valor al status de la transaccion del usuario
+     *
+     * @param estatus
+     */
+    public void setEstatus(String estatus)
+    {
+        this.estatus = estatus;
     }
 }

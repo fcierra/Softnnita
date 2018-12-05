@@ -1,12 +1,12 @@
 package co.isoft.nnita.profile.impl.util;
 
 import co.isoft.nnita.profile.api.dto.input.NewUserInputDTO;
-import co.isoft.nnita.profile.api.dto.output.UserDTO;
+import co.isoft.nnita.profile.api.dto.output.UsersMassiveOutDTO;
 import co.isoft.nnita.profile.api.exceptions.ParamsException;
+import co.isoft.nnita.profile.api.util.ConstantesBaseBean;
 import co.isoft.nnita.profile.api.util.EmailValidator;
 import co.isoft.nnita.profile.impl.service.UtilServices;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static co.isoft.nnita.profile.api.util.EstatusGenericos.*;
@@ -86,7 +86,7 @@ public abstract class ValidationsBasicModelUsuarios extends UtilServices
      */
     public static void validatePasswordUsers(String param) throws ParamsException
     {
-        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&+=])(?=\\S+$).{8,}$";
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&+=])(?=\\S+$).{5,}$";
         if (!Pattern.matches(regex , param))
             throw new ParamsException(PROFILER_USER_PASS_MAX_LENGTH.getDescription(), PROFILER_USER_PASS_MAX_LENGTH.getCode(), PROFILER_USER_PASS_MAX_LENGTH.getRefbundle());
     }
@@ -106,6 +106,19 @@ public abstract class ValidationsBasicModelUsuarios extends UtilServices
         validateNamesUsers(user.getNombres());
         validateNamesUsers(user.getApellidos());
         validatePasswordUsers(user.getClave());
+    }
+
+    /**
+     * Valida la integridad del objeto usuarios masivos
+     * para su creacion
+     * @param user Objeto usuario masivo
+     * @throws ParamsException Ocurre si falla la operacion
+     */
+    public static void validateIntegriyObjectUsersMassive(UsersMassiveOutDTO user) throws ParamsException
+    {
+        ValidationsBasicModelUsuarios.validateLoginUsers(user.getUsuario());
+        ValidationsBasicModelUsuarios.validateNamesUsers(user.getNombres() != null && !user.getNombres().trim().equals("") ? user.getNombres() : ConstantesBaseBean.EMPTY);
+        ValidationsBasicModelUsuarios.validateNamesUsers(user.getApellidos() != null && !user.getApellidos().trim().equals("") ? user.getApellidos() : ConstantesBaseBean.EMPTY);
     }
 
 

@@ -12,7 +12,9 @@ import org.apache.commons.logging.LogFactory;
 import java.lang.reflect.Field;
 import java.util.Date;
 
+import static co.isoft.nnita.profile.api.util.EstatusGenericos.INFO;
 import static co.isoft.nnita.profile.api.util.EstatusGenericos.PROFILER_GENERIC_ERROR_PARAMS;
+import static co.isoft.nnita.profile.api.util.EstatusGenericos.PROFILER_USER_ADD_SUCCESS;
 
 /**
  * Implementacion Original de consulta de usuarios Isoftnnita
@@ -58,6 +60,23 @@ public abstract class UtilServices
                 }
             }
         }
+    }
+
+    /**
+     * Genera una respuesta para los items de usuaros masivos
+     * @param codeProfile codigo de perfil agregado
+     * @param description descripcion de la transaccion
+     * @param code codigo de la transaccion
+     * @param status status de la transaccion
+     * @return Objeto de respuestas
+     */
+    public UsersMassiveOutDTO recordOutCreateUsersMassive(String codeProfile, String description,String code,String status ){
+        UsersMassiveOutDTO item = new UsersMassiveOutDTO();
+        item.setCodeperfil(codeProfile);
+        item.setDescripcion(description);
+        item.setCodigo(code);
+        item.setEstatus(status);
+        return item;
     }
 
     /**
@@ -203,12 +222,12 @@ public abstract class UtilServices
      */
     public UsersMassiveOutDTO construcObjectResponseAddProfileOk (Usuarios user, String codeprofile){
         UsersMassiveOutDTO usersCreate = new UsersMassiveOutDTO();
-        usersCreate.setLoginname(user.getLogin());
-        usersCreate.setNames(user.getNombres());
-        usersCreate.setLastname(user.getApellidos());
+        usersCreate.setUsuario(user.getLogin());
+        usersCreate.setNombres(user.getNombres());
+        usersCreate.setApellidos(user.getApellidos());
         usersCreate.setCodeperfil(codeprofile);
-        usersCreate.setDescription("Se agrega satisfactoriamente el perfil.");
-        usersCreate.setCodetransaction("200");
+        usersCreate.setDescripcion("Se agrega satisfactoriamente el perfil.");
+        usersCreate.setCodigo("200");
         return usersCreate;
     }
 
@@ -221,12 +240,12 @@ public abstract class UtilServices
      */
     public UsersMassiveOutDTO construcObjectResponseUnAddProfileOk (Usuarios user, String codeprofile){
         UsersMassiveOutDTO usersCreate = new UsersMassiveOutDTO();
-        usersCreate.setNames(user.getNombres());
-        usersCreate.setLoginname(user.getLogin());
-        usersCreate.setLastname(user.getApellidos());
+        usersCreate.setNombres(user.getNombres());
+        usersCreate.setUsuario(user.getLogin());
+        usersCreate.setApellidos(user.getApellidos());
         usersCreate.setCodeperfil(codeprofile);
-        usersCreate.setDescription("Se desasocia satisfactoriamente el perfil.");
-        usersCreate.setCodetransaction("200");
+        usersCreate.setDescripcion("Se desasocia satisfactoriamente el perfil.");
+        usersCreate.setCodigo("200");
         return usersCreate;
     }
 
@@ -239,8 +258,8 @@ public abstract class UtilServices
      */
     public UsersMassiveOutDTO construcObjectResponseAddProfileFail (Usuarios user, String codeprofile){
         UsersMassiveOutDTO usersCreate = construcObjectResponseAddProfileOk(user,codeprofile);
-        usersCreate.setDescription("No se registra la operacion, el perfil indicado no existe.");
-        usersCreate.setCodetransaction("404");
+        usersCreate.setDescripcion("No se registra la operacion, el perfil indicado no existe.");
+        usersCreate.setCodigo("404");
         return usersCreate;
     }
 
@@ -253,8 +272,8 @@ public abstract class UtilServices
      */
     public UsersMassiveOutDTO construcObjectResponseUnAddProfileFail (Usuarios user, String codeprofile){
         UsersMassiveOutDTO usersCreate = construcObjectResponseAddProfileOk(user,codeprofile);
-        usersCreate.setDescription("No se registra la operacion, el perfil indicado no existe o no esta asociado al usuario.");
-        usersCreate.setCodetransaction("404");
+        usersCreate.setDescripcion("No se registra la operacion, el perfil indicado no existe o no esta asociado al usuario.");
+        usersCreate.setCodigo("404");
         return usersCreate;
     }
 

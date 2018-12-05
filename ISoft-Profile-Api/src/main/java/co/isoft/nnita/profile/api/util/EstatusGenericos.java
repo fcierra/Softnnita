@@ -13,8 +13,8 @@ public enum EstatusGenericos
 {
     INFO("INFO","200", "Proceso Efectivo de la operacion"),
     INFO_EMPTY("INFO","404", "Consulta sin valores"),
-    WARN("WARN", "202","PROCESO Efectivo de la operacion con advertencias"),
-    ERROR("ERROR","500", "PROCESO Fallido de la operacion"),
+    WARN("WARN", "202","Proceso Efectivo de la operacion con advertencias"),
+    ERROR("ERROR","500", "Proceso Fallido de la operacion"),
 
     PROFILER_USER_WRONG_KEY("002", "Clave Errada de usuario.", "login.error.002"),
     PROFILER_USER_WITHOUT_PROFILES("003", "Usuario sin perfiles.","login.error.003"),
@@ -37,6 +37,8 @@ public enum EstatusGenericos
     PROFILER_USER_EMAIL_EXIST("107", "El correo ya existe", "profile.ws.usuarios.error.107"),
     PROFILER_USER_EXIST("108", "El usuario ya existe", "profile.ws.usuarios.error.108"),
     PROFILER_USER_DOES_NOT_EXIST("109", "El usuario ya existe", "profile.ws.usuarios.error.109"),
+    PROFILER_USER_ADD_SUCCESS("110", "El usuario se agrega correctamente.", "profile.ws.usuarios.error.110"),
+    PROFILER_USER_ADD_PROFILE_GUEST_SUCCESS("111", "Se agrega el perfil por defecto. El perfil indicado no existia", "profile.ws.usuarios.error.111"),
 
 
 

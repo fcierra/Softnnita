@@ -131,7 +131,7 @@ public class GatewayServicesUsers
         }
         catch (Exception ex)
         {
-            logger.warn("Error Generico en  WS [consultarusuario].", ex);
+            logger.error("Error Generico en  WS [consultarusuario].", ex);
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
@@ -175,7 +175,7 @@ public class GatewayServicesUsers
         }
         catch (Exception ex)
         {
-            logger.warn("Error Generico en  WS [consultarusuariossistema].", ex);
+            logger.error("Error Generico en  WS [consultarusuariossistema].", ex);
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
@@ -222,7 +222,7 @@ public class GatewayServicesUsers
         }
         catch (Exception ex)
         {
-            logger.warn("Error Generico en  WS [crearusuarioisoft].", ex);
+            logger.error("Error Generico en  WS [crearusuarioisoft].", ex);
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
@@ -233,11 +233,11 @@ public class GatewayServicesUsers
     /**
      * Crea usuarios masivos en el sistema
      *
-     * @param sharedkey Licencia de consumo
+     * @param llave_seguridad Licencia de consumo
      * @param request   cuerpo del request
      * @return Response comun con los datos de respuesta
      */
-    @RequestMapping(value = "/crearusuariosisoftmasivo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/crearusuariosmasivo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonsResponse createusersmassive(@RequestParam String llave_seguridad, @RequestBody NewUsersMassiveInputDTO request, HttpServletRequest requestTransaction)
     {
         CommonsResponse response = new CommonsResponse();
@@ -250,34 +250,34 @@ public class GatewayServicesUsers
             logger.debug("Se valida los parametros de entrada.");
             GatewayBaseBean.validarParametrosGenericos(request.getPassword());
 
-            List<UsersMassiveOutDTO> list = userServices.createUsersMassiveIsoftProfile(mapConfiguration, request.getPassword(), request.getUsuariosYPerfil());
+            List<UsersMassiveOutDTO> list = userServices.createUsersMassive(mapConfiguration, request.getPassword(), request.getUsuariosYPerfil());
             response.setResponse(list);
         }
         catch (ParamsException ex)
         {
             response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            logger.error("Parametros  de Licencia Errados  WS [crearusuariosisoftmasivo], key["+llave_seguridad+"].", ex);
+            logger.error("Parametros  de Licencia Errados  WS [crearusuariosmasivo], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (LicenseException ex)
         {
             response.toLicenceWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode(), llave_seguridad);
-            logger.error("Parametros  de Licencia Errados  WS [consultarusuariossistema], key["+llave_seguridad+"].", ex);
+            logger.error("Parametros  de Licencia Errados  WS [crearusuariosmasivo], key["+llave_seguridad+"].", ex);
             return response;
         }
         catch (ServiceException ex)
         {
             response.toParamsWarn(messageSource, KEY_ERRORS_GENERIC + ex.getCode());
-            logger.warn("Error de Servicio  WS [consultarusuariossistema].", ex);
+            logger.warn("Error de Servicio  WS [crearusuariosmasivo].", ex);
             return response;
         }
         catch (Exception ex)
         {
-            logger.warn("Error Generico en  WS [consultarusuariossistema].", ex);
+            logger.error("Error Generico en  WS [crearusuariosmasivo].", ex);
             GatewayBaseBean.matchToResponses(response);
             return response;
         }
-        logger.info("Se retorna respuesta efectiva del WS [consultarusuariossistema].");
+        logger.info("Se retorna respuesta efectiva del WS [crearusuariosmasivo].");
         response.toOk();
         return response;
     }
