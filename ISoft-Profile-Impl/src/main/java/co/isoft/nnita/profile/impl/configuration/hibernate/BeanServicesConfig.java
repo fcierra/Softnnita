@@ -57,7 +57,7 @@ public class BeanServicesConfig
     @Bean
     public UsuariosService usuariosServiceImpl()
     {
-        return new UsuariosServiceImpl(bitacoraServiceImpl());
+        return new UsuariosServiceImpl(bitacoraServiceImpl(),messageSource());
     }
 
     /**

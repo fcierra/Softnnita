@@ -25,14 +25,12 @@ import co.isoft.nnita.profile.impl.util.ValidationsBasicModelUsuarios;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static co.isoft.nnita.profile.api.util.ConstantesBaseBean.MAP_USER_TRANSACTION;
 import static co.isoft.nnita.profile.api.util.EstatusGenericos.*;
@@ -78,12 +76,27 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     /**
      * Servicio de auditorias
      */
-
     private BitacoraService bitacoraService;
 
+
+    /**
+     * Contructyor que inicializa el servicio de bitacora
+     * @param bitacoraService
+     */
     public UsuariosServiceImpl(BitacoraService bitacoraService)
     {
         this.bitacoraService = bitacoraService;
+    }
+
+    /**
+     * Constructor que inicializa los servicios de bitacora
+     * y de mensajeria
+     * @param bitacoraService
+     */
+    public UsuariosServiceImpl(BitacoraService bitacoraService,MessageSource messageSource)
+    {
+        this.bitacoraService = bitacoraService;
+        this.setMessageSource(messageSource);
     }
 
     @Override
@@ -358,7 +371,6 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
     @Override
     public List<UsersMassiveOutDTO> createUsersMassive(Map<String, String> mapConfiguration, String passord, List<UsersMassiveOutDTO> listUsers) throws ServiceException, ParamsException
     {
-
         List<UsersMassiveOutDTO> listResponse = new ArrayList<>();
         List<DetalleBitacora> listDetails = new ArrayList<>();
         try
@@ -367,6 +379,7 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
             ValidationsBasicModelUsuarios.validatePasswordUsers(passord);
             for (UsersMassiveOutDTO item : listUsers)
             {
+
                 Usuarios userExist = usuariosDao.getUsuarioPorLogin(item.getUsuario().toUpperCase());
 
                 //Se crea la respuesta de la lista response
@@ -377,11 +390,12 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                 {
                     try
                     {
+                        logger.debug("Se validan los parametros de entrada");
                         ValidationsBasicModelUsuarios.validateIntegriyObjectUsersMassive(item);
                         userExist = new Usuarios();
                         userExist.setLogin(item.getUsuario());
-                        userExist.setNombres(item.getNombres());
-                        userExist.setApellidos(item.getApellidos());
+                        userExist.setNombres(item.getNombres() != null && !item.getNombres().trim().equals("") ? item.getNombres() : ConstantesBaseBean.EMPTY_NAMES);
+                        userExist.setApellidos(item.getApellidos() != null && !item.getApellidos().trim().equals("") ? item.getApellidos() : ConstantesBaseBean.EMPTY_NAMES);
 
                         //Se encripta la clave
                         passord = passwordEncoder.encode(passord);
@@ -389,8 +403,19 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                         userExist.setFecha_registro(new Date());
                         userExist.setHabilitado(1L);
                         convertAtrrUppercase(userExist);
+
+                        logger.debug("Se agrega el perfil por defecto del usuario.");
+                        Perfiles perfildefecto = new Perfiles();
+                        perfildefecto.setNombre_perfil(ConstantesBaseBean.GUEST);
+                        perfildefecto = perfilesDao.buscarObjetoUnico(perfildefecto);
+                        if (perfildefecto == null){
+                            logger.debug("El perfil indicado ["+ConstantesBaseBean.GUEST+"] no existe.");
+                            throw new DaoException(EstatusGenericos.PROFILER_PROFILE_GUEST_NOT_EXIST.getCode());
+                        }
+                        userExist.setPerfilDefault(perfildefecto);
+
                         usuariosDao.agregar(userExist);
-                        logger.info("Se agrega al usuario [" + userExist.getLogin() + "]");
+                        logger.debug("Se agrega al usuario [" + userExist.getLogin() + "]");
 
                         Perfiles perfil = new Perfiles();
                         perfil.setNombre_perfil(item.getCodeperfil());
@@ -400,33 +425,33 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                         UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
                         if (perfil != null)
                         {
+                            logger.debug("Se valida el perfil indicado ["+item.getCodeperfil()+"] ");
                             convertAtrrUppercase(perfil);
 
                             usuarioPerfil.setUsuario(userExist);
                             usuarioPerfil.setPerfil(perfil);
                             usuarioPerfil.setHabilitado(1L);
-
-                            //Se busca si la relacion no existe
                             UsuarioPerfil userProfileExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
-                            logger.debug("Se agrega el perfil: [" + item.getCodeperfil() + "] al usuario [" + item.getUsuario() + "]");
                             if (userProfileExist == null)
                             {
-                                //Se agrega la relacion.
+                                logger.debug("Se agrega el perfil: [" + item.getCodeperfil() + "] al usuario [" + userExist.getLogin() + "]");
                                 usuarioPerfilDao.agregar(usuarioPerfil);
 
-                                //Se indica que el usuario se agrego satisfactoriamente en su creacion y su perfil
                                 usersCreate = recordOutCreateUsersMassive(perfil.getNombre_perfil(), PROFILER_USER_ADD_SUCCESS.getDescription(), PROFILER_USER_ADD_SUCCESS.getRefbundle(), INFO.getCode());
-                                //Se lista el detalle de la transaccion
+                                logger.debug("Se lista la transaccion en base de datos.");
                                 listDetails.add(recordDetailBinnacleUsersMassiveSucess(item.getCodeperfil(), item.getUsuario()));
                             }
                         }
                         else
                         {
+                            logger.debug("El perfil indicado ["+item.getCodeperfil()+"] no existe, se procede a asociar el perfil ["+ConstantesBaseBean.GUEST+"] ");
                             perfil = new Perfiles();
                             perfil.setNombre_perfil(ConstantesBaseBean.GUEST);
                             perfil = perfilesDao.buscarObjetoUnico(perfil);
-                            if (perfil == null)
-                                throw new DaoException(EstatusGenericos.PROFILER_USER_DOES_NOT_EXIST.getCode());
+                            if (perfil == null){
+                                logger.debug("El perfil indicado ["+ConstantesBaseBean.GUEST+"] no existe.");
+                                throw new DaoException(EstatusGenericos.PROFILER_PROFILE_GUEST_NOT_EXIST.getCode());
+                            }
                             else
                             {
                                 usuarioPerfil.setUsuario(userExist);
@@ -434,16 +459,17 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                                 usuarioPerfil.setHabilitado(1L);
                                 //Se busca si la relacion no existe
                                 UsuarioPerfil userPerfilExist = usuarioPerfilDao.buscarObjetoUnico(usuarioPerfil);
-                                logger.debug("Se agrega el perfil: [" + item.getCodeperfil() + "] al usuario [" + item.getUsuario() + "]");
+
                                 if (userPerfilExist == null)
                                 {
-                                    //Se agrega la relacion.
+                                    logger.debug("Se agrega el perfil: [" + item.getCodeperfil() + "] al usuario [" + item.getUsuario() + "].");
                                     usuarioPerfilDao.agregar(usuarioPerfil);
 
-                                    //Se asocia el perfil por defecto
-                                    usersCreate = recordOutCreateUsersMassive(ConstantesBaseBean.GUEST, PROFILER_USER_ADD_PROFILE_GUEST_SUCCESS.getDescription(), PROFILER_USER_ADD_PROFILE_GUEST_SUCCESS.getRefbundle(), INFO.getCode());
-                                    //Se lista el detalle de la transaccion
-                                    listDetails.add(recordDetailBinnacleUsersMassiveProfileDefault(ConstantesBaseBean.GUEST, item.getCodeperfil(), item.getUsuario()));
+                                    usersCreate = recordOutCreateUsersMassive( item.getCodeperfil() , PROFILER_USER_ADD_PROFILE_GUEST_SUCCESS.getDescription(), PROFILER_USER_ADD_PROFILE_GUEST_SUCCESS.getRefbundle(), INFO.getCode());
+                                    logger.debug("Se lista la transaccion en base de datos.");
+                                    listDetails.add(recordDetailBinnacleUsersMassiveProfileDefault( item.getCodeperfil() , item.getCodeperfil(), item.getUsuario()));
+                                }else{
+                                    logger.debug("El usuario ["+userExist.getLogin()+"] ya tiene asociado el perfil ["+perfil.getNombre_perfil()+"].");
                                 }
                             }
                         }
@@ -455,7 +481,8 @@ public class UsuariosServiceImpl extends UtilServices implements UsuariosService
                 }
                 else
                 {
-                    usersCreate = recordOutCreateUsersMassive(ConstantesBaseBean.EMPTY, PROFILER_USER_DOES_NOT_EXIST.getDescription(), PROFILER_USER_DOES_NOT_EXIST.getRefbundle(), WARN.getCode());
+                    logger.debug("Se busca al usuario y se encuentra repetido");
+                    usersCreate = recordOutCreateUsersMassive(ConstantesBaseBean.EMPTY, PROFILER_USER_EXIST.getDescription(), PROFILER_USER_EXIST.getRefbundle(), WARN.getCode());
                     listDetails.add(recordDetailBinnacleUsersMassiveUserExist(item.getUsuario()));
                 }
                 //Se agrega al item como respuesta

@@ -117,8 +117,8 @@ public abstract class ValidationsBasicModelUsuarios extends UtilServices
     public static void validateIntegriyObjectUsersMassive(UsersMassiveOutDTO user) throws ParamsException
     {
         ValidationsBasicModelUsuarios.validateLoginUsers(user.getUsuario());
-        ValidationsBasicModelUsuarios.validateNamesUsers(user.getNombres() != null && !user.getNombres().trim().equals("") ? user.getNombres() : ConstantesBaseBean.EMPTY);
-        ValidationsBasicModelUsuarios.validateNamesUsers(user.getApellidos() != null && !user.getApellidos().trim().equals("") ? user.getApellidos() : ConstantesBaseBean.EMPTY);
+        ValidationsBasicModelUsuarios.validateNamesUsers(user.getNombres() != null && !user.getNombres().trim().equals("") ? user.getNombres() : ConstantesBaseBean.EMPTY_NAMES);
+        ValidationsBasicModelUsuarios.validateNamesUsers(user.getApellidos() != null && !user.getApellidos().trim().equals("") ? user.getApellidos() : ConstantesBaseBean.EMPTY_NAMES);
     }
 
 

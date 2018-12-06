@@ -36,9 +36,10 @@ public enum EstatusGenericos
     PROFILER_USER_PASS_MAX_LENGTH("106", "La clave de usuario no cumple con las especificaciones", "profile.ws.usuarios.error.106"),
     PROFILER_USER_EMAIL_EXIST("107", "El correo ya existe", "profile.ws.usuarios.error.107"),
     PROFILER_USER_EXIST("108", "El usuario ya existe", "profile.ws.usuarios.error.108"),
-    PROFILER_USER_DOES_NOT_EXIST("109", "El usuario ya existe", "profile.ws.usuarios.error.109"),
+    PROFILER_USER_DOES_NOT_EXIST("109", "El usuario no existe", "profile.ws.usuarios.error.109"),
     PROFILER_USER_ADD_SUCCESS("110", "El usuario se agrega correctamente.", "profile.ws.usuarios.error.110"),
     PROFILER_USER_ADD_PROFILE_GUEST_SUCCESS("111", "Se agrega el perfil por defecto. El perfil indicado no existia", "profile.ws.usuarios.error.111"),
+    PROFILER_PROFILE_GUEST_NOT_EXIST("112", "El perfil por defecto no existe", "profile.ws.usuarios.error.112"),
 
 
 

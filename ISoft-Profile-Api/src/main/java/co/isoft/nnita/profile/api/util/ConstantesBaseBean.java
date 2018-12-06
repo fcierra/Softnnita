@@ -14,9 +14,13 @@ public abstract class ConstantesBaseBean
      */
     public static String PASS_DEFAULT_USER = "Prueba12$";
     /**
-     * Valor vacios para cadenas de datios incompletas
+     * Valor vacios para cadenas de datos incompletas
      */
     public static String EMPTY= "EMPTY";
+    /**
+     * Valor vacios para cadenas de datos incompletos sobre los nombres
+     */
+    public static String EMPTY_NAMES= "EMPTY_NAME";
     /**
      * Perfil por defecto de la aplicacion.
      */
